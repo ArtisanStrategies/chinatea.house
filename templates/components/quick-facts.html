@@ -1,0 +1,67 @@
+{# Quick Facts component for tea detail pages #}
+<aside class="quick-facts">
+    <h3>Quick Facts</h3>
+    <dl>
+        <dt>Category</dt>
+        <dd><a href="/category/{{ tea.category_id }}/">{{ category.name_en }}</a></dd>
+
+        {% if subcategory %}
+        <dt>Type</dt>
+        <dd><a href="/category/{{ tea.category_id }}/{{ subcategory.id }}/">{{ subcategory.name_en }}</a></dd>
+        {% endif %}
+
+        <dt>Origin</dt>
+        <dd><a href="/region/{{ region.id }}/">{{ region.name_en }}{% if region.name_zh %} ({{ region.name_zh }}){% endif %}</a></dd>
+
+        {% if tea.oxidation_level is not none %}
+        <dt>Oxidation</dt>
+        <dd>{{ (tea.oxidation_level * 100) | int }}%</dd>
+        {% endif %}
+
+        {% if tea.roast_level and tea.roast_level.value != 'none' %}
+        <dt>Roast Level</dt>
+        <dd>{{ tea.roast_level.value | replace('-', ' ') | title }}</dd>
+        {% endif %}
+
+        {% if tea.caffeine_level %}
+        <dt>Caffeine</dt>
+        <dd>{{ tea.caffeine_level.value | replace('-', ' ') | title }}</dd>
+        {% endif %}
+
+        {% if tea.body %}
+        <dt>Body</dt>
+        <dd>{{ tea.body.value | replace('-', ' ') | title }}</dd>
+        {% endif %}
+
+        {% if tea.harvest_season %}
+        <dt>Best Harvest</dt>
+        <dd>{{ tea.harvest_season | title }}</dd>
+        {% endif %}
+
+        {% if tea.cultivar %}
+        <dt>Cultivar</dt>
+        <dd>{{ tea.cultivar }}</dd>
+        {% endif %}
+
+        {% if tea.is_aged %}
+        <dt>Aged</dt>
+        <dd>Yes{% if tea.age_years %} ({{ tea.age_years }}+ years){% endif %}</dd>
+        {% endif %}
+
+        {% if tea.brewing_gongfu %}
+        <dt>Gongfu Temp</dt>
+        <dd>{{ tea.brewing_gongfu.water_temp_c }}°C / {{ tea.brewing_gongfu.water_temp_f }}°F</dd>
+
+        <dt>Steep Time</dt>
+        <dd>{{ tea.brewing_gongfu.first_steep_seconds }}s first, +{{ tea.brewing_gongfu.steep_increment_seconds }}s</dd>
+
+        <dt>Re-steeps</dt>
+        <dd>{{ tea.brewing_gongfu.num_steeps }} steeps typical</dd>
+        {% endif %}
+
+        {% if tea.price_mid %}
+        <dt>Price Range</dt>
+        <dd>${{ tea.price_mid.min_usd_per_50g | int }}-${{ tea.price_mid.max_usd_per_50g | int }} / 50g</dd>
+        {% endif %}
+    </dl>
+</aside>

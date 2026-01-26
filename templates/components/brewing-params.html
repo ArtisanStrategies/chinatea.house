@@ -1,0 +1,156 @@
+{# Brewing parameters component for tea detail pages #}
+<div class="brewing-guide">
+    <div class="brewing-tabs">
+        {% if tea.brewing_gongfu %}
+        <button class="brewing-tab active" data-method="gongfu">Gongfu Style</button>
+        {% endif %}
+        {% if tea.brewing_western %}
+        <button class="brewing-tab" data-method="western">Western Style</button>
+        {% endif %}
+        {% if tea.brewing_grandpa %}
+        <button class="brewing-tab" data-method="grandpa">Grandpa Style</button>
+        {% endif %}
+        {% if tea.brewing_cold %}
+        <button class="brewing-tab" data-method="cold">Cold Brew</button>
+        {% endif %}
+    </div>
+
+    {% if tea.brewing_gongfu %}
+    <div class="brewing-content" data-method="gongfu">
+        <h4>Gongfu Brewing (Recommended)</h4>
+        <p>Traditional Chinese method using a gaiwan or small teapot with multiple short infusions.</p>
+        <table class="brewing-table">
+            <tr>
+                <th>Water Temperature</th>
+                <td>{{ tea.brewing_gongfu.water_temp_c }}°C / {{ tea.brewing_gongfu.water_temp_f }}°F</td>
+            </tr>
+            <tr>
+                <th>Leaf Ratio</th>
+                <td>{{ tea.brewing_gongfu.leaf_ratio_g_per_100ml }}g per 100ml</td>
+            </tr>
+            <tr>
+                <th>First Steep</th>
+                <td>{{ tea.brewing_gongfu.first_steep_seconds }} seconds</td>
+            </tr>
+            <tr>
+                <th>Subsequent Steeps</th>
+                <td>{{ tea.brewing_gongfu.subsequent_steep_seconds }}s, +{{ tea.brewing_gongfu.steep_increment_seconds }}s per steep</td>
+            </tr>
+            <tr>
+                <th>Number of Steeps</th>
+                <td>{{ tea.brewing_gongfu.num_steeps }} steeps typical</td>
+            </tr>
+            {% if tea.brewing_gongfu.rinse_recommended %}
+            <tr>
+                <th>Rinse</th>
+                <td>Quick rinse recommended before first steep</td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+    {% endif %}
+
+    {% if tea.brewing_western %}
+    <div class="brewing-content" data-method="western" style="display: none;">
+        <h4>Western Brewing</h4>
+        <p>Simpler method using a larger vessel with longer steeping times.</p>
+        <table class="brewing-table">
+            <tr>
+                <th>Water Temperature</th>
+                <td>{{ tea.brewing_western.water_temp_c }}°C / {{ tea.brewing_western.water_temp_f }}°F</td>
+            </tr>
+            <tr>
+                <th>Leaf Ratio</th>
+                <td>{{ tea.brewing_western.leaf_ratio_g_per_100ml }}g per 100ml (approx. 1 tsp per cup)</td>
+            </tr>
+            <tr>
+                <th>First Steep</th>
+                <td>{{ (tea.brewing_western.first_steep_seconds / 60) | round(1) }} minutes</td>
+            </tr>
+            <tr>
+                <th>Subsequent Steeps</th>
+                <td>Add {{ (tea.brewing_western.steep_increment_seconds / 60) | round(1) }} minutes per steep</td>
+            </tr>
+            <tr>
+                <th>Number of Steeps</th>
+                <td>{{ tea.brewing_western.num_steeps }} steeps</td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if tea.brewing_grandpa %}
+    <div class="brewing-content" data-method="grandpa" style="display: none;">
+        <h4>Grandpa Style</h4>
+        <p>Casual brewing with leaves directly in your cup, adding water as you drink.</p>
+        <table class="brewing-table">
+            <tr>
+                <th>Water Temperature</th>
+                <td>{{ tea.brewing_grandpa.water_temp_c }}°C / {{ tea.brewing_grandpa.water_temp_f }}°F</td>
+            </tr>
+            <tr>
+                <th>Leaf Amount</th>
+                <td>{{ tea.brewing_grandpa.leaf_ratio_g_per_100ml }}g per 100ml</td>
+            </tr>
+            <tr>
+                <th>Method</th>
+                <td>Add leaves to cup, pour water, drink when cool enough. Refill as needed.</td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if tea.brewing_cold %}
+    <div class="brewing-content" data-method="cold" style="display: none;">
+        <h4>Cold Brew</h4>
+        <p>Smooth, refreshing preparation with no bitterness.</p>
+        <table class="brewing-table">
+            <tr>
+                <th>Water Temperature</th>
+                <td>Cold or room temperature</td>
+            </tr>
+            <tr>
+                <th>Leaf Ratio</th>
+                <td>{{ tea.brewing_cold.leaf_ratio_g_per_100ml }}g per 100ml</td>
+            </tr>
+            <tr>
+                <th>Steep Time</th>
+                <td>{{ (tea.brewing_cold.first_steep_seconds / 3600) | round(0) | int }} hours in refrigerator</td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.brewing-tab');
+    const contents = document.querySelectorAll('.brewing-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const method = this.dataset.method;
+
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+            contents.forEach(c => {
+                c.style.display = c.dataset.method === method ? 'block' : 'none';
+            });
+        });
+    });
+});
+</script>
+
+<style>
+    .brewing-table {
+        margin-top: 1rem;
+    }
+
+    .brewing-table th {
+        width: 40%;
+        background: transparent;
+        font-weight: 600;
+        color: var(--color-text-light);
+    }
+</style>

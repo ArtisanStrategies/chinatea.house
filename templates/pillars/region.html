@@ -1,0 +1,461 @@
+{% extends "base.html" %}
+
+{% block title %}{{ region.name_en }}{% if region.name_zh %} ({{ region.name_zh }}){% endif %} Tea Region - Chinese Tea Growing Areas{% endblock %}
+
+{% block description %}Discover teas from {{ region.name_en }}, China. Learn about {{ teas | length }} tea varieties, terroir characteristics, and famous teas from this renowned tea-producing region.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <a href="/region/">Tea Regions</a>
+    {% if parent_region %}
+    <span>/</span>
+    <a href="/region/{{ parent_region.id }}/">{{ parent_region.name_en }}</a>
+    {% endif %}
+    <span>/</span>
+    <span>{{ region.name_en }}</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="region-page">
+    <header class="region-header">
+        <h1>{{ region.name_en }}{% if region.name_zh %} <span class="chinese-name">({{ region.name_zh }})</span>{% endif %}</h1>
+        {% if region.name_pinyin %}
+        <p class="pinyin">{{ region.name_pinyin }}</p>
+        {% endif %}
+
+        <div class="region-meta">
+            <span class="tag">{{ region.region_type.value | title }}</span>
+            {% if parent_region %}
+            <span class="tag">{{ parent_region.name_en }}</span>
+            {% endif %}
+            {% if region.elevation_min_m and region.elevation_max_m %}
+            <span class="tag">{{ region.elevation_min_m }}-{{ region.elevation_max_m }}m elevation</span>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Region Overview -->
+    <section class="region-overview">
+        {% if region.terroir_notes %}
+        <p class="lead">{{ region.terroir_notes }}</p>
+        {% endif %}
+
+        <div class="region-stats">
+            <div class="stat">
+                <span class="stat-number">{{ teas | length }}</span>
+                <span class="stat-label">Tea Varieties</span>
+            </div>
+            {% if child_regions %}
+            <div class="stat">
+                <span class="stat-number">{{ child_regions | length }}</span>
+                <span class="stat-label">Sub-regions</span>
+            </div>
+            {% endif %}
+            <div class="stat">
+                <span class="stat-number">{{ categories_in_region | length }}</span>
+                <span class="stat-label">Tea Categories</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terroir Details -->
+    <section class="terroir-section">
+        <h2>Terroir & Growing Conditions</h2>
+        <div class="terroir-grid">
+            {% if region.climate %}
+            <div class="terroir-item">
+                <h4>Climate</h4>
+                <p>{{ region.climate }}</p>
+            </div>
+            {% endif %}
+            {% if region.soil_type %}
+            <div class="terroir-item">
+                <h4>Soil</h4>
+                <p>{{ region.soil_type }}</p>
+            </div>
+            {% endif %}
+            {% if region.elevation_min_m %}
+            <div class="terroir-item">
+                <h4>Elevation</h4>
+                <p>{{ region.elevation_min_m }}m - {{ region.elevation_max_m }}m above sea level</p>
+            </div>
+            {% endif %}
+            {% if region.latitude and region.longitude %}
+            <div class="terroir-item">
+                <h4>Location</h4>
+                <p>{{ region.latitude }}°N, {{ region.longitude }}°E</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Sub-regions -->
+    {% if child_regions %}
+    <section class="subregions-section">
+        <h2>Tea-Producing Areas in {{ region.name_en }}</h2>
+        <div class="subregion-grid">
+            {% for child in child_regions %}
+            <a href="/region/{{ child.id }}/" class="subregion-card">
+                <h3>{{ child.name_en }}{% if child.name_zh %} ({{ child.name_zh }}){% endif %}</h3>
+                <span class="region-type">{{ child.region_type.value | title }}</span>
+                {% if child.terroir_notes %}
+                <p>{{ child.terroir_notes | truncate(100) }}</p>
+                {% endif %}
+                <span class="tea-count">{{ teas_by_subregion.get(child.id, []) | length }} teas</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Famous Teas -->
+    <section class="famous-teas-section">
+        <h2>Famous Teas from {{ region.name_en }}</h2>
+
+        {% set tier1_teas = teas | selectattr('tier', 'equalto', 1) | list %}
+        {% if tier1_teas %}
+        <h3>Renowned {{ region.name_en }} Teas</h3>
+        <div class="tea-cards-grid">
+            {% for tea in tier1_teas[:6] %}
+            <a href="/tea/{{ tea.id }}/" class="tea-card featured">
+                <span class="tea-category-badge">{{ tea.category_id | title }}</span>
+                <h4>{{ tea.name_en }}{% if tea.name_zh %} <span>({{ tea.name_zh }})</span>{% endif %}</h4>
+                <p class="tea-description">{{ tea.description_brief | truncate(100) }}</p>
+                {% if tea.flavor_primary %}
+                <div class="tea-flavors">
+                    {% for flavor in tea.flavor_primary[:3] %}
+                    <span class="tag">{{ flavor }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Teas by Category -->
+        {% for category_id, cat_teas in teas_by_category.items() %}
+        {% if cat_teas %}
+        <h3>{{ category_id | title }} Tea from {{ region.name_en }}</h3>
+        <div class="tea-list">
+            {% for tea in cat_teas[:8] %}
+            <a href="/tea/{{ tea.id }}/" class="tea-list-item">
+                <span class="tea-name">{{ tea.name_en }}</span>
+                {% if tea.flavor_primary %}
+                <span class="tea-info">{{ tea.flavor_primary[0] | title }}</span>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+        {% if cat_teas | length > 8 %}
+        <p class="view-all"><a href="/region/{{ region.id }}/{{ category_id }}/">View all {{ category_id }} teas from {{ region.name_en }} →</a></p>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+    </section>
+
+    <!-- Region History -->
+    {% if region_content and region_content.history %}
+    <section class="history-section">
+        <h2>Tea History in {{ region.name_en }}</h2>
+        {{ region_content.history | safe }}
+    </section>
+    {% endif %}
+
+    <!-- Categories Produced -->
+    <section class="categories-section">
+        <h2>Tea Categories from {{ region.name_en }}</h2>
+        <div class="category-grid">
+            {% for cat in categories_in_region %}
+            <a href="/category/{{ cat.id }}/" class="category-card" style="border-left: 4px solid {{ cat.color_hex or '#2d5016' }}">
+                <h4>{{ cat.name_en }}</h4>
+                <span class="tea-count">{{ teas_by_category.get(cat.id, []) | length }} varieties</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Nearby Regions -->
+    {% if sibling_regions %}
+    <section class="related-section">
+        <h2>Other Tea Regions in {{ parent_region.name_en if parent_region else 'China' }}</h2>
+        <div class="related-grid">
+            {% for sibling in sibling_regions[:6] %}
+            <a href="/region/{{ sibling.id }}/" class="related-item">
+                <h4>{{ sibling.name_en }}</h4>
+                {% if sibling.terroir_notes %}
+                <p>{{ sibling.terroir_notes | truncate(80) }}</p>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% include "components/internal-links.html" %}
+</article>
+
+<style>
+    .region-header {
+        margin-bottom: 2rem;
+    }
+
+    .chinese-name {
+        font-weight: normal;
+        color: var(--color-text-light);
+    }
+
+    .pinyin {
+        font-style: italic;
+        color: var(--color-text-light);
+        margin-top: -1rem;
+    }
+
+    .region-meta {
+        margin-top: 1rem;
+    }
+
+    .lead {
+        font-size: 1.15rem;
+        line-height: 1.8;
+    }
+
+    .region-stats {
+        display: flex;
+        gap: 2rem;
+        margin-top: 1.5rem;
+        padding: 1rem 0;
+        border-top: 1px solid var(--color-border);
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .stat {
+        text-align: center;
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--color-primary);
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+        color: var(--color-text-light);
+    }
+
+    .terroir-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .terroir-item {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 1.25rem;
+    }
+
+    .terroir-item h4 {
+        margin: 0 0 0.5rem 0;
+        color: var(--color-primary);
+        font-size: 0.9rem;
+    }
+
+    .terroir-item p {
+        margin: 0;
+        font-size: 0.95rem;
+    }
+
+    .subregion-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .subregion-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 1.25rem;
+        text-decoration: none;
+        color: var(--color-text);
+        transition: border-color 0.2s;
+    }
+
+    .subregion-card:hover {
+        border-color: var(--color-primary);
+    }
+
+    .subregion-card h3 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.1rem;
+    }
+
+    .region-type {
+        font-size: 0.8rem;
+        color: var(--color-text-light);
+    }
+
+    .subregion-card p {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        margin: 0.5rem 0;
+    }
+
+    .tea-count {
+        font-size: 0.85rem;
+        color: var(--color-primary);
+    }
+
+    .tea-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+    }
+
+    .tea-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-decoration: none;
+        color: var(--color-text);
+        position: relative;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .tea-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .tea-card.featured {
+        border-top: 4px solid var(--color-accent);
+    }
+
+    .tea-category-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--color-background);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        color: var(--color-text-light);
+    }
+
+    .tea-card h4 {
+        margin: 0 0 0.5rem 0;
+        padding-right: 4rem;
+    }
+
+    .tea-card h4 span {
+        font-weight: normal;
+        color: var(--color-text-light);
+    }
+
+    .tea-description {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .tea-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 0.5rem;
+        margin: 1rem 0;
+    }
+
+    .tea-list-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        text-decoration: none;
+        color: var(--color-text);
+    }
+
+    .tea-list-item:hover {
+        border-color: var(--color-primary);
+    }
+
+    .tea-info {
+        color: var(--color-text-light);
+        font-size: 0.9rem;
+    }
+
+    .view-all {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .category-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 1rem;
+        text-decoration: none;
+        color: var(--color-text);
+    }
+
+    .category-card:hover {
+        border-color: var(--color-primary);
+    }
+
+    .category-card h4 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .region-stats {
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stat {
+            flex: 1 1 100px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Place",
+    "name": "{{ region.name_en }}",
+    "description": "{{ region.terroir_notes | e if region.terroir_notes else 'Tea growing region in China' }}",
+    {% if region.latitude and region.longitude %}
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": {{ region.latitude }},
+        "longitude": {{ region.longitude }}
+    },
+    {% endif %}
+    "containedInPlace": {
+        "@type": "Country",
+        "name": "China"
+    }
+}
+</script>
+{% endblock %}

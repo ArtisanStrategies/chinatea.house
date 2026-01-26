@@ -1,0 +1,420 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tea_a.name_en }} vs {{ tea_b.name_en }} - Tea Comparison{% endblock %}
+
+{% block description %}Compare {{ tea_a.name_en }} and {{ tea_b.name_en }}: flavor profiles, brewing methods, caffeine levels, and prices. Find out which Chinese tea is right for you.{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <a href="/compare/">Tea Comparisons</a>
+    <span>/</span>
+    <span>{{ tea_a.name_en }} vs {{ tea_b.name_en }}</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="comparison-page content-wrapper">
+    <header class="comparison-header">
+        <h1>{{ tea_a.name_en }} vs {{ tea_b.name_en }}</h1>
+        <p class="comparison-subtitle">A detailed comparison of two {% if category_a.id == category_b.id %}{{ category_a.name_en | lower }}s{% else %}Chinese teas{% endif %}</p>
+    </header>
+
+    <!-- Quick Verdict -->
+    <section class="verdict-box">
+        <h2>Quick Verdict</h2>
+        {% if comparison.narrative %}
+        <p>{{ comparison.narrative }}</p>
+        {% else %}
+        <p>
+            <strong>{{ tea_a.name_en }}</strong> is best for those who prefer
+            {{ tea_a.flavor_primary[0] | lower if tea_a.flavor_primary else 'subtle' }} flavors
+            {% if tea_a.body %}with a {{ tea_a.body.value | replace('-', ' ') }} body{% endif %}.
+
+            <strong>{{ tea_b.name_en }}</strong> suits those who enjoy
+            {{ tea_b.flavor_primary[0] | lower if tea_b.flavor_primary else 'distinct' }} notes
+            {% if tea_b.body %}and a {{ tea_b.body.value | replace('-', ' ') }} mouthfeel{% endif %}.
+        </p>
+        {% endif %}
+    </section>
+
+    <!-- Side-by-Side Comparison Table -->
+    <section class="comparison-table-section">
+        <h2>Side-by-Side Comparison</h2>
+        <div class="comparison-table-wrapper">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>{{ tea_a.name_en }}</th>
+                        <th>{{ tea_b.name_en }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Category</td>
+                        <td><a href="/category/{{ tea_a.category_id }}/">{{ category_a.name_en }}</a></td>
+                        <td><a href="/category/{{ tea_b.category_id }}/">{{ category_b.name_en }}</a></td>
+                    </tr>
+                    <tr>
+                        <td>Region</td>
+                        <td><a href="/region/{{ tea_a.region_id }}/">{{ region_a.name_en }}</a></td>
+                        <td><a href="/region/{{ tea_b.region_id }}/">{{ region_b.name_en }}</a></td>
+                    </tr>
+                    {% if tea_a.oxidation_level is not none or tea_b.oxidation_level is not none %}
+                    <tr>
+                        <td>Oxidation</td>
+                        <td>{{ (tea_a.oxidation_level * 100) | int }}%</td>
+                        <td>{{ (tea_b.oxidation_level * 100) | int }}%</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td>Caffeine</td>
+                        <td>{{ tea_a.caffeine_level.value | replace('-', ' ') | title if tea_a.caffeine_level else 'Moderate' }}</td>
+                        <td>{{ tea_b.caffeine_level.value | replace('-', ' ') | title if tea_b.caffeine_level else 'Moderate' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Body</td>
+                        <td>{{ tea_a.body.value | replace('-', ' ') | title if tea_a.body else '-' }}</td>
+                        <td>{{ tea_b.body.value | replace('-', ' ') | title if tea_b.body else '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Primary Flavors</td>
+                        <td>{{ tea_a.flavor_primary | join(', ') | title if tea_a.flavor_primary else '-' }}</td>
+                        <td>{{ tea_b.flavor_primary | join(', ') | title if tea_b.flavor_primary else '-' }}</td>
+                    </tr>
+                    {% if tea_a.roast_level or tea_b.roast_level %}
+                    <tr>
+                        <td>Roast Level</td>
+                        <td>{{ tea_a.roast_level.value | replace('-', ' ') | title if tea_a.roast_level else 'None' }}</td>
+                        <td>{{ tea_b.roast_level.value | replace('-', ' ') | title if tea_b.roast_level else 'None' }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td>Best Brewing</td>
+                        <td>
+                            {% if tea_a.brewing_gongfu %}
+                            {{ tea_a.brewing_gongfu.water_temp_c }}°C,
+                            {{ tea_a.brewing_gongfu.first_steep_seconds }}s first steep
+                            {% else %}-{% endif %}
+                        </td>
+                        <td>
+                            {% if tea_b.brewing_gongfu %}
+                            {{ tea_b.brewing_gongfu.water_temp_c }}°C,
+                            {{ tea_b.brewing_gongfu.first_steep_seconds }}s first steep
+                            {% else %}-{% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Re-steep Potential</td>
+                        <td>{{ tea_a.brewing_gongfu.num_steeps if tea_a.brewing_gongfu else '4-6' }} steeps</td>
+                        <td>{{ tea_b.brewing_gongfu.num_steeps if tea_b.brewing_gongfu else '4-6' }} steeps</td>
+                    </tr>
+                    <tr>
+                        <td>Price Range</td>
+                        <td>
+                            {% if tea_a.price_mid %}
+                            ${{ tea_a.price_mid.min_usd_per_50g | int }}-${{ tea_a.price_mid.max_usd_per_50g | int }}/50g
+                            {% else %}-{% endif %}
+                        </td>
+                        <td>
+                            {% if tea_b.price_mid %}
+                            ${{ tea_b.price_mid.min_usd_per_50g | int }}-${{ tea_b.price_mid.max_usd_per_50g | int }}/50g
+                            {% else %}-{% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Flavor Comparison -->
+    <section class="flavor-comparison">
+        <h2>Flavor Comparison</h2>
+
+        <div class="tea-flavor-split">
+            <div class="tea-flavor-card">
+                <h3>{{ tea_a.name_en }}</h3>
+                <p>{{ tea_a.description_brief }}</p>
+                {% if tea_a.flavor_primary %}
+                <h4>Flavor Notes</h4>
+                <div class="flavor-tags">
+                    {% for flavor in tea_a.flavor_primary %}
+                    <span class="tag tag-primary">{{ flavor | title }}</span>
+                    {% endfor %}
+                    {% for flavor in tea_a.flavor_secondary %}
+                    <span class="tag">{{ flavor | title }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% if tea_a.finish %}
+                <p><strong>Finish:</strong> {{ tea_a.finish }}</p>
+                {% endif %}
+            </div>
+
+            <div class="tea-flavor-card">
+                <h3>{{ tea_b.name_en }}</h3>
+                <p>{{ tea_b.description_brief }}</p>
+                {% if tea_b.flavor_primary %}
+                <h4>Flavor Notes</h4>
+                <div class="flavor-tags">
+                    {% for flavor in tea_b.flavor_primary %}
+                    <span class="tag tag-primary">{{ flavor | title }}</span>
+                    {% endfor %}
+                    {% for flavor in tea_b.flavor_secondary %}
+                    <span class="tag">{{ flavor | title }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% if tea_b.finish %}
+                <p><strong>Finish:</strong> {{ tea_b.finish }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Differences & Similarities -->
+    {% if comparison.key_differences or comparison.key_similarities %}
+    <section class="key-points">
+        {% if comparison.key_differences %}
+        <div class="key-differences">
+            <h3>Key Differences</h3>
+            <ul>
+                {% for diff in comparison.key_differences %}
+                <li>{{ diff }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if comparison.key_similarities %}
+        <div class="key-similarities">
+            <h3>Key Similarities</h3>
+            <ul>
+                {% for sim in comparison.key_similarities %}
+                <li>{{ sim }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    <!-- Which Should You Choose -->
+    <section class="choice-guide">
+        <h2>Which Tea Should You Choose?</h2>
+
+        <div class="choice-cards">
+            <div class="choice-card">
+                <h3>Choose {{ tea_a.name_en }} if you:</h3>
+                <ul>
+                    {% if tea_a.caffeine_level and tea_a.caffeine_level.value in ['high', 'very-high'] %}
+                    <li>Want higher caffeine for energy</li>
+                    {% elif tea_a.caffeine_level and tea_a.caffeine_level.value in ['low', 'very-low'] %}
+                    <li>Prefer lower caffeine levels</li>
+                    {% endif %}
+                    {% if tea_a.body and tea_a.body.value in ['full', 'medium-full'] %}
+                    <li>Enjoy full-bodied, robust teas</li>
+                    {% elif tea_a.body and tea_a.body.value in ['light', 'light-medium'] %}
+                    <li>Prefer light, delicate teas</li>
+                    {% endif %}
+                    {% if tea_a.flavor_primary %}
+                    <li>Love {{ tea_a.flavor_primary[0] | lower }} flavor notes</li>
+                    {% endif %}
+                    {% if tea_a.roast_level and tea_a.roast_level.value not in ['none', 'light'] %}
+                    <li>Appreciate roasted character</li>
+                    {% endif %}
+                    <li><a href="/tea/{{ tea_a.id }}/">Learn more about {{ tea_a.name_en }}</a></li>
+                </ul>
+            </div>
+
+            <div class="choice-card">
+                <h3>Choose {{ tea_b.name_en }} if you:</h3>
+                <ul>
+                    {% if tea_b.caffeine_level and tea_b.caffeine_level.value in ['high', 'very-high'] %}
+                    <li>Want higher caffeine for energy</li>
+                    {% elif tea_b.caffeine_level and tea_b.caffeine_level.value in ['low', 'very-low'] %}
+                    <li>Prefer lower caffeine levels</li>
+                    {% endif %}
+                    {% if tea_b.body and tea_b.body.value in ['full', 'medium-full'] %}
+                    <li>Enjoy full-bodied, robust teas</li>
+                    {% elif tea_b.body and tea_b.body.value in ['light', 'light-medium'] %}
+                    <li>Prefer light, delicate teas</li>
+                    {% endif %}
+                    {% if tea_b.flavor_primary %}
+                    <li>Love {{ tea_b.flavor_primary[0] | lower }} flavor notes</li>
+                    {% endif %}
+                    {% if tea_b.roast_level and tea_b.roast_level.value not in ['none', 'light'] %}
+                    <li>Appreciate roasted character</li>
+                    {% endif %}
+                    <li><a href="/tea/{{ tea_b.id }}/">Learn more about {{ tea_b.name_en }}</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Comparisons -->
+    {% if related_comparisons %}
+    <section class="related-section">
+        <h2>Related Tea Comparisons</h2>
+        <ul class="comparison-list">
+            {% for comp in related_comparisons %}
+            <li>
+                <a href="/compare/{{ comp.tea_a.id }}-vs-{{ comp.tea_b.id }}/">
+                    {{ comp.tea_a.name_en }} vs {{ comp.tea_b.name_en }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% include "components/internal-links.html" %}
+</article>
+
+<style>
+    .comparison-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .comparison-subtitle {
+        color: var(--color-text-light);
+        font-size: 1.1rem;
+    }
+
+    .verdict-box {
+        background: linear-gradient(135deg, #f8f6f3 0%, #fff 100%);
+        border: 2px solid var(--color-primary);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .verdict-box h2 {
+        color: var(--color-primary);
+        margin-top: 0;
+        font-size: 1.25rem;
+    }
+
+    .comparison-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .comparison-table {
+        min-width: 600px;
+    }
+
+    .comparison-table th:first-child,
+    .comparison-table td:first-child {
+        background: var(--color-background);
+        font-weight: 600;
+    }
+
+    .tea-flavor-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .tea-flavor-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+    }
+
+    .tea-flavor-card h3 {
+        margin-top: 0;
+        color: var(--color-primary);
+    }
+
+    .tea-flavor-card h4 {
+        font-size: 0.9rem;
+        color: var(--color-text-light);
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .key-points {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .key-differences,
+    .key-similarities {
+        background: var(--color-background);
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+
+    .key-differences h3 {
+        color: #b45309;
+    }
+
+    .key-similarities h3 {
+        color: var(--color-primary);
+    }
+
+    .choice-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .choice-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 1.5rem;
+    }
+
+    .choice-card h3 {
+        margin-top: 0;
+        font-size: 1.1rem;
+    }
+
+    .choice-card ul {
+        padding-left: 1.25rem;
+    }
+
+    .choice-card li {
+        margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .tea-flavor-split,
+        .key-points,
+        .choice-cards {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ tea_a.name_en }} vs {{ tea_b.name_en }} - Tea Comparison",
+    "description": "Compare {{ tea_a.name_en }} and {{ tea_b.name_en }}: flavor profiles, brewing methods, caffeine levels, and prices.",
+    "articleSection": "Tea Comparison",
+    "about": [
+        {
+            "@type": "Product",
+            "name": "{{ tea_a.name_en }}"
+        },
+        {
+            "@type": "Product",
+            "name": "{{ tea_b.name_en }}"
+        }
+    ]
+}
+</script>
+{% endblock %}
