@@ -642,6 +642,17 @@
             {% endif %}
         </section>
 
+        {% if tea_analysis %}
+        <section class="tea-section">
+            <h2>How to Understand {{ tea.name_en }}</h2>
+            <div class="history-content">
+                {% for paragraph in tea_analysis %}
+                <p>{{ paragraph }}</p>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
         <!-- Brewing Guide -->
         {% if tea.brewing_gongfu or tea.brewing_western %}
         <section class="tea-section">

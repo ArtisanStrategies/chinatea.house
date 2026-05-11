@@ -613,6 +613,17 @@
         {% endif %}
     </div>
 
+    {% if region_guide %}
+    <section class="history-section">
+        <h2>How to Read {{ region.name_en }} as a Tea Region</h2>
+        <div class="history-content">
+            {% for paragraph in region_guide %}
+            <p>{{ paragraph }}</p>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
     <!-- Terroir Details -->
     {% if region.climate or region.soil_type or region.latitude %}
     <section class="terroir-section">

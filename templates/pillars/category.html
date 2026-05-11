@@ -108,6 +108,20 @@
         </div>
     </section>
 
+    {% if category_guide %}
+    <section class="category-guide-section">
+        <div class="section-header">
+            <p class="section-label">Deeper Guide</p>
+            <h2 class="section-title">How to Understand {{ category.name_en }}</h2>
+        </div>
+        <div class="guide-content">
+            {% for paragraph in category_guide %}
+            <p>{{ paragraph }}</p>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
     <!-- Must-Try Teas -->
     {% set tier1_teas = teas | selectattr('tier', 'equalto', 1) | list %}
     {% if tier1_teas %}
@@ -365,6 +379,22 @@
     .char-item p {
         margin: 0;
         font-size: 0.95rem;
+    }
+
+    .category-guide-section {
+        padding: 4rem 0;
+        border-top: 1px solid var(--silk);
+        border-bottom: 1px solid var(--silk);
+    }
+
+    .guide-content {
+        max-width: var(--content-width);
+        font-size: 1.05rem;
+        line-height: 1.9;
+    }
+
+    .guide-content p {
+        margin-bottom: 1.5rem;
     }
 
     /* ===== TEA CARDS ===== */
