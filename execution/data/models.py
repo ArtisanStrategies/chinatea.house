@@ -76,7 +76,7 @@ class TeawareType(str, Enum):
 class BrewingParams(BaseModel):
     """Brewing parameters for a tea preparation method."""
     water_temp_c: int = Field(ge=60, le=100, description="Water temperature in Celsius")
-    water_temp_f: int = Field(ge=140, le=212, description="Water temperature in Fahrenheit")
+    water_temp_f: Optional[int] = Field(default=None, ge=140, le=212, description="Water temperature in Fahrenheit (auto-calculated)")
     leaf_ratio_g_per_100ml: float = Field(ge=1, le=15, description="Grams of tea per 100ml water")
     first_steep_seconds: int = Field(ge=5, le=300, description="First steep duration in seconds")
     subsequent_steep_seconds: int = Field(ge=5, le=600, description="Subsequent steep duration")

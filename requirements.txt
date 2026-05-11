@@ -18,3 +18,4 @@ pytest-cov>=4.0.0
 
 # Content generation (optional - only needed for AI content)
 anthropic>=0.34.0
+openai>=1.0.0  # For OpenRouter support

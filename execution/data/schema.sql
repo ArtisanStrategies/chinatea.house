@@ -198,7 +198,8 @@ CREATE TABLE IF NOT EXISTS comparison_pairs (
     id TEXT PRIMARY KEY,
     tea_a_id TEXT NOT NULL REFERENCES teas(id),
     tea_b_id TEXT NOT NULL REFERENCES teas(id),
-    comparison_type TEXT NOT NULL,  -- 'similar', 'contrast', 'regional', 'price'
+    comparison_type TEXT NOT NULL,  -- 'same_category', 'same_region', 'similar_flavor', 'similar_oxidation', 'cross_category'
+    relevance_score REAL NOT NULL DEFAULT 0.5 CHECK (relevance_score >= 0 AND relevance_score <= 1),
     is_valid INTEGER NOT NULL DEFAULT 1,
     narrative TEXT,
     key_differences TEXT,  -- JSON array

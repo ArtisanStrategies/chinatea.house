@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+
+{% block title %}Your Guide to Authentic Chinese Tea{% endblock %}
+{% block description %}{{ meta_description }}{% endblock %}
+{% block og_type %}website{% endblock %}
+
+{% block extra_head %}
+<style>
+    .home-hero {
+        margin: -1px -2rem 0;
+        padding: 6rem 2rem 5rem;
+        background: linear-gradient(135deg, var(--ink) 0%, #252523 100%);
+        color: var(--paper);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .home-hero::before {
+        content: '茶';
+        position: absolute;
+        right: 6%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--font-chinese);
+        font-size: clamp(14rem, 28vw, 28rem);
+        line-height: 1;
+        color: var(--paper);
+        opacity: 0.035;
+        pointer-events: none;
+    }
+
+    .home-hero-inner {
+        max-width: var(--content-width);
+        position: relative;
+        z-index: 1;
+    }
+
+    .home-label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        color: var(--oolong);
+        font-size: 0.7rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+    }
+
+    .home-label::before {
+        content: '';
+        width: 2rem;
+        height: 1px;
+        background: var(--oolong);
+    }
+
+    .home-hero h1 {
+        color: var(--paper);
+        font-size: clamp(3rem, 7vw, 5rem);
+        max-width: 780px;
+    }
+
+    .home-hero h1 .zh {
+        color: var(--silk);
+    }
+
+    .home-lead {
+        max-width: 680px;
+        color: var(--silk);
+        font-family: var(--font-display);
+        font-size: 1.35rem;
+        line-height: 1.65;
+    }
+
+    .home-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1px;
+        background: var(--silk);
+        margin: 0 -2rem;
+    }
+
+    .home-stat {
+        background: var(--cream);
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .home-stat strong {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 2.25rem;
+        font-weight: 400;
+        line-height: 1;
+        color: var(--ink);
+    }
+
+    .home-stat span {
+        display: block;
+        margin-top: 0.5rem;
+        color: var(--ink-faint);
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+    }
+
+    .home-section {
+        padding: 4rem 0;
+        border-bottom: 1px solid var(--silk);
+    }
+
+    .home-section h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        margin-bottom: 1.5rem;
+    }
+
+    .home-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .home-section-header p {
+        max-width: 500px;
+        color: var(--ink-faint);
+    }
+
+    .home-link {
+        color: var(--ink);
+        text-decoration: none;
+        border-bottom: 1px solid var(--ink);
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .home-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1px;
+        background: var(--silk);
+    }
+
+    .home-card {
+        background: var(--paper);
+        color: var(--ink);
+        padding: 1.75rem;
+        min-height: 180px;
+        text-decoration: none;
+        transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .home-card:hover {
+        background: var(--paper-warm);
+        transform: translateY(-2px);
+    }
+
+    .home-card h3 {
+        font-size: 1.35rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .home-card h3 .zh {
+        font-family: var(--font-chinese);
+        color: var(--ink-faint);
+        font-size: 0.75em;
+        margin-left: 0.35rem;
+    }
+
+    .home-card p {
+        color: var(--ink-faint);
+        font-size: 0.92rem;
+        margin-bottom: 1rem;
+    }
+
+    .home-card .meta {
+        color: var(--ink);
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    @media (max-width: 768px) {
+        .home-hero {
+            padding: 4rem 1rem;
+            margin-left: -1rem;
+            margin-right: -1rem;
+        }
+
+        .home-stats {
+            margin-left: -1rem;
+            margin-right: -1rem;
+        }
+
+        .home-section-header {
+            display: block;
+        }
+
+        .home-section-header p {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+<div class="home-page">
+    <section class="home-hero">
+        <div class="home-hero-inner">
+            <p class="home-label">Chinese tea guide</p>
+            <h1>China Tea House <span class="zh">中国茶</span></h1>
+            <p class="home-lead">
+                Explore Chinese tea by category, origin, flavor, brewing style, and side-by-side comparisons.
+            </p>
+        </div>
+    </section>
+
+    <section class="home-stats" aria-label="Site statistics">
+        <div class="home-stat"><strong>{{ tea_count }}</strong><span>Tea varieties</span></div>
+        <div class="home-stat"><strong>{{ category_count }}</strong><span>Categories</span></div>
+        <div class="home-stat"><strong>{{ region_count }}</strong><span>Regions</span></div>
+        <div class="home-stat"><strong>{{ comparison_count }}</strong><span>Comparisons</span></div>
+    </section>
+
+    <section class="home-section">
+        <div class="home-section-header">
+            <div>
+                <h2>Tea Categories</h2>
+                <p>Start with the major families of Chinese tea, from fresh green tea to aged pu'er and dark tea.</p>
+            </div>
+            <a class="home-link" href="/category/">All categories</a>
+        </div>
+        <div class="home-grid">
+            {% for category in categories %}
+            <a class="home-card" href="/category/{{ category.id }}/" data-category="{{ category.id }}">
+                <h3>{{ category.name_en }}{% if category.name_zh %}<span class="zh">{{ category.name_zh }}</span>{% endif %}</h3>
+                <p>{{ category.description | truncate(130) }}</p>
+                <span class="meta">{{ teas_by_category[category.id] | length if teas_by_category else 0 }} teas</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="home-section-header">
+            <div>
+                <h2>Featured Teas</h2>
+                <p>Begin with well-known varieties that anchor the map of Chinese tea styles and regions.</p>
+            </div>
+            <a class="home-link" href="/category/">Browse teas</a>
+        </div>
+        <div class="home-grid">
+            {% for tea in featured_teas %}
+            <a class="home-card" href="/tea/{{ tea.id }}/" data-category="{{ tea.category_id }}">
+                <h3>{{ tea.name_en }}{% if tea.name_zh %}<span class="zh">{{ tea.name_zh }}</span>{% endif %}</h3>
+                <p>{{ tea.description_brief | truncate(130) }}</p>
+                <span class="meta">{{ tea.category_id | replace('-', ' ') | title }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="home-section">
+        <div class="home-section-header">
+            <div>
+                <h2>Tea Regions</h2>
+                <p>Follow terroir across Fujian cliffs, Yunnan forests, Hangzhou gardens, and Taiwan high mountains.</p>
+            </div>
+            <a class="home-link" href="/region/">All regions</a>
+        </div>
+        <div class="home-grid">
+            {% for region in featured_regions %}
+            <a class="home-card" href="/region/{{ region.id }}/">
+                <h3>{{ region.name_en }}{% if region.name_zh %}<span class="zh">{{ region.name_zh }}</span>{% endif %}</h3>
+                <p>{{ region.terroir_notes | truncate(130) }}</p>
+                <span class="meta">{{ region.region_type.value | title }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "China Tea House",
+  "url": "https://chinatea.house/",
+  "description": "{{ meta_description }}"
+}
+</script>
+{% endblock %}

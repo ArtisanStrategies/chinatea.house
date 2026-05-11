@@ -1,0 +1,420 @@
+{% extends "base.html" %}
+
+{% block title %}Chinese Tea Regions - Explore Tea Growing Areas of China{% endblock %}
+
+{% block description %}Discover 39 tea-producing regions of China. From Fujian's Wuyi Mountains to Yunnan's ancient forests, explore the terroir that shapes each tea's unique character.{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* ===== REGION INDEX HERO ===== */
+    .region-index-hero {
+        position: relative;
+        padding: 5rem 0 4rem;
+        margin: -1px -2rem 0;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        background: linear-gradient(135deg, var(--ink) 0%, #252523 100%);
+        color: var(--paper);
+        overflow: hidden;
+    }
+
+    .region-index-hero::before {
+        content: '山';
+        position: absolute;
+        right: 5%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--font-chinese);
+        font-size: clamp(15rem, 25vw, 25rem);
+        color: var(--paper);
+        opacity: 0.03;
+        pointer-events: none;
+        line-height: 1;
+    }
+
+    .region-index-hero .hero-content {
+        max-width: var(--content-width);
+        position: relative;
+        z-index: 1;
+    }
+
+    .region-index-hero .section-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--oolong);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .region-index-hero .section-label::before {
+        content: '';
+        width: 2rem;
+        height: 1px;
+        background: var(--oolong);
+    }
+
+    .region-index-hero h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+    }
+
+    .region-index-hero h1 .zh {
+        font-family: var(--font-chinese);
+        font-size: 0.5em;
+        color: var(--silk);
+        margin-left: 0.5em;
+    }
+
+    .region-index-hero .lead {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        line-height: 1.7;
+        color: var(--silk);
+        max-width: 600px;
+    }
+
+    /* ===== STATS BAR ===== */
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1px;
+        background: var(--silk);
+        margin: 0 -2rem;
+    }
+
+    .stat-item {
+        background: var(--cream);
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .stat-number {
+        font-family: var(--font-display);
+        font-size: 2.5rem;
+        font-weight: 400;
+        color: var(--ink);
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+    }
+
+    /* ===== PROVINCE SECTIONS ===== */
+    .provinces-section {
+        padding: 4rem 0;
+    }
+
+    .province-group {
+        margin-bottom: 4rem;
+    }
+
+    .province-header {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--silk);
+    }
+
+    .province-header h2 {
+        font-size: 2rem;
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .province-header h2 .zh {
+        font-family: var(--font-chinese);
+        font-size: 0.6em;
+        color: var(--ink-faint);
+        margin-left: 0.5em;
+    }
+
+    .province-header .region-count {
+        font-size: 0.8rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.05em;
+    }
+
+    .regions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .region-card {
+        background: var(--paper);
+        padding: 2rem;
+        text-decoration: none;
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .region-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--oolong);
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 0.3s ease;
+    }
+
+    .region-card:hover::before {
+        transform: scaleY(1);
+    }
+
+    .region-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+
+    .region-type-badge {
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--oolong);
+        margin-bottom: 0.75rem;
+        display: block;
+    }
+
+    .region-card h3 {
+        font-size: 1.35rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .region-card h3 .zh {
+        font-family: var(--font-chinese);
+        font-size: 0.7em;
+        color: var(--ink-faint);
+        margin-left: 0.3em;
+    }
+
+    .region-card .terroir {
+        font-size: 0.9rem;
+        color: var(--ink-light);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .region-card .meta {
+        display: flex;
+        gap: 1.5rem;
+        font-size: 0.8rem;
+        color: var(--ink-faint);
+    }
+
+    .region-card .meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    /* ===== FEATURED MAP SECTION ===== */
+    .map-section {
+        background: var(--paper-warm);
+        margin: 0 -2rem;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+
+    .map-section h2 {
+        margin-bottom: 1rem;
+    }
+
+    .map-section p {
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        color: var(--ink-light);
+    }
+
+    /* ===== ALL REGIONS LIST ===== */
+    .all-regions-section {
+        padding: 4rem 0;
+    }
+
+    .all-regions-section h2 {
+        margin-bottom: 2rem;
+    }
+
+    .alphabetical-list {
+        column-count: 3;
+        column-gap: 2rem;
+    }
+
+    .alphabetical-list a {
+        display: block;
+        padding: 0.6rem 0;
+        text-decoration: none;
+        color: var(--ink);
+        border-bottom: 1px solid var(--silk);
+        transition: all 0.2s ease;
+    }
+
+    .alphabetical-list a:hover {
+        color: var(--oolong);
+        padding-left: 0.5rem;
+    }
+
+    .alphabetical-list a .zh {
+        font-family: var(--font-chinese);
+        font-size: 0.85em;
+        color: var(--ink-faint);
+        margin-left: 0.5em;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+        .alphabetical-list {
+            column-count: 2;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .region-index-hero {
+            padding: 3rem 1rem;
+            margin: 0 -1rem;
+        }
+
+        .stats-bar {
+            margin: 0 -1rem;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .alphabetical-list {
+            column-count: 1;
+        }
+
+        .map-section {
+            margin: 0 -1rem;
+            padding: 3rem 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Tea Regions</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="region-index-page">
+    <!-- Hero Section -->
+    <header class="region-index-hero">
+        <div class="hero-content">
+            <p class="section-label">Terroir & Origin</p>
+            <h1>Tea Regions of China <span class="zh">茶区</span></h1>
+            <p class="lead">
+                From the misty peaks of Wuyi to the ancient forests of Yunnan,
+                each region imparts unique character through its climate, soil, and centuries of craft.
+            </p>
+        </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-number">{{ provinces | length }}</div>
+            <div class="stat-label">Provinces</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">{{ all_regions | length }}</div>
+            <div class="stat-label">Regions</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">64</div>
+            <div class="stat-label">Tea Varieties</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">8</div>
+            <div class="stat-label">Categories</div>
+        </div>
+    </div>
+
+    <!-- Regions by Province -->
+    <section class="provinces-section">
+        {% for province in provinces %}
+        <div class="province-group">
+            <div class="province-header">
+                <h2>{{ province.name_en }}{% if province.name_zh %}<span class="zh">{{ province.name_zh }}</span>{% endif %}</h2>
+                <span class="region-count">{{ regions_by_province.get(province.id, []) | length }} tea-producing areas</span>
+            </div>
+
+            <div class="regions-grid">
+                {% for region in regions_by_province.get(province.id, []) %}
+                <a href="/region/{{ region.id }}/" class="region-card">
+                    <span class="region-type-badge">{{ region.region_type.value | title }}</span>
+                    <h3>{{ region.name_en }}{% if region.name_zh %}<span class="zh">{{ region.name_zh }}</span>{% endif %}</h3>
+                    {% if region.terroir_notes %}
+                    <p class="terroir">{{ region.terroir_notes | truncate(100) }}</p>
+                    {% endif %}
+                    <div class="meta">
+                        <span>{{ teas_by_region.get(region.id, []) | length }} teas</span>
+                        {% if region.elevation_max_m %}
+                        <span>{{ region.elevation_max_m }}m elevation</span>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+    <!-- All Regions Alphabetical -->
+    <section class="all-regions-section">
+        <h2>All Tea Regions A–Z</h2>
+        <div class="alphabetical-list">
+            {% for region in all_regions | sort(attribute='name_en') %}
+            <a href="/region/{{ region.id }}/">
+                {{ region.name_en }}{% if region.name_zh %}<span class="zh">{{ region.name_zh }}</span>{% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Chinese Tea Regions",
+    "description": "Explore tea-producing regions of China, from Fujian to Yunnan.",
+    "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+            {% for region in all_regions[:10] %}
+            {
+                "@type": "ListItem",
+                "position": {{ loop.index }},
+                "item": {
+                    "@type": "Place",
+                    "name": "{{ region.name_en }}",
+                    "url": "https://chinatea.house/region/{{ region.id }}/"
+                }
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ]
+    }
+}
+</script>
+{% endblock %}

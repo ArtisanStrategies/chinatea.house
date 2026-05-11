@@ -16,6 +16,9 @@ from .templates import (
     create_comparison_context,
     create_category_context,
     create_region_context,
+    create_home_context,
+    create_region_index_context,
+    create_category_index_context,
 )
 from .links import InternalLinkBuilder
 from .manifest import PageManifestManager, count_words, count_internal_links
@@ -57,13 +60,19 @@ class SiteGenerator:
         # Collect all pages to generate
         pages_to_generate = []
 
+        # Homepage
+        if not template_filter or template_filter == "home":
+            pages_to_generate.extend(self._collect_home_page())
+
         # Category pages
         if not template_filter or template_filter == "category":
             pages_to_generate.extend(self._collect_category_pages())
+            pages_to_generate.extend(self._collect_category_index_page())
 
         # Region pages
         if not template_filter or template_filter == "region":
             pages_to_generate.extend(self._collect_region_pages())
+            pages_to_generate.extend(self._collect_region_index_page())
 
         # Tea detail pages
         if not template_filter or template_filter == "tea-detail":
@@ -99,6 +108,34 @@ class SiteGenerator:
 
         result["duration_seconds"] = time.time() - start_time
         return result
+
+    def _collect_home_page(self) -> list[dict]:
+        """Collect homepage."""
+        categories = self.db.get_all_categories()
+        regions = self.db.get_all_regions()
+        teas = self.db.get_all_teas()
+        comparisons = self.db.get_all_comparisons(valid_only=True)
+
+        data = {
+            "categories": [c.id for c in categories],
+            "regions_count": len(regions),
+            "teas_count": len(teas),
+            "comparisons_count": len(comparisons),
+        }
+
+        context = create_home_context(
+            categories=categories,
+            regions=regions,
+            teas=teas,
+            comparison_count=len(comparisons),
+        )
+
+        return [{
+            "url": "/",
+            "template": "index.html",
+            "data": data,
+            "context": context,
+        }]
 
     def _collect_category_pages(self) -> list[dict]:
         """Collect all category pages to generate."""
@@ -136,6 +173,35 @@ class SiteGenerator:
 
         return pages
 
+    def _collect_category_index_page(self) -> list[dict]:
+        """Collect category index page."""
+        categories = self.db.get_all_categories()
+        teas = self.db.get_all_teas()
+
+        # Group teas by category
+        teas_by_category = {}
+        for tea in teas:
+            if tea.category_id:
+                if tea.category_id not in teas_by_category:
+                    teas_by_category[tea.category_id] = []
+                teas_by_category[tea.category_id].append(tea)
+
+        data = {
+            "categories": [c.id for c in categories],
+        }
+
+        context = create_category_index_context(
+            categories=categories,
+            teas_by_category=teas_by_category,
+        )
+
+        return [{
+            "url": "/category/",
+            "template": "pillars/category-index.html",
+            "data": data,
+            "context": context,
+        }]
+
     def _collect_region_pages(self) -> list[dict]:
         """Collect all region pages to generate."""
         pages = []
@@ -172,15 +238,58 @@ class SiteGenerator:
 
         return pages
 
+    def _collect_region_index_page(self) -> list[dict]:
+        """Collect region index page."""
+        all_regions = self.db.get_all_regions()
+        teas = self.db.get_all_teas()
+
+        # Get provinces (top-level regions with no parent)
+        provinces = [r for r in all_regions if r.parent_id is None]
+
+        # Group regions by province
+        regions_by_province = {}
+        for province in provinces:
+            regions_by_province[province.id] = [
+                r for r in all_regions if r.parent_id == province.id
+            ]
+
+        # Group teas by region
+        teas_by_region = {}
+        for tea in teas:
+            if tea.region_id:
+                if tea.region_id not in teas_by_region:
+                    teas_by_region[tea.region_id] = []
+                teas_by_region[tea.region_id].append(tea)
+
+        data = {
+            "provinces": [p.id for p in provinces],
+            "regions_count": len(all_regions),
+        }
+
+        context = create_region_index_context(
+            provinces=provinces,
+            all_regions=all_regions,
+            regions_by_province=regions_by_province,
+            teas_by_region=teas_by_region,
+        )
+
+        return [{
+            "url": "/region/",
+            "template": "pillars/region-index.html",
+            "data": data,
+            "context": context,
+        }]
+
     def _collect_tea_pages(self) -> list[dict]:
         """Collect all tea detail pages to generate."""
         pages = []
-        teas = self.db.get_all_teas()
+        teas_list = self.db.get_all_teas()
+        teas = {t.id: t for t in teas_list}  # Dict for lookups
         categories = {c.id: c for c in self.db.get_all_categories()}
         regions = {r.id: r for r in self.db.get_all_regions()}
         occasions = self.db.get_all_occasions()
 
-        for tea in teas:
+        for tea in teas_list:
             category = categories.get(tea.category_id)
             region = regions.get(tea.region_id)
             subcategory = None
@@ -193,7 +302,15 @@ class SiteGenerator:
                 province = regions.get(region.parent_id)
 
             links = self.link_builder.get_tea_links(tea)
-            comparisons = self.db.get_comparisons_for_tea(tea.id)
+            comparisons_raw = self.db.get_comparisons_for_tea(tea.id)
+            # Populate tea_a and tea_b objects for each comparison
+            comparisons = []
+            for comp in comparisons_raw:
+                comp_dict = comp.model_dump() if hasattr(comp, 'model_dump') else dict(comp)
+                comp_dict['tea_a'] = teas.get(comp.tea_a_id)
+                comp_dict['tea_b'] = teas.get(comp.tea_b_id)
+                if comp_dict['tea_a'] and comp_dict['tea_b']:
+                    comparisons.append(type('Comparison', (), comp_dict)())
 
             data = {
                 "tea": tea.model_dump(),
@@ -321,7 +438,7 @@ class SiteGenerator:
         # Category sitemap
         sitemap_index.append(self._generate_sitemap(
             "sitemap-categories.xml",
-            [f"/category/{c.id}/" for c in self.db.get_all_categories()],
+            ["/category/"] + [f"/category/{c.id}/" for c in self.db.get_all_categories()],
             priority="1.0",
             changefreq="weekly"
         ))
@@ -329,9 +446,17 @@ class SiteGenerator:
         # Region sitemap
         sitemap_index.append(self._generate_sitemap(
             "sitemap-regions.xml",
-            [f"/region/{r.id}/" for r in self.db.get_all_regions()],
+            ["/region/"] + [f"/region/{r.id}/" for r in self.db.get_all_regions()],
             priority="0.9",
             changefreq="weekly"
+        ))
+
+        # Homepage sitemap
+        sitemap_index.append(self._generate_sitemap(
+            "sitemap-home.xml",
+            ["/"],
+            priority="1.0",
+            changefreq="daily"
         ))
 
         # Tea sitemap (split by category for large sites)
@@ -417,3 +542,13 @@ class SiteGenerator:
 
         index_path = self.output_dir / "sitemap.xml"
         index_path.write_text('\n'.join(xml_lines))
+
+    def generate_robots_txt(self) -> None:
+        """Generate robots.txt."""
+        content = """# robots.txt for chinatea.house
+User-agent: *
+Allow: /
+
+Sitemap: https://chinatea.house/sitemap.xml
+"""
+        (self.output_dir / "robots.txt").write_text(content)

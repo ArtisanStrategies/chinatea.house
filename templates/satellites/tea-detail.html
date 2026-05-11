@@ -4,6 +4,533 @@
 
 {% block description %}Learn about {{ tea.name_en }}{% if tea.name_zh %} ({{ tea.name_zh }}){% endif %}, a {{ category.name_en | lower }} from {{ region.name_en }}. Discover brewing methods, flavor profile, and where to buy this {% if tea.tier == 1 %}famous{% else %}traditional{% endif %} Chinese tea.{% endblock %}
 
+{% block extra_head %}
+<style>
+    /* ===== TEA HERO ===== */
+    .tea-hero {
+        position: relative;
+        padding: 4rem 0 3rem;
+        margin: -1px -2rem 0;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        background: linear-gradient(135deg, var(--paper) 0%, var(--paper-warm) 100%);
+        border-bottom: 1px solid var(--silk);
+        overflow: hidden;
+    }
+
+    .tea-hero::before {
+        content: '{{ tea.name_zh | default("茶") | first }}';
+        position: absolute;
+        right: -3%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--font-chinese);
+        font-size: clamp(12rem, 25vw, 20rem);
+        color: var(--category-color, var(--oolong));
+        opacity: 0.06;
+        pointer-events: none;
+        line-height: 1;
+    }
+
+    .tea-hero-content {
+        max-width: var(--content-width);
+        position: relative;
+        z-index: 1;
+    }
+
+    .tea-category-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--category-color, var(--oolong));
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .tea-category-label::before {
+        content: '';
+        width: 2rem;
+        height: 1px;
+        background: var(--category-color, var(--oolong));
+    }
+
+    .tea-hero h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+    }
+
+    .tea-hero h1 .zh {
+        font-family: var(--font-chinese);
+        font-size: 0.55em;
+        color: var(--ink-faint);
+        margin-left: 0.5em;
+        vertical-align: middle;
+    }
+
+    .tea-pinyin {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-size: 1rem;
+        color: var(--ink-faint);
+        margin-bottom: 1.5rem;
+    }
+
+    .tea-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .tea-tag {
+        padding: 0.4rem 1rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .tea-tag.primary {
+        background: var(--category-color, var(--ink));
+        color: var(--paper);
+    }
+
+    .tea-tag.secondary {
+        background: transparent;
+        color: var(--ink-light);
+        border: 1px solid var(--silk);
+    }
+
+    .tea-lead {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        line-height: 1.8;
+        color: var(--ink-light);
+        max-width: 600px;
+    }
+
+    /* ===== CONTENT LAYOUT ===== */
+    .tea-content {
+        max-width: var(--content-width);
+        margin: 0 auto;
+        padding: 3rem 0;
+    }
+
+    .tea-section {
+        padding: 2.5rem 0;
+        border-bottom: 1px solid var(--silk);
+    }
+
+    .tea-section:last-child {
+        border-bottom: none;
+    }
+
+    .tea-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tea-section h3 {
+        font-size: 1.15rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    /* ===== FLAVOR PROFILE ===== */
+    .flavor-profile-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .flavor-group {
+        position: relative;
+        padding-left: 1.25rem;
+    }
+
+    .flavor-group::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--category-color, var(--oolong));
+    }
+
+    .flavor-group h4 {
+        font-family: var(--font-body);
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+    }
+
+    .flavor-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .flavor-tag {
+        background: var(--paper);
+        color: var(--ink);
+        padding: 0.35rem 0.75rem;
+        font-size: 0.85rem;
+        font-family: var(--font-display);
+    }
+
+    .sensory-bar {
+        background: var(--paper);
+        padding: 1.5rem 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+
+    .sensory-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .sensory-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+    }
+
+    .sensory-value {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        color: var(--ink);
+    }
+
+    /* ===== BREWING GUIDE ===== */
+    .brewing-methods {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1px;
+        background: var(--silk);
+        margin-top: 1.5rem;
+    }
+
+    .brewing-method {
+        background: var(--paper);
+        padding: 2rem;
+    }
+
+    .brewing-method h4 {
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--category-color, var(--oolong));
+        margin-bottom: 1.5rem;
+        font-weight: 500;
+    }
+
+    .brewing-params {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .brewing-param {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--silk);
+    }
+
+    .brewing-param:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .param-label {
+        font-size: 0.85rem;
+        color: var(--ink-faint);
+    }
+
+    .param-value {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        color: var(--ink);
+    }
+
+    /* ===== ORIGIN SECTION ===== */
+    .origin-card {
+        background: var(--paper);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .origin-card h4 {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .origin-card p {
+        margin: 0;
+        line-height: 1.8;
+    }
+
+    .origin-card a {
+        color: var(--ink);
+        text-decoration-color: var(--category-color, var(--oolong));
+    }
+
+    .origin-card a:hover {
+        color: var(--category-color, var(--oolong));
+    }
+
+    .processing-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .processing-item {
+        position: relative;
+        padding-left: 1.25rem;
+    }
+
+    .processing-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--silk);
+    }
+
+    .processing-item h5 {
+        font-family: var(--font-body);
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 0.25rem;
+        font-weight: 500;
+    }
+
+    .processing-item p {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        color: var(--ink);
+        margin: 0;
+    }
+
+    /* ===== PRICING TABLE ===== */
+    .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1px;
+        background: var(--silk);
+        margin-top: 1.5rem;
+    }
+
+    .pricing-tier {
+        background: var(--cream);
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .pricing-tier.featured {
+        background: var(--paper);
+    }
+
+    .tier-name {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 0.75rem;
+    }
+
+    .tier-price {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: var(--ink);
+        margin-bottom: 0.5rem;
+    }
+
+    .tier-note {
+        font-size: 0.85rem;
+        color: var(--ink-faint);
+    }
+
+    /* ===== OCCASIONS ===== */
+    .occasions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .occasion-card {
+        background: var(--paper);
+        padding: 1.5rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .occasion-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    .occasion-card h4 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .occasion-card p {
+        font-size: 0.85rem;
+        color: var(--ink-faint);
+        margin: 0;
+    }
+
+    /* ===== SIMILAR TEAS ===== */
+    .similar-teas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .similar-tea-card {
+        background: var(--paper);
+        padding: 1.5rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+
+    .similar-tea-card::after {
+        content: '→';
+        position: absolute;
+        right: 1.5rem;
+        top: 1.5rem;
+        color: var(--ink-faint);
+        opacity: 0;
+        transform: translateX(-0.5rem);
+        transition: all 0.2s ease;
+    }
+
+    .similar-tea-card:hover {
+        transform: translateX(4px);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .similar-tea-card:hover::after {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .similar-tea-card h4 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        padding-right: 2rem;
+    }
+
+    .similar-tea-card p {
+        font-size: 0.9rem;
+        color: var(--ink-light);
+        margin: 0;
+    }
+
+    /* ===== COMPARISONS ===== */
+    .comparisons-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .comparison-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        background: var(--paper);
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .comparison-link:hover {
+        background: var(--paper-warm);
+        transform: translateX(4px);
+    }
+
+    .comparison-link span {
+        font-family: var(--font-display);
+        font-size: 1rem;
+        color: var(--ink);
+    }
+
+    .comparison-link .vs {
+        color: var(--ink-faint);
+        font-size: 0.8rem;
+        margin: 0 0.5rem;
+    }
+
+    .comparison-link .arrow {
+        color: var(--ink-faint);
+    }
+
+    /* ===== HISTORY ===== */
+    .history-content {
+        font-size: 1.05rem;
+        line-height: 1.9;
+    }
+
+    .history-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .tea-hero {
+            padding: 3rem 1rem;
+            margin: 0 -1rem;
+        }
+
+        .tea-hero::before {
+            font-size: 10rem;
+            right: -10%;
+        }
+
+        .tea-content {
+            padding: 2rem 0;
+        }
+
+        .brewing-methods {
+            grid-template-columns: 1fr;
+        }
+
+        .sensory-bar {
+            padding: 1.25rem;
+            gap: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block breadcrumbs %}
 <nav class="breadcrumbs" aria-label="Breadcrumb">
     <a href="/">Home</a>
@@ -19,301 +546,302 @@
 {% endblock %}
 
 {% block content %}
-<article class="tea-detail content-wrapper">
-    <header class="tea-header">
-        <h1>{{ tea.name_en }}{% if tea.name_zh %} <span class="chinese-name">({{ tea.name_zh }})</span>{% endif %}</h1>
-        {% if tea.name_pinyin %}
-        <p class="pinyin">{{ tea.name_pinyin }}</p>
-        {% endif %}
+<article class="tea-detail" data-category="{{ tea.category_id }}">
+    <!-- Hero Section -->
+    <header class="tea-hero">
+        <div class="tea-hero-content">
+            <p class="tea-category-label">{{ category.name_en }}</p>
+            <h1>{{ tea.name_en }}{% if tea.name_zh %}<span class="zh">{{ tea.name_zh }}</span>{% endif %}</h1>
 
-        <div class="tea-meta">
-            <span class="tag tag-primary">{{ category.name_en }}</span>
-            {% if subcategory %}
-            <span class="tag">{{ subcategory.name_en }}</span>
+            {% if tea.name_pinyin %}
+            <p class="tea-pinyin">{{ tea.name_pinyin }}</p>
             {% endif %}
-            <span class="tag">{{ region.name_en }}</span>
-            {% if tea.harvest_season %}
-            <span class="tag">{{ tea.harvest_season | title }} Harvest</span>
-            {% endif %}
+
+            <div class="tea-tags">
+                <span class="tea-tag primary">{{ category.name_en }}</span>
+                {% if subcategory %}
+                <span class="tea-tag secondary">{{ subcategory.name_en }}</span>
+                {% endif %}
+                <span class="tea-tag secondary">{{ region.name_en }}</span>
+                {% if tea.harvest_season %}
+                <span class="tea-tag secondary">{{ tea.harvest_season | title }} Harvest</span>
+                {% endif %}
+            </div>
+
+            <p class="tea-lead">{{ tea.description_brief }}</p>
         </div>
     </header>
 
-    <section class="tea-intro">
-        <p class="lead">{{ tea.description_brief }}</p>
-        {% if tea.description_full %}
-        {{ tea.description_full | safe }}
-        {% endif %}
-    </section>
+    <div class="tea-content">
+        <!-- Flavor Profile -->
+        <section class="tea-section">
+            <h2>Flavor Profile</h2>
 
-    <!-- Quick Facts -->
-    {% include "components/quick-facts.html" %}
-
-    <!-- Flavor Profile -->
-    <section class="flavor-profile">
-        <h2>Flavor Profile</h2>
-        <div class="flavor-grid">
-            {% if tea.flavor_primary %}
-            <div class="flavor-section">
-                <h4>Primary Notes</h4>
-                <div class="flavor-tags">
-                    {% for flavor in tea.flavor_primary %}
-                    <span class="tag">{{ flavor | title }}</span>
-                    {% endfor %}
+            <div class="flavor-profile-grid">
+                {% if tea.flavor_primary %}
+                <div class="flavor-group">
+                    <h4>Primary Notes</h4>
+                    <div class="flavor-tags">
+                        {% for flavor in tea.flavor_primary %}
+                        <span class="flavor-tag">{{ flavor | title }}</span>
+                        {% endfor %}
+                    </div>
                 </div>
+                {% endif %}
+
+                {% if tea.flavor_secondary %}
+                <div class="flavor-group">
+                    <h4>Secondary Notes</h4>
+                    <div class="flavor-tags">
+                        {% for flavor in tea.flavor_secondary %}
+                        <span class="flavor-tag">{{ flavor | title }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if tea.aroma %}
+                <div class="flavor-group">
+                    <h4>Aroma</h4>
+                    <div class="flavor-tags">
+                        {% for note in tea.aroma %}
+                        <span class="flavor-tag">{{ note | title }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if tea.body or tea.finish or tea.mouthfeel %}
+            <div class="sensory-bar">
+                {% if tea.body %}
+                <div class="sensory-item">
+                    <span class="sensory-label">Body</span>
+                    <span class="sensory-value">{{ tea.body.value | replace('-', ' ') | title }}</span>
+                </div>
+                {% endif %}
+                {% if tea.mouthfeel %}
+                <div class="sensory-item">
+                    <span class="sensory-label">Mouthfeel</span>
+                    <span class="sensory-value">{{ tea.mouthfeel }}</span>
+                </div>
+                {% endif %}
+                {% if tea.finish %}
+                <div class="sensory-item">
+                    <span class="sensory-label">Finish</span>
+                    <span class="sensory-value">{{ tea.finish }}</span>
+                </div>
+                {% endif %}
+                {% if tea.caffeine_level %}
+                <div class="sensory-item">
+                    <span class="sensory-label">Caffeine</span>
+                    <span class="sensory-value">{{ tea.caffeine_level.value | title }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </section>
+
+        <!-- Brewing Guide -->
+        {% if tea.brewing_gongfu or tea.brewing_western %}
+        <section class="tea-section">
+            <h2>How to Brew {{ tea.name_en }}</h2>
+
+            <div class="brewing-methods">
+                {% if tea.brewing_gongfu %}
+                <div class="brewing-method">
+                    <h4>Gongfu Style</h4>
+                    <div class="brewing-params">
+                        <div class="brewing-param">
+                            <span class="param-label">Tea Amount</span>
+                            <span class="param-value">{{ tea.brewing_gongfu.tea_grams_per_100ml }}g / 100ml</span>
+                        </div>
+                        <div class="brewing-param">
+                            <span class="param-label">Water Temperature</span>
+                            <span class="param-value">{{ tea.brewing_gongfu.water_temp_c }}°C</span>
+                        </div>
+                        <div class="brewing-param">
+                            <span class="param-label">First Steep</span>
+                            <span class="param-value">{{ tea.brewing_gongfu.first_steep_seconds }}s</span>
+                        </div>
+                        <div class="brewing-param">
+                            <span class="param-label">Infusions</span>
+                            <span class="param-value">{{ tea.brewing_gongfu.num_infusions }}+</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if tea.brewing_western %}
+                <div class="brewing-method">
+                    <h4>Western Style</h4>
+                    <div class="brewing-params">
+                        <div class="brewing-param">
+                            <span class="param-label">Tea Amount</span>
+                            <span class="param-value">{{ tea.brewing_western.tea_grams_per_100ml }}g / 100ml</span>
+                        </div>
+                        <div class="brewing-param">
+                            <span class="param-label">Water Temperature</span>
+                            <span class="param-value">{{ tea.brewing_western.water_temp_c }}°C</span>
+                        </div>
+                        <div class="brewing-param">
+                            <span class="param-label">Steep Time</span>
+                            <span class="param-value">{{ (tea.brewing_western.first_steep_seconds / 60) | round(1) }} min</span>
+                        </div>
+                        <div class="brewing-param">
+                            <span class="param-label">Infusions</span>
+                            <span class="param-value">{{ tea.brewing_western.num_infusions }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Origin & Processing -->
+        <section class="tea-section">
+            <h2>Origin & Processing</h2>
+
+            <div class="origin-card">
+                <h4>Growing Region</h4>
+                <p>
+                    {{ tea.name_en }} comes from <a href="/region/{{ region.id }}/">{{ region.name_en }}</a>
+                    {% if region.name_zh %}({{ region.name_zh }}){% endif %}
+                    {% if province %}
+                    in <a href="/region/{{ province.id }}/">{{ province.name_en }} Province</a>
+                    {% endif %}.
+                    {% if region.terroir_notes %}
+                    {{ region.terroir_notes }}
+                    {% endif %}
+                </p>
+            </div>
+
+            {% if tea.oxidation_level is not none or tea.roast_level or tea.cultivar %}
+            <div class="processing-details">
+                {% if tea.oxidation_level is not none %}
+                <div class="processing-item">
+                    <h5>Oxidation Level</h5>
+                    <p>{{ (tea.oxidation_level * 100) | int }}%</p>
+                </div>
+                {% endif %}
+                {% if tea.roast_level and tea.roast_level.value != 'none' %}
+                <div class="processing-item">
+                    <h5>Roast Level</h5>
+                    <p>{{ tea.roast_level.value | replace('-', ' ') | title }}</p>
+                </div>
+                {% endif %}
+                {% if tea.cultivar %}
+                <div class="processing-item">
+                    <h5>Cultivar</h5>
+                    <p>{{ tea.cultivar }}</p>
+                </div>
+                {% endif %}
+                {% if tea.is_aged %}
+                <div class="processing-item">
+                    <h5>Aging</h5>
+                    <p>{% if tea.age_years %}{{ tea.age_years }}+ years{% else %}Aged{% endif %}</p>
+                </div>
+                {% endif %}
             </div>
             {% endif %}
 
-            {% if tea.flavor_secondary %}
-            <div class="flavor-section">
-                <h4>Secondary Notes</h4>
-                <div class="flavor-tags">
-                    {% for flavor in tea.flavor_secondary %}
-                    <span class="tag">{{ flavor | title }}</span>
-                    {% endfor %}
-                </div>
+            {% if tea.history %}
+            <h3>History</h3>
+            <div class="history-content">
+                {{ tea.history | safe }}
             </div>
             {% endif %}
+        </section>
 
-            {% if tea.aroma %}
-            <div class="flavor-section">
-                <h4>Aroma</h4>
-                <div class="flavor-tags">
-                    {% for note in tea.aroma %}
-                    <span class="tag">{{ note | title }}</span>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endif %}
-        </div>
+        <!-- Pricing Guide -->
+        {% if tea.price_budget or tea.price_mid or tea.price_premium %}
+        <section class="tea-section">
+            <h2>Pricing Guide</h2>
+            <p>Prices for {{ tea.name_en }} vary based on quality, harvest time, and source.</p>
 
-        {% if tea.body or tea.finish or tea.mouthfeel %}
-        <div class="sensory-details">
-            {% if tea.body %}
-            <p><strong>Body:</strong> {{ tea.body.value | replace('-', ' ') | title }}</p>
-            {% endif %}
-            {% if tea.mouthfeel %}
-            <p><strong>Mouthfeel:</strong> {{ tea.mouthfeel }}</p>
-            {% endif %}
-            {% if tea.finish %}
-            <p><strong>Finish:</strong> {{ tea.finish }}</p>
-            {% endif %}
-        </div>
-        {% endif %}
-    </section>
-
-    <!-- Brewing Guide -->
-    {% if tea.brewing_gongfu or tea.brewing_western %}
-    <section class="brewing-section">
-        <h2>How to Brew {{ tea.name_en }}</h2>
-        {% include "components/brewing-params.html" %}
-    </section>
-    {% endif %}
-
-    <!-- Processing & Origin -->
-    <section class="origin-section">
-        <h2>Origin & Processing</h2>
-
-        <h3>Growing Region</h3>
-        <p>
-            {{ tea.name_en }} comes from <a href="/region/{{ region.id }}/">{{ region.name_en }}</a>
-            {% if region.name_zh %}({{ region.name_zh }}){% endif %}
-            {% if province %}
-            in <a href="/region/{{ province.id }}/">{{ province.name_en }} Province</a>
-            {% endif %}.
-            {% if region.terroir_notes %}
-            {{ region.terroir_notes }}
-            {% endif %}
-        </p>
-
-        {% if tea.oxidation_level is not none %}
-        <h3>Processing</h3>
-        <p>
-            This tea has an oxidation level of approximately {{ (tea.oxidation_level * 100) | int }}%,
-            placing it in the {{ category.name_en | lower }} category.
-            {% if tea.roast_level and tea.roast_level.value != 'none' %}
-            It features a {{ tea.roast_level.value | replace('-', ' ') }} roast level.
-            {% endif %}
-            {% if tea.cultivar %}
-            Made from the {{ tea.cultivar }} cultivar.
-            {% endif %}
-        </p>
-        {% endif %}
-
-        {% if tea.history %}
-        <h3>History</h3>
-        {{ tea.history | safe }}
-        {% endif %}
-    </section>
-
-    <!-- Pricing Guide -->
-    {% if tea.price_budget or tea.price_mid or tea.price_premium %}
-    <section class="pricing-section">
-        <h2>Pricing Guide</h2>
-        <p>Prices for {{ tea.name_en }} vary based on quality, harvest time, and source. Here's what to expect:</p>
-        <table class="pricing-table">
-            <thead>
-                <tr>
-                    <th>Quality Tier</th>
-                    <th>Price Range (per 50g)</th>
-                    <th>Notes</th>
-                </tr>
-            </thead>
-            <tbody>
+            <div class="pricing-grid">
                 {% if tea.price_budget %}
-                <tr>
-                    <td>Entry Level</td>
-                    <td>${{ tea.price_budget.min_usd_per_50g | int }} - ${{ tea.price_budget.max_usd_per_50g | int }}</td>
-                    <td>Good for daily drinking, understanding the tea style</td>
-                </tr>
+                <div class="pricing-tier">
+                    <div class="tier-name">Entry Level</div>
+                    <div class="tier-price">${{ tea.price_budget.min_usd_per_50g | int }}–${{ tea.price_budget.max_usd_per_50g | int }}</div>
+                    <div class="tier-note">per 50g</div>
+                </div>
                 {% endif %}
                 {% if tea.price_mid %}
-                <tr>
-                    <td>Mid-Range</td>
-                    <td>${{ tea.price_mid.min_usd_per_50g | int }} - ${{ tea.price_mid.max_usd_per_50g | int }}</td>
-                    <td>Quality examples with nuanced flavor</td>
-                </tr>
+                <div class="pricing-tier featured">
+                    <div class="tier-name">Mid-Range</div>
+                    <div class="tier-price">${{ tea.price_mid.min_usd_per_50g | int }}–${{ tea.price_mid.max_usd_per_50g | int }}</div>
+                    <div class="tier-note">per 50g</div>
+                </div>
                 {% endif %}
                 {% if tea.price_premium %}
-                <tr>
-                    <td>Premium</td>
-                    <td>${{ tea.price_premium.min_usd_per_50g | int }} - ${{ tea.price_premium.max_usd_per_50g | int }}</td>
-                    <td>Competition grade, special harvests</td>
-                </tr>
+                <div class="pricing-tier">
+                    <div class="tier-name">Premium</div>
+                    <div class="tier-price">${{ tea.price_premium.min_usd_per_50g | int }}–${{ tea.price_premium.max_usd_per_50g | int }}</div>
+                    <div class="tier-note">per 50g</div>
+                </div>
                 {% endif %}
-            </tbody>
-        </table>
-    </section>
-    {% endif %}
+            </div>
+        </section>
+        {% endif %}
 
-    <!-- Best For -->
-    {% if tea.best_for %}
-    <section class="best-for-section">
-        <h2>Best Occasions for {{ tea.name_en }}</h2>
-        <div class="occasion-grid">
-            {% for occasion_id in tea.best_for %}
-            {% set occasion = occasions.get(occasion_id) %}
-            {% if occasion %}
-            <a href="/best-tea-for/{{ occasion_id }}/" class="related-item">
-                <h4>{{ occasion.name }}</h4>
-                <p>{{ occasion.description | truncate(80) }}</p>
-            </a>
-            {% endif %}
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
+        <!-- Best For -->
+        {% if tea.best_for %}
+        <section class="tea-section">
+            <h2>Best Occasions</h2>
 
-    <!-- Similar Teas -->
-    {% if similar_teas %}
-    <section class="related-section">
-        <h2>Similar Teas to Explore</h2>
-        <div class="related-grid">
-            {% for similar in similar_teas %}
-            <a href="/tea/{{ similar.id }}/" class="related-item">
-                <h4>{{ similar.name_en }}</h4>
-                <p>{{ similar.description_brief | truncate(100) }}</p>
-            </a>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
-    <!-- Comparisons -->
-    {% if comparisons %}
-    <section class="related-section">
-        <h2>Tea Comparisons</h2>
-        <p>See how {{ tea.name_en }} compares to other teas:</p>
-        <ul class="comparison-list">
-            {% for comparison in comparisons %}
-            {% set other_tea = comparison.tea_b if comparison.tea_a_id == tea.id else comparison.tea_a %}
-            <li>
-                <a href="/compare/{{ tea.id }}-vs-{{ other_tea.id }}/">
-                    {{ tea.name_en }} vs {{ other_tea.name_en }}
+            <div class="occasions-grid">
+                {% for occasion_id in tea.best_for %}
+                {% set occasion = occasions.get(occasion_id) %}
+                {% if occasion %}
+                <a href="/best-tea-for/{{ occasion_id }}/" class="occasion-card">
+                    <h4>{{ occasion.name }}</h4>
+                    <p>{{ occasion.description | truncate(60) }}</p>
                 </a>
-            </li>
-            {% endfor %}
-        </ul>
-    </section>
-    {% endif %}
+                {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
 
-    <!-- Internal Links -->
-    {% include "components/internal-links.html" %}
+        <!-- Similar Teas -->
+        {% if similar_teas %}
+        <section class="tea-section">
+            <h2>Similar Teas to Explore</h2>
+
+            <div class="similar-teas-grid">
+                {% for similar in similar_teas %}
+                <a href="/tea/{{ similar.id }}/" class="similar-tea-card">
+                    <h4>{{ similar.name_en }}</h4>
+                    <p>{{ similar.description_brief | truncate(80) }}</p>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Comparisons -->
+        {% if comparisons %}
+        <section class="tea-section">
+            <h2>Tea Comparisons</h2>
+            <p>See how {{ tea.name_en }} compares to other teas:</p>
+
+            <div class="comparisons-list">
+                {% for comparison in comparisons %}
+                {% set other_tea = comparison.tea_b if comparison.tea_a_id == tea.id else comparison.tea_a %}
+                <a href="/compare/{{ tea.id }}-vs-{{ other_tea.id }}/" class="comparison-link">
+                    <span>{{ tea.name_en }} <span class="vs">vs</span> {{ other_tea.name_en }}</span>
+                    <span class="arrow">→</span>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
+        {% include "components/internal-links.html" %}
+    </div>
 </article>
-
-<style>
-    .tea-header {
-        margin-bottom: 2rem;
-    }
-
-    .chinese-name {
-        font-weight: normal;
-        color: var(--color-text-light);
-    }
-
-    .pinyin {
-        font-style: italic;
-        color: var(--color-text-light);
-        margin-top: -1rem;
-    }
-
-    .tea-meta {
-        margin-top: 1rem;
-    }
-
-    .lead {
-        font-size: 1.15rem;
-        line-height: 1.8;
-        color: var(--color-text);
-    }
-
-    .flavor-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin: 1.5rem 0;
-    }
-
-    .flavor-section h4 {
-        margin-bottom: 0.75rem;
-        font-size: 0.95rem;
-        color: var(--color-text-light);
-    }
-
-    .sensory-details {
-        background: var(--color-background);
-        padding: 1rem;
-        border-radius: 8px;
-        margin-top: 1rem;
-    }
-
-    .sensory-details p {
-        margin-bottom: 0.5rem;
-    }
-
-    .sensory-details p:last-child {
-        margin-bottom: 0;
-    }
-
-    .pricing-table {
-        margin-top: 1rem;
-    }
-
-    .occasion-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
-    }
-
-    .comparison-list {
-        margin-top: 1rem;
-        padding-left: 1.5rem;
-    }
-
-    .comparison-list li {
-        margin-bottom: 0.5rem;
-    }
-</style>
 {% endblock %}
 
 {% block schema_markup %}

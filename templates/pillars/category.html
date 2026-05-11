@@ -16,52 +16,57 @@
 
 {% block content %}
 <article class="category-page">
-    <header class="category-header" style="border-left: 4px solid {{ category.color_hex or '#2d5016' }}">
-        <h1>{{ category.name_en }}{% if category.name_zh %} <span class="chinese-name">({{ category.name_zh }})</span>{% endif %}</h1>
-        <p class="category-intro">{{ category.description }}</p>
+    <!-- Hero Header -->
+    <header class="category-hero">
+        <div class="hero-watermark">{{ category.name_zh or category.name_en[:1] }}</div>
+        <div class="hero-content">
+            <h1>{{ category.name_en }}{% if category.name_zh %} <span class="zh">{{ category.name_zh }}</span>{% endif %}</h1>
+            <p class="category-intro">{{ category.description }}</p>
 
-        <div class="category-stats">
-            <div class="stat">
-                <span class="stat-number">{{ teas | length }}</span>
-                <span class="stat-label">Varieties</span>
-            </div>
-            <div class="stat">
-                <span class="stat-number">{{ (category.oxidation_range_min * 100) | int }}-{{ (category.oxidation_range_max * 100) | int }}%</span>
-                <span class="stat-label">Oxidation</span>
-            </div>
-            <div class="stat">
-                <span class="stat-number">{{ subcategories | length }}</span>
-                <span class="stat-label">Subcategories</span>
+            <div class="category-stats">
+                <div class="stat">
+                    <span class="stat-number">{{ teas | length }}</span>
+                    <span class="stat-label">Varieties</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">{{ (category.oxidation_range_min * 100) | int }}–{{ (category.oxidation_range_max * 100) | int }}%</span>
+                    <span class="stat-label">Oxidation</span>
+                </div>
+                {% if subcategories %}
+                <div class="stat">
+                    <span class="stat-number">{{ subcategories | length }}</span>
+                    <span class="stat-label">Styles</span>
+                </div>
+                {% endif %}
             </div>
         </div>
     </header>
 
-    <!-- Key Characteristics -->
+    <!-- Quick Characteristics -->
     <section class="characteristics-section">
-        <h2>Characteristics of {{ category.name_en }}</h2>
         <div class="char-grid">
             <div class="char-item">
                 <h4>Processing</h4>
                 <p>
                     {% if category.id == 'green' %}
-                    Minimal oxidation (0-5%). Leaves are quickly heated to preserve freshness.
+                    Minimal oxidation (0–5%). Leaves quickly heated after picking to preserve freshness.
                     {% elif category.id == 'white' %}
-                    Minimal processing with natural withering. Oxidation ranges from 5-15%.
+                    Minimal processing with gentle withering. Natural oxidation ranges 5–15%.
                     {% elif category.id == 'yellow' %}
-                    Similar to green tea but with a 'sealed yellowing' step creating mellower flavor.
+                    Similar to green with unique 'sealed yellowing' step creating mellower character.
                     {% elif category.id == 'oolong' %}
-                    Partial oxidation (15-85%) with diverse styles from light and floral to dark and roasted.
+                    Partial oxidation (15–85%) producing remarkable diversity from floral to deeply roasted.
                     {% elif category.id == 'black' %}
-                    Fully oxidized (85-100%), resulting in bold, robust flavors.
+                    Full oxidation (85–100%), developing bold, robust character.
                     {% elif category.id == 'dark' %}
-                    Post-fermented with microbial activity, developing complex aged character.
+                    Post-fermented with microbial activity, transforming over months or decades.
                     {% elif category.id == 'scented' %}
-                    Base tea layered with fresh flowers to absorb natural fragrance.
+                    Base tea layered repeatedly with fresh flowers to absorb natural fragrance.
                     {% endif %}
                 </p>
             </div>
             <div class="char-item">
-                <h4>Typical Flavors</h4>
+                <h4>Character</h4>
                 <p>
                     {% if category.id == 'green' %}
                     Fresh, vegetal, grassy, nutty, marine, sweet
@@ -76,63 +81,102 @@
                     {% elif category.id == 'dark' %}
                     Earthy, woody, leather, dates, smooth
                     {% elif category.id == 'scented' %}
-                    Floral (jasmine, osmanthus), sweet, fragrant
+                    Jasmine, osmanthus, rose—sweet, fragrant
                     {% endif %}
                 </p>
             </div>
             <div class="char-item">
-                <h4>Best Brewing</h4>
+                <h4>Brewing</h4>
                 <p>
                     {% if category.id == 'green' %}
-                    Lower temperature (70-80°C), shorter steeps, glass or porcelain
+                    70–80°C water, shorter steeps. Glass or porcelain ideal.
                     {% elif category.id == 'white' %}
-                    Moderate temperature (80-85°C), longer steeps, gaiwan or glass
+                    80–85°C water, patient steeping. Gaiwan or glass.
                     {% elif category.id == 'yellow' %}
-                    Similar to green (75-80°C), glass to watch leaves
+                    75–80°C water. Glass shows leaf transformation.
                     {% elif category.id == 'oolong' %}
-                    Higher temperature (85-95°C), multiple steeps, gaiwan or Yixing
+                    85–95°C water, many quick steeps. Gaiwan or Yixing clay.
                     {% elif category.id == 'black' %}
-                    Near boiling (90-95°C), medium steeps, any vessel
+                    90–95°C water, medium steeps. Any vessel works well.
                     {% elif category.id == 'dark' %}
-                    Boiling water (100°C), rinse first, many steeps, Yixing ideal
+                    Boiling water, rinse first, many steeps. Yixing clay ideal.
                     {% elif category.id == 'scented' %}
-                    Moderate temperature (80-85°C), short steeps to preserve aroma
-                    {% endif %}
-                </p>
-            </div>
-            <div class="char-item">
-                <h4>Caffeine Level</h4>
-                <p>
-                    {% if category.id == 'green' %}
-                    Moderate. L-theanine provides calm alertness.
-                    {% elif category.id == 'white' %}
-                    Low to moderate, depending on bud content.
-                    {% elif category.id == 'yellow' %}
-                    Moderate, similar to green tea.
-                    {% elif category.id == 'oolong' %}
-                    Moderate to high, varies by oxidation level.
-                    {% elif category.id == 'black' %}
-                    Moderate to high. Good morning tea.
-                    {% elif category.id == 'dark' %}
-                    Low to moderate. Fermentation reduces caffeine.
-                    {% elif category.id == 'scented' %}
-                    Varies by base tea (typically moderate for green base).
+                    80–85°C water, short steeps to preserve delicate aroma.
                     {% endif %}
                 </p>
             </div>
         </div>
     </section>
 
+    <!-- Must-Try Teas -->
+    {% set tier1_teas = teas | selectattr('tier', 'equalto', 1) | list %}
+    {% if tier1_teas %}
+    <section class="featured-teas-section">
+        <div class="section-header">
+            <p class="section-label">Where to Begin</p>
+            <h2 class="section-title">Essential {{ category.name_en }}</h2>
+        </div>
+
+        <div class="tea-cards-grid">
+            {% for tea in tier1_teas[:6] %}
+            <a href="/tea/{{ tea.id }}/" class="tea-card">
+                <div class="tea-card-inner">
+                    <h3>{{ tea.name_en }}</h3>
+                    {% if tea.name_zh %}
+                    <p class="tea-chinese">{{ tea.name_zh }}</p>
+                    {% endif %}
+                    <p class="tea-region">{{ tea.region_id | replace('-', ' ') | title }}</p>
+                    <p class="tea-description">{{ tea.description_brief | truncate(100) }}</p>
+                    {% if tea.flavor_primary %}
+                    <div class="tea-flavors">
+                        {% for flavor in tea.flavor_primary[:3] %}
+                        <span class="tag">{{ flavor }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <span class="tea-card-arrow">→</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- More Teas to Explore -->
+    {% set tier2_teas = teas | selectattr('tier', 'equalto', 2) | list %}
+    {% if tier2_teas %}
+    <section class="more-teas-section">
+        <h2>More {{ category.name_en }} to Explore</h2>
+        <div class="tea-list-grid">
+            {% for tea in tier2_teas[:12] %}
+            <a href="/tea/{{ tea.id }}/" class="tea-list-item">
+                <span class="tea-name">{{ tea.name_en }}</span>
+                <span class="tea-info">{{ tea.region_id | replace('-', ' ') | title }}</span>
+            </a>
+            {% endfor %}
+        </div>
+        {% if teas | length > 18 %}
+        <p class="view-all-link"><a href="/category/{{ category.id }}/all/">View all {{ teas | length }} varieties →</a></p>
+        {% endif %}
+    </section>
+    {% endif %}
+
     <!-- Subcategories -->
     {% if subcategories %}
     <section class="subcategories-section">
-        <h2>{{ category.name_en }} Subcategories</h2>
+        <div class="section-header">
+            <p class="section-label">Styles & Varieties</p>
+            <h2 class="section-title">{{ category.name_en }} Subcategories</h2>
+        </div>
         <div class="subcategory-grid">
             {% for sub in subcategories %}
             <a href="/category/{{ category.id }}/{{ sub.id }}/" class="subcategory-card">
-                <h3>{{ sub.name_en }}{% if sub.name_zh %} ({{ sub.name_zh }}){% endif %}</h3>
+                <h3>{{ sub.name_en }}</h3>
+                {% if sub.name_zh %}
+                <span class="sub-chinese">{{ sub.name_zh }}</span>
+                {% endif %}
                 {% if sub.description %}
-                <p>{{ sub.description | truncate(120) }}</p>
+                <p>{{ sub.description | truncate(100) }}</p>
                 {% endif %}
                 <span class="tea-count">{{ teas_by_subcategory.get(sub.id, []) | length }} teas</span>
             </a>
@@ -141,56 +185,20 @@
     </section>
     {% endif %}
 
-    <!-- Famous Teas -->
-    <section class="famous-teas-section">
-        <h2>Famous {{ category.name_en }} Varieties</h2>
-
-        {% set tier1_teas = teas | selectattr('tier', 'equalto', 1) | list %}
-        {% if tier1_teas %}
-        <h3>Must-Try {{ category.name_en }}</h3>
-        <div class="tea-cards-grid">
-            {% for tea in tier1_teas[:6] %}
-            <a href="/tea/{{ tea.id }}/" class="tea-card featured">
-                <h4>{{ tea.name_en }}{% if tea.name_zh %} <span>({{ tea.name_zh }})</span>{% endif %}</h4>
-                <p class="tea-region">{{ tea.region_id | replace('-', ' ') | title }}</p>
-                <p class="tea-description">{{ tea.description_brief | truncate(100) }}</p>
-                {% if tea.flavor_primary %}
-                <div class="tea-flavors">
-                    {% for flavor in tea.flavor_primary[:3] %}
-                    <span class="tag">{{ flavor }}</span>
-                    {% endfor %}
-                </div>
-                {% endif %}
-            </a>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        {% set tier2_teas = teas | selectattr('tier', 'equalto', 2) | list %}
-        {% if tier2_teas %}
-        <h3>More {{ category.name_en }} to Explore</h3>
-        <div class="tea-list">
-            {% for tea in tier2_teas[:12] %}
-            <a href="/tea/{{ tea.id }}/" class="tea-list-item">
-                <span class="tea-name">{{ tea.name_en }}</span>
-                <span class="tea-info">{{ tea.region_id | replace('-', ' ') | title }}</span>
-            </a>
-            {% endfor %}
-        </div>
-        {% if tier2_teas | length > 12 %}
-        <p class="view-all"><a href="/category/{{ category.id }}/all/">View all {{ teas | length }} {{ category.name_en | lower }} varieties →</a></p>
-        {% endif %}
-        {% endif %}
-    </section>
-
-    <!-- Regions -->
+    <!-- Growing Regions -->
     {% if regions %}
     <section class="regions-section">
-        <h2>{{ category.name_en }} Growing Regions</h2>
+        <div class="section-header">
+            <p class="section-label">Terroir</p>
+            <h2 class="section-title">Growing Regions</h2>
+        </div>
         <div class="region-grid">
             {% for region in regions[:8] %}
             <a href="/region/{{ region.id }}/" class="region-card">
-                <h4>{{ region.name_en }}{% if region.name_zh %} ({{ region.name_zh }}){% endif %}</h4>
+                <h4>{{ region.name_en }}</h4>
+                {% if region.name_zh %}
+                <span class="region-chinese">{{ region.name_zh }}</span>
+                {% endif %}
                 <span class="tea-count">{{ teas_by_region.get(region.id, []) | length }} teas</span>
             </a>
             {% endfor %}
@@ -200,71 +208,64 @@
 
     <!-- Brewing Guide -->
     <section class="brewing-section">
-        <h2>How to Brew {{ category.name_en }}</h2>
+        <div class="section-header">
+            <p class="section-label">Preparation</p>
+            <h2 class="section-title">How to Brew {{ category.name_en }}</h2>
+        </div>
         <div class="brewing-methods">
             <div class="brewing-method">
                 <h4>Gongfu Style</h4>
-                <p>
+                <p class="brewing-description">
                     {% if category.id == 'green' %}
-                    Use 4-5g per 100ml, water at 75-80°C. Steep for 20-30 seconds, adding 5 seconds each steep. 4-5 steeps.
+                    Use 4–5g per 100ml, water at 75–80°C. Steep for 20–30 seconds, adding 5 seconds each steep. 4–5 steeps.
                     {% elif category.id == 'white' %}
-                    Use 4-5g per 100ml, water at 80-85°C. Steep for 30-45 seconds initially. 5-6 steeps.
+                    Use 4–5g per 100ml, water at 80–85°C. Steep for 30–45 seconds initially. 5–6 steeps.
                     {% elif category.id == 'yellow' %}
-                    Use 4g per 100ml, water at 75-80°C. Steep for 30-45 seconds. 4-5 steeps.
+                    Use 4g per 100ml, water at 75–80°C. Steep for 30–45 seconds. 4–5 steeps.
                     {% elif category.id == 'oolong' %}
-                    Use 6-8g per 100ml, water at 90-95°C. Quick rinse, then 15-25 second steeps. 7-10 steeps.
+                    Use 6–8g per 100ml, water at 90–95°C. Quick rinse, then 15–25 second steeps. 7–10 steeps.
                     {% elif category.id == 'black' %}
-                    Use 5g per 100ml, water at 90-95°C. Steep for 15-20 seconds, increasing. 5-6 steeps.
+                    Use 5g per 100ml, water at 90–95°C. Steep for 15–20 seconds, increasing. 5–6 steeps.
                     {% elif category.id == 'dark' %}
-                    Use 6-7g per 100ml, boiling water. Rinse twice, then 10-15 second steeps. 10-20 steeps.
+                    Use 6–7g per 100ml, boiling water. Rinse twice, then 10–15 second steeps. 10–20 steeps.
                     {% elif category.id == 'scented' %}
-                    Use 4g per 100ml, water at 80-85°C. Steep for 30 seconds. 4-5 steeps.
+                    Use 4g per 100ml, water at 80–85°C. Steep for 30 seconds. 4–5 steeps.
                     {% endif %}
                 </p>
             </div>
             <div class="brewing-method">
                 <h4>Western Style</h4>
-                <p>
+                <p class="brewing-description">
                     {% if category.id == 'green' %}
-                    Use 2g per 200ml, water at 75-80°C. Steep for 2-3 minutes. 2-3 steeps.
+                    Use 2g per 200ml, water at 75–80°C. Steep for 2–3 minutes. 2–3 steeps.
                     {% elif category.id == 'white' %}
-                    Use 2-3g per 200ml, water at 80-85°C. Steep for 3-4 minutes. 2-3 steeps.
+                    Use 2–3g per 200ml, water at 80–85°C. Steep for 3–4 minutes. 2–3 steeps.
                     {% elif category.id == 'yellow' %}
-                    Use 2g per 200ml, water at 75-80°C. Steep for 2-3 minutes. 2-3 steeps.
+                    Use 2g per 200ml, water at 75–80°C. Steep for 2–3 minutes. 2–3 steeps.
                     {% elif category.id == 'oolong' %}
-                    Use 3g per 200ml, water at 90°C. Steep for 2-3 minutes. 3-4 steeps.
+                    Use 3g per 200ml, water at 90°C. Steep for 2–3 minutes. 3–4 steeps.
                     {% elif category.id == 'black' %}
-                    Use 2.5g per 200ml, water at 90-95°C. Steep for 3-4 minutes. 2-3 steeps.
+                    Use 2.5g per 200ml, water at 90–95°C. Steep for 3–4 minutes. 2–3 steeps.
                     {% elif category.id == 'dark' %}
-                    Use 3g per 200ml, boiling water. Rinse first, steep for 3-4 minutes. 4-5 steeps.
+                    Use 3g per 200ml, boiling water. Rinse first, steep 3–4 minutes. 4–5 steeps.
                     {% elif category.id == 'scented' %}
-                    Use 2g per 200ml, water at 80-85°C. Steep for 2-3 minutes. 2-3 steeps.
+                    Use 2g per 200ml, water at 80–85°C. Steep for 2–3 minutes. 2–3 steeps.
                     {% endif %}
                 </p>
             </div>
         </div>
-        <p><a href="/brewing/{{ category.id }}/">Complete {{ category.name_en }} Brewing Guide →</a></p>
-    </section>
-
-    <!-- Best For -->
-    <section class="occasions-section">
-        <h2>Best Times for {{ category.name_en }}</h2>
-        <div class="occasion-grid">
-            {% for occasion in recommended_occasions %}
-            <a href="/best-tea-for/{{ occasion.id }}/" class="related-item">
-                <h4>{{ occasion.name }}</h4>
-                <p>{{ occasion.description | truncate(80) }}</p>
-            </a>
-            {% endfor %}
-        </div>
+        <p class="brewing-link"><a href="/brewing/{{ category.id }}/">Complete {{ category.name_en }} Brewing Guide →</a></p>
     </section>
 
     <!-- Related Categories -->
     <section class="related-section">
-        <h2>Explore Other Tea Categories</h2>
+        <div class="section-header">
+            <p class="section-label">Continue Exploring</p>
+            <h2 class="section-title">Other Tea Categories</h2>
+        </div>
         <div class="related-grid">
             {% for cat in other_categories %}
-            <a href="/category/{{ cat.id }}/" class="related-item">
+            <a href="/category/{{ cat.id }}/" class="related-card">
                 <h4>{{ cat.name_en }}</h4>
                 <p>{{ cat.description | truncate(80) }}</p>
             </a>
@@ -276,62 +277,89 @@
 </article>
 
 <style>
-    .category-header {
-        padding-left: 1.5rem;
-        margin-bottom: 2rem;
+    /* ===== CATEGORY HERO ===== */
+    .category-hero {
+        position: relative;
+        padding: 4rem 0;
+        margin-bottom: 4rem;
+        border-bottom: 1px solid var(--silk);
     }
 
-    .chinese-name {
-        font-weight: normal;
-        color: var(--color-text-light);
+    .hero-watermark {
+        font-family: var(--font-chinese);
+        font-size: clamp(8rem, 20vw, 16rem);
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        color: var(--category-color, var(--silk));
+        opacity: 0.08;
+        line-height: 1;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 700px;
     }
 
     .category-intro {
-        font-size: 1.1rem;
+        font-size: 1.15rem;
         line-height: 1.8;
+        color: var(--ink-light);
         margin-top: 1rem;
     }
 
     .category-stats {
         display: flex;
-        gap: 2rem;
-        margin-top: 1.5rem;
-    }
-
-    .stat {
-        text-align: center;
+        gap: 3rem;
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--silk);
     }
 
     .stat-number {
         display: block;
-        font-size: 1.75rem;
-        font-weight: 700;
-        color: var(--color-primary);
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 500;
+        color: var(--ink);
+        line-height: 1;
     }
 
     .stat-label {
-        font-size: 0.85rem;
-        color: var(--color-text-light);
+        font-size: 0.8rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-top: 0.5rem;
+    }
+
+    /* ===== CHARACTERISTICS ===== */
+    .characteristics-section {
+        margin-bottom: 5rem;
     }
 
     .char-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-top: 1.5rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
     }
 
     .char-item {
-        background: var(--color-surface);
-        border: 1px solid var(--color-border);
-        border-radius: 8px;
-        padding: 1.25rem;
+        padding: 2rem;
+        background: var(--paper);
+        border-left: 3px solid var(--category-color, var(--oolong));
     }
 
     .char-item h4 {
-        margin: 0 0 0.75rem 0;
-        color: var(--color-primary);
-        font-size: 1rem;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 1rem;
     }
 
     .char-item p {
@@ -339,183 +367,308 @@
         font-size: 0.95rem;
     }
 
-    .subcategory-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1rem;
-        margin-top: 1.5rem;
+    /* ===== TEA CARDS ===== */
+    .featured-teas-section {
+        padding: 5rem 0;
+        margin: 0 -2rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        background: var(--ink);
+        color: var(--paper);
     }
 
-    .subcategory-card {
-        background: var(--color-surface);
-        border: 1px solid var(--color-border);
-        border-radius: 8px;
-        padding: 1.25rem;
-        text-decoration: none;
-        color: var(--color-text);
-        transition: border-color 0.2s;
-    }
-
-    .subcategory-card:hover {
-        border-color: var(--color-primary);
-    }
-
-    .subcategory-card h3 {
-        margin: 0 0 0.5rem 0;
-        font-size: 1.1rem;
-    }
-
-    .subcategory-card p {
-        font-size: 0.9rem;
-        color: var(--color-text-light);
-        margin-bottom: 0.75rem;
-    }
-
-    .tea-count {
-        font-size: 0.85rem;
-        color: var(--color-primary);
-    }
+    .featured-teas-section .section-label { color: var(--ink-faint); }
+    .featured-teas-section .section-title { color: var(--paper); }
 
     .tea-cards-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-        margin: 1.5rem 0;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1px;
+        background: var(--ink-light);
+        margin-top: 3rem;
     }
 
     .tea-card {
-        background: var(--color-surface);
-        border: 1px solid var(--color-border);
-        border-radius: 12px;
-        padding: 1.5rem;
+        background: var(--ink);
+        padding: 2rem;
         text-decoration: none;
-        color: var(--color-text);
-        transition: transform 0.2s, box-shadow 0.2s;
+        color: var(--paper);
+        display: flex;
+        justify-content: space-between;
+        transition: background 0.3s ease;
     }
 
-    .tea-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    .tea-card:hover { background: var(--ink-light); }
+
+    .tea-card h3 {
+        font-family: var(--font-display);
+        font-size: 1.35rem;
+        color: var(--paper);
+        margin-bottom: 0.25rem;
     }
 
-    .tea-card.featured {
-        border-left: 4px solid var(--color-accent);
-    }
-
-    .tea-card h4 {
-        margin: 0 0 0.25rem 0;
-    }
-
-    .tea-card h4 span {
-        font-weight: normal;
-        color: var(--color-text-light);
+    .tea-chinese {
+        font-family: var(--font-chinese);
+        font-size: 1rem;
+        color: var(--oolong);
+        margin-bottom: 0.75rem;
     }
 
     .tea-region {
-        font-size: 0.85rem;
-        color: var(--color-text-light);
-        margin-bottom: 0.5rem;
+        font-size: 0.8rem;
+        color: var(--silk);
+        opacity: 0.7;
+        margin-bottom: 1rem;
+        letter-spacing: 0.05em;
     }
 
     .tea-description {
         font-size: 0.9rem;
-        margin-bottom: 0.75rem;
+        color: var(--silk);
+        line-height: 1.6;
+        margin-bottom: 1rem;
     }
 
-    .tea-flavors {
-        margin-top: 0.5rem;
+    .tea-card .tea-flavors { margin-top: auto; }
+    .tea-card .tag {
+        background: var(--ink-light);
+        color: var(--silk);
+        font-size: 0.75rem;
     }
 
-    .tea-list {
+    .tea-card-arrow {
+        font-size: 1.5rem;
+        color: var(--silk);
+        opacity: 0;
+        transform: translateX(-8px);
+        transition: all 0.3s ease;
+        align-self: flex-end;
+    }
+
+    .tea-card:hover .tea-card-arrow {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* ===== MORE TEAS LIST ===== */
+    .more-teas-section {
+        padding: 4rem 0;
+    }
+
+    .more-teas-section h2 {
+        margin-top: 0;
+        margin-bottom: 2rem;
+    }
+
+    .tea-list-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 0.5rem;
-        margin: 1rem 0;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 0.75rem;
     }
 
     .tea-list-item {
         display: flex;
         justify-content: space-between;
-        padding: 0.75rem 1rem;
-        background: var(--color-surface);
-        border: 1px solid var(--color-border);
-        border-radius: 6px;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        background: var(--paper);
         text-decoration: none;
-        color: var(--color-text);
+        color: var(--ink);
+        transition: all 0.2s ease;
     }
 
     .tea-list-item:hover {
-        border-color: var(--color-primary);
+        background: var(--paper-warm);
+        padding-left: 1.5rem;
     }
 
-    .tea-info {
-        color: var(--color-text-light);
-        font-size: 0.9rem;
+    .tea-list-item .tea-name {
+        font-weight: 500;
     }
 
-    .view-all {
+    .tea-list-item .tea-info {
+        font-size: 0.85rem;
+        color: var(--ink-faint);
+    }
+
+    .view-all-link {
         text-align: center;
-        margin-top: 1rem;
+        margin-top: 2rem;
+    }
+
+    .view-all-link a {
+        font-size: 0.9rem;
+        letter-spacing: 0.03em;
+    }
+
+    /* ===== SUBCATEGORIES ===== */
+    .subcategories-section {
+        padding: 5rem 0;
+        border-top: 1px solid var(--silk);
+    }
+
+    .subcategory-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+    }
+
+    .subcategory-card {
+        padding: 2rem;
+        background: var(--paper);
+        text-decoration: none;
+        color: var(--ink);
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+    }
+
+    .subcategory-card:hover {
+        border-left-color: var(--category-color, var(--oolong));
+        transform: translateX(4px);
+    }
+
+    .subcategory-card h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .sub-chinese {
+        font-family: var(--font-chinese);
+        font-size: 0.9rem;
+        color: var(--ink-faint);
+        display: block;
+        margin-bottom: 0.75rem;
+    }
+
+    .subcategory-card p {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .tea-count {
+        font-size: 0.8rem;
+        color: var(--category-color, var(--oolong));
+    }
+
+    /* ===== REGIONS ===== */
+    .regions-section {
+        padding: 5rem 0;
     }
 
     .region-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1rem;
-        margin-top: 1.5rem;
+        margin-top: 3rem;
     }
 
     .region-card {
-        background: var(--color-surface);
-        border: 1px solid var(--color-border);
-        border-radius: 8px;
-        padding: 1rem;
+        padding: 1.5rem;
+        background: var(--paper);
         text-decoration: none;
-        color: var(--color-text);
+        color: var(--ink);
+        transition: all 0.2s ease;
     }
 
     .region-card:hover {
-        border-color: var(--color-primary);
+        background: var(--paper-warm);
     }
 
     .region-card h4 {
-        margin: 0 0 0.25rem 0;
-        font-size: 1rem;
+        font-size: 1.1rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .region-chinese {
+        font-family: var(--font-chinese);
+        font-size: 0.85rem;
+        color: var(--ink-faint);
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    /* ===== BREWING ===== */
+    .brewing-section {
+        padding: 5rem 0;
+        border-top: 1px solid var(--silk);
     }
 
     .brewing-methods {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-        margin: 1.5rem 0;
+        gap: 2rem;
+        margin-top: 3rem;
     }
 
     .brewing-method {
-        background: #f5f3ef;
-        padding: 1.5rem;
-        border-radius: 12px;
+        padding: 2.5rem;
+        background: var(--paper-warm);
     }
 
     .brewing-method h4 {
-        margin: 0 0 1rem 0;
-        color: var(--color-primary);
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--silk);
     }
 
-    .occasion-grid {
+    .brewing-description {
+        font-size: 0.95rem;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+    .brewing-link {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    /* ===== RELATED ===== */
+    .related-section {
+        padding: 5rem 0;
+        border-top: 1px solid var(--silk);
+    }
+
+    .related-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+    }
+
+    .related-card {
+        padding: 2rem;
+        background: var(--paper);
+        text-decoration: none;
+        color: var(--ink);
+        transition: all 0.3s ease;
+    }
+
+    .related-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    }
+
+    .related-card h4 {
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .related-card p {
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+        .char-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 768px) {
-        .category-stats {
-            flex-wrap: wrap;
-        }
-
-        .brewing-methods {
-            grid-template-columns: 1fr;
-        }
+        .category-stats { flex-wrap: wrap; gap: 2rem; }
+        .brewing-methods { grid-template-columns: 1fr; }
+        .featured-teas-section { margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem; }
     }
 </style>
 {% endblock %}

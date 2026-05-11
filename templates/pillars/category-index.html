@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+{% block title %}Chinese Tea Categories - Green, White, Oolong, Black & More{% endblock %}
+
+{% block description %}Explore the 8 major categories of Chinese tea. From delicate white teas to robust pu'er, discover the unique characteristics, processing methods, and famous varieties of each tea family.{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* ===== CATEGORY INDEX HERO ===== */
+    .category-index-hero {
+        position: relative;
+        padding: 5rem 0 4rem;
+        margin: -1px -2rem 0;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        background: linear-gradient(135deg, var(--ink) 0%, #252523 100%);
+        color: var(--paper);
+        overflow: hidden;
+    }
+
+    .category-index-hero::before {
+        content: '茶';
+        position: absolute;
+        right: 5%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--font-chinese);
+        font-size: clamp(15rem, 25vw, 25rem);
+        color: var(--paper);
+        opacity: 0.03;
+        pointer-events: none;
+        line-height: 1;
+    }
+
+    .category-index-hero .hero-content {
+        max-width: var(--content-width);
+        position: relative;
+        z-index: 1;
+    }
+
+    .category-index-hero .section-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--oolong);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .category-index-hero .section-label::before {
+        content: '';
+        width: 2rem;
+        height: 1px;
+        background: var(--oolong);
+    }
+
+    .category-index-hero h1 {
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        font-weight: 400;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+    }
+
+    .category-index-hero h1 .zh {
+        font-family: var(--font-chinese);
+        font-size: 0.5em;
+        color: var(--silk);
+        margin-left: 0.5em;
+    }
+
+    .category-index-hero .lead {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        line-height: 1.7;
+        color: var(--silk);
+        max-width: 600px;
+    }
+
+    /* ===== OXIDATION SPECTRUM ===== */
+    .oxidation-spectrum {
+        background: var(--paper-warm);
+        margin: 0 -2rem;
+        padding: 3rem 2rem;
+    }
+
+    .spectrum-bar {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        gap: 4px;
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .spectrum-segment {
+        flex: 1;
+        transition: transform 0.2s ease;
+    }
+
+    .spectrum-segment:hover {
+        transform: scaleY(1.5);
+    }
+
+    .spectrum-labels {
+        max-width: 900px;
+        margin: 1rem auto 0;
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    /* ===== CATEGORIES GRID ===== */
+    .categories-section {
+        padding: 4rem 0;
+    }
+
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .category-card {
+        background: var(--paper);
+        padding: 2.5rem;
+        text-decoration: none;
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-left: 4px solid var(--card-color, var(--oolong));
+    }
+
+    .category-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+    }
+
+    .category-card::after {
+        content: '→';
+        position: absolute;
+        top: 2.5rem;
+        right: 2.5rem;
+        font-size: 1.5rem;
+        color: var(--ink-faint);
+        opacity: 0;
+        transform: translateX(-0.5rem);
+        transition: all 0.3s ease;
+    }
+
+    .category-card:hover::after {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .card-chinese {
+        font-family: var(--font-chinese);
+        font-size: 4rem;
+        position: absolute;
+        bottom: 1rem;
+        right: 1.5rem;
+        opacity: 0.06;
+        line-height: 1;
+        pointer-events: none;
+    }
+
+    .card-oxidation {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--card-color, var(--oolong));
+        margin-bottom: 0.75rem;
+    }
+
+    .category-card h2 {
+        font-size: 1.75rem;
+        margin-bottom: 0.25rem;
+        font-weight: 400;
+    }
+
+    .category-card h2 .zh {
+        font-family: var(--font-chinese);
+        font-size: 0.6em;
+        color: var(--ink-faint);
+        margin-left: 0.3em;
+    }
+
+    .card-description {
+        font-size: 0.95rem;
+        color: var(--ink-light);
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-meta {
+        display: flex;
+        gap: 2rem;
+        font-size: 0.85rem;
+        color: var(--ink-faint);
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--silk);
+    }
+
+    .card-meta strong {
+        color: var(--ink);
+        font-weight: 500;
+    }
+
+    /* Category colors */
+    .category-card[data-category="green"] { --card-color: var(--green); }
+    .category-card[data-category="white"] { --card-color: var(--white-tea); }
+    .category-card[data-category="yellow"] { --card-color: var(--yellow); }
+    .category-card[data-category="oolong"] { --card-color: var(--oolong); }
+    .category-card[data-category="black"] { --card-color: var(--red); }
+    .category-card[data-category="puerh"] { --card-color: #5C4033; }
+    .category-card[data-category="dark"] { --card-color: var(--dark); }
+    .category-card[data-category="scented"] { --card-color: var(--scented); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .category-index-hero {
+            padding: 3rem 1rem;
+            margin: 0 -1rem;
+        }
+
+        .oxidation-spectrum {
+            margin: 0 -1rem;
+            padding: 2rem 1rem;
+        }
+
+        .categories-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Tea Categories</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="category-index-page">
+    <!-- Hero Section -->
+    <header class="category-index-hero">
+        <div class="hero-content">
+            <p class="section-label">Classification</p>
+            <h1>Chinese Tea Categories <span class="zh">茶类</span></h1>
+            <p class="lead">
+                Chinese tea is traditionally classified by processing method, resulting in
+                distinct flavor profiles from fresh and vegetal to deep and earthy.
+            </p>
+        </div>
+    </header>
+
+    <!-- Oxidation Spectrum -->
+    <div class="oxidation-spectrum">
+        <div class="spectrum-bar">
+            <div class="spectrum-segment" style="background: var(--green);"></div>
+            <div class="spectrum-segment" style="background: var(--white-tea);"></div>
+            <div class="spectrum-segment" style="background: var(--yellow);"></div>
+            <div class="spectrum-segment" style="background: var(--oolong);"></div>
+            <div class="spectrum-segment" style="background: var(--red);"></div>
+            <div class="spectrum-segment" style="background: #5C4033;"></div>
+            <div class="spectrum-segment" style="background: var(--dark);"></div>
+        </div>
+        <div class="spectrum-labels">
+            <span>Minimal Oxidation</span>
+            <span>Full Oxidation / Fermentation</span>
+        </div>
+    </div>
+
+    <!-- Categories Grid -->
+    <section class="categories-section">
+        <div class="categories-grid">
+            {% for category in categories %}
+            <a href="/category/{{ category.id }}/" class="category-card" data-category="{{ category.id }}">
+                <span class="card-chinese">{{ category.name_zh | first if category.name_zh else '茶' }}</span>
+                <p class="card-oxidation">
+                    {% if category.oxidation_range_min is not none and category.oxidation_range_max is not none %}
+                    {{ (category.oxidation_range_min * 100) | int }}–{{ (category.oxidation_range_max * 100) | int }}% oxidation
+                    {% else %}
+                    Specialty processing
+                    {% endif %}
+                </p>
+                <h2>{{ category.name_en }} <span class="zh">{{ category.name_zh }}</span></h2>
+                <p class="card-description">{{ category.description | truncate(150) }}</p>
+                <div class="card-meta">
+                    <span><strong>{{ teas_by_category.get(category.id, []) | length }}</strong> varieties</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Chinese Tea Categories",
+    "description": "Explore the 8 major categories of Chinese tea.",
+    "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+            {% for category in categories %}
+            {
+                "@type": "ListItem",
+                "position": {{ loop.index }},
+                "item": {
+                    "@type": "Thing",
+                    "name": "{{ category.name_en }}",
+                    "url": "https://chinatea.house/category/{{ category.id }}/"
+                }
+            }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ]
+    }
+}
+</script>
+{% endblock %}

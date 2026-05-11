@@ -43,9 +43,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: data/canonical/tea.db
-          key: tea-db-${{ hashFiles('execution/data/seed.py') }}-${{ hashFiles('data/canonical/exports/*.json') }}
-          restore-keys: |
-            tea-db-
+          key: tea-db-${{ hashFiles('execution/data/schema.sql') }}-${{ hashFiles('execution/data/seed.py') }}-${{ hashFiles('execution/data/tea_data.py') }}-${{ hashFiles('execution/data/comparisons.py') }}-${{ hashFiles('data/canonical/exports/*.json') }}
 
       - name: Restore output cache
         uses: actions/cache@v4
@@ -61,6 +59,9 @@ jobs:
             python -m execution.cli init
             python -m execution.cli seed
           fi
+
+      - name: Generate comparison pairs
+        run: python -m execution.cli comparisons
 
       - name: Validate data
         run: python -m execution.cli validate
@@ -84,8 +85,11 @@ jobs:
             python -m execution.cli publish --drip
           fi
 
-      - name: Generate sitemaps
-        run: python -m execution.cli export --output output/
+      - name: Verify crawl files
+        run: |
+          test -f output/index.html
+          test -f output/robots.txt
+          test -f output/sitemap.xml
 
       - name: Setup Node.js for Wrangler
         uses: actions/setup-node@v4
@@ -109,7 +113,7 @@ jobs:
         if: always()
         with:
           path: data/canonical/tea.db
-          key: tea-db-${{ hashFiles('execution/data/seed.py') }}-${{ hashFiles('data/canonical/exports/*.json') }}
+          key: tea-db-${{ hashFiles('execution/data/schema.sql') }}-${{ hashFiles('execution/data/seed.py') }}-${{ hashFiles('execution/data/tea_data.py') }}-${{ hashFiles('execution/data/comparisons.py') }}-${{ hashFiles('data/canonical/exports/*.json') }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

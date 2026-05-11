@@ -38,6 +38,10 @@ data/canonical/tea.db
 data/canonical/tea.db-journal
 data/canonical/tea.db-wal
 data/canonical/tea.db-shm
+execution/data/tea.db
+execution/data/tea.db-journal
+execution/data/tea.db-wal
+execution/data/tea.db-shm
 
 # Build output (generated, not tracked)
 output/

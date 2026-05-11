@@ -223,9 +223,16 @@ def build(ctx, incremental, limit, template, output):
             console.print(f"\n[red]Errors: {len(result['errors'])}[/red]")
             for error in result["errors"][:10]:
                 console.print(f"  - {error}")
+            raise click.Abort()
+
+        generator.generate_sitemaps()
+        generator.generate_robots_txt()
+        console.print("  Sitemaps: generated")
+        console.print("  Robots: generated")
 
     except ImportError as e:
         console.print(f"[yellow]Build module not yet implemented: {e}[/yellow]")
+        raise click.Abort()
 
 
 @cli.command()
@@ -343,6 +350,226 @@ def seed(ctx):
 
     except ImportError as e:
         console.print(f"[yellow]Seed module not yet implemented: {e}[/yellow]")
+
+
+@cli.command()
+@click.pass_context
+def comparisons(ctx):
+    """Generate comparison pairs from tea data."""
+    db_path = ctx.obj["db_path"]
+
+    if not db_path.exists():
+        console.print("[red]Database not found. Run 'init' and seed data first.[/red]")
+        raise click.Abort()
+
+    console.print("[blue]Generating comparison pairs...[/blue]")
+
+    try:
+        from execution.data.comparisons import generate_comparisons
+
+        count = generate_comparisons(db_path)
+
+        console.print(f"[green]Generated {count} comparison pairs![/green]")
+
+    except Exception as e:
+        console.print(f"[red]Error generating comparisons: {e}[/red]")
+        raise click.Abort()
+
+
+@cli.command()
+@click.option("--research/--no-research", default=True, help="Research new teas")
+@click.option("--content/--no-content", default=True, help="Generate content")
+@click.option("--build/--no-build", default=True, help="Build site")
+@click.option("--publish/--no-publish", default=True, help="Publish pages")
+@click.option("--max-teas", default=5, help="Max new teas to research")
+@click.option("--max-content", default=10, help="Max content items to generate")
+@click.option("--publish-count", default=100, help="Pages to publish")
+@click.option("--backend", default="kimi", help="AI backend (anthropic/openrouter/kimi)")
+@click.option("--model", default="kimi-k2-0905-preview", help="Model to use")
+@click.pass_context
+def agent(ctx, research, content, build, publish, max_teas, max_content,
+          publish_count, backend, model):
+    """Run the autonomous AI agent pipeline."""
+    db_path = ctx.obj["db_path"]
+
+    if not db_path.exists():
+        console.print("[red]Database not found. Run 'init' and seed data first.[/red]")
+        raise click.Abort()
+
+    console.print("[blue]Starting autonomous agent pipeline...[/blue]")
+    console.print(f"  Backend: {backend}")
+    console.print(f"  Model: {model}")
+    console.print(f"  Research: {research} (max {max_teas} teas)")
+    console.print(f"  Content: {content} (max {max_content} items)")
+    console.print(f"  Build: {build}")
+    console.print(f"  Publish: {publish} ({publish_count} pages)")
+
+    try:
+        from execution.agent import AutonomousOrchestrator
+
+        orchestrator = AutonomousOrchestrator(
+            db_path=db_path,
+            output_path=DEFAULT_OUTPUT_PATH,
+            backend=backend,
+            model=model
+        )
+
+        result = orchestrator.run_full_pipeline(
+            research_new_teas=research,
+            generate_content=content,
+            max_new_teas=max_teas,
+            max_content_items=max_content,
+            build_site=build,
+            publish=publish,
+            publish_count=publish_count
+        )
+
+        console.print(f"\n[green]Pipeline complete![/green]")
+        console.print(f"  Duration: {(result.completed_at - result.started_at).total_seconds():.1f}s")
+        console.print(f"  Teas researched: {result.teas_researched}")
+        console.print(f"  Teas added: {result.teas_added}")
+        console.print(f"  Content generated: {result.content_generated}")
+        console.print(f"  Pages built: {result.pages_built}")
+        console.print(f"  Pages published: {result.pages_published}")
+
+        if result.errors:
+            console.print(f"\n[yellow]Errors ({len(result.errors)}):[/yellow]")
+            for err in result.errors[:10]:
+                console.print(f"  - {err}")
+
+    except ImportError as e:
+        console.print(f"[red]Agent module not available: {e}[/red]")
+        console.print("[dim]Make sure anthropic package is installed: pip install anthropic[/dim]")
+        raise click.Abort()
+    except Exception as e:
+        console.print(f"[red]Agent error: {e}[/red]")
+        raise click.Abort()
+
+
+@cli.command()
+@click.option("--interval", default=24, help="Hours between runs")
+@click.option("--backend", default="kimi", help="AI backend (anthropic/openrouter/kimi)")
+@click.option("--model", default="kimi-k2-0905-preview", help="Model to use")
+@click.pass_context
+def daemon(ctx, interval, backend, model):
+    """Run the agent as a continuous daemon."""
+    db_path = ctx.obj["db_path"]
+
+    if not db_path.exists():
+        console.print("[red]Database not found. Run 'init' and seed data first.[/red]")
+        raise click.Abort()
+
+    console.print(f"[blue]Starting daemon mode (interval: {interval}h)[/blue]")
+    console.print("[dim]Press Ctrl+C to stop[/dim]")
+
+    try:
+        from execution.agent import AutonomousOrchestrator
+
+        orchestrator = AutonomousOrchestrator(
+            db_path=db_path,
+            output_path=DEFAULT_OUTPUT_PATH,
+            backend=backend,
+            model=model
+        )
+
+        orchestrator.run_daemon(interval_hours=interval)
+
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Daemon stopped by user[/yellow]")
+    except ImportError as e:
+        console.print(f"[red]Agent module not available: {e}[/red]")
+        raise click.Abort()
+
+
+@cli.command()
+@click.pass_context
+def gaps(ctx):
+    """Show content gaps in the database."""
+    db_path = ctx.obj["db_path"]
+
+    if not db_path.exists():
+        console.print("[red]Database not found.[/red]")
+        raise click.Abort()
+
+    console.print("[blue]Analyzing content gaps...[/blue]")
+
+    try:
+        from execution.agent.content import ContentGenerationAgent
+
+        agent = ContentGenerationAgent.__new__(ContentGenerationAgent)
+        gaps_data = agent.identify_content_gaps(db_path)
+
+        console.print(f"\n[cyan]Categories without pillar content:[/cyan]")
+        for p in gaps_data["pillars_without_content"]:
+            console.print(f"  - {p['name']}")
+
+        console.print(f"\n[cyan]Top comparisons without narrative ({len(gaps_data['comparisons_without_narrative'])}):[/cyan]")
+        for c in gaps_data["comparisons_without_narrative"][:10]:
+            console.print(f"  - {c['tea_a']} vs {c['tea_b']} (score: {c['score']:.2f})")
+
+        console.print(f"\n[cyan]Teas with short descriptions ({len(gaps_data['teas_with_short_descriptions'])}):[/cyan]")
+        for t in gaps_data["teas_with_short_descriptions"][:10]:
+            console.print(f"  - {t['name']} ({t['current_length']} chars)")
+
+    except Exception as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise click.Abort()
+
+
+@cli.command()
+@click.option("--prod", is_flag=True, help="Deploy to production (vs preview)")
+@click.option("--output", default=str(DEFAULT_OUTPUT_PATH), help="Output directory to deploy")
+@click.pass_context
+def deploy(ctx, prod, output):
+    """Deploy site to Cloudflare Pages."""
+    output_path = Path(output)
+
+    if not output_path.exists():
+        console.print(f"[red]Output directory not found: {output_path}[/red]")
+        console.print("[dim]Run 'build' first to generate the site.[/dim]")
+        raise click.Abort()
+
+    console.print(f"[blue]Deploying to Cloudflare Pages...[/blue]")
+    console.print(f"  Environment: {'Production' if prod else 'Preview'}")
+    console.print(f"  Source: {output_path}")
+
+    try:
+        from execution.deploy.cloudflare import CloudflareDeployer
+
+        deployer = CloudflareDeployer(output_path)
+
+        if not deployer.check_wrangler():
+            console.print("[red]Wrangler CLI not installed.[/red]")
+            console.print("[dim]Install with: npm install -g wrangler[/dim]")
+            console.print("[dim]Then login with: wrangler login[/dim]")
+            raise click.Abort()
+
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+            console=console
+        ) as progress:
+            task = progress.add_task("Deploying...", total=None)
+
+            if prod:
+                result = deployer.publish()
+            else:
+                result = deployer.preview()
+
+            progress.update(task, completed=True)
+
+        if result.get("success"):
+            console.print(f"\n[green]Deployment successful![/green]")
+            if result.get("url"):
+                console.print(f"  URL: {result['url']}")
+        else:
+            console.print(f"\n[red]Deployment failed:[/red]")
+            console.print(f"  {result.get('error', 'Unknown error')}")
+            raise click.Abort()
+
+    except ImportError as e:
+        console.print(f"[red]Deploy module error: {e}[/red]")
+        raise click.Abort()
 
 
 def main():

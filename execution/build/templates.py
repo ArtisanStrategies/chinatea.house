@@ -217,3 +217,74 @@ def create_region_context(
             {"label": region.name_en, "url": None},
         ],
     }
+
+
+def create_home_context(
+    categories,
+    regions,
+    teas,
+    comparison_count: int,
+) -> dict[str, Any]:
+    """Create template context for the homepage."""
+    featured_teas = sorted(teas, key=lambda tea: (tea.tier, tea.name_en))[:8]
+    featured_regions = [
+        region for region in regions
+        if region.parent_id is not None and region.terroir_notes
+    ][:8]
+    teas_by_category = {}
+    for tea in teas:
+        teas_by_category.setdefault(tea.category_id, []).append(tea)
+
+    return {
+        "categories": categories,
+        "regions": regions,
+        "teas_by_category": teas_by_category,
+        "featured_regions": featured_regions,
+        "featured_teas": featured_teas,
+        "tea_count": len(teas),
+        "category_count": len(categories),
+        "region_count": len(regions),
+        "comparison_count": comparison_count,
+        "page_title": "China Tea House - Your Guide to Authentic Chinese Tea",
+        "meta_description": f"Discover {len(teas)} Chinese tea varieties across green, white, oolong, black, dark, pu'er, yellow, and scented teas.",
+        "canonical_url": "https://chinatea.house/",
+        "breadcrumbs": [],
+    }
+
+
+def create_region_index_context(
+    provinces,
+    all_regions,
+    regions_by_province,
+    teas_by_region,
+) -> dict[str, Any]:
+    """Create template context for region index page."""
+    return {
+        "provinces": provinces,
+        "all_regions": all_regions,
+        "regions_by_province": regions_by_province,
+        "teas_by_region": teas_by_region,
+        "page_title": "Chinese Tea Regions",
+        "meta_description": "Explore 39 tea-producing regions of China, from Fujian's Wuyi Mountains to Yunnan's ancient forests.",
+        "canonical_url": "https://chinatea.house/region/",
+        "breadcrumbs": [
+            {"label": "Regions", "url": None},
+        ],
+    }
+
+
+def create_category_index_context(
+    categories,
+    teas_by_category,
+) -> dict[str, Any]:
+    """Create template context for category index page."""
+    return {
+        "categories": categories,
+        "teas_by_category": teas_by_category,
+        "page_title": "Chinese Tea Categories",
+        "meta_description": "Explore the 8 major categories of Chinese tea. From delicate white teas to robust pu'er, discover each tea family.",
+        "canonical_url": "https://chinatea.house/category/",
+        "breadcrumbs": [
+            {"label": "Categories", "url": None},
+        ],
+    }
