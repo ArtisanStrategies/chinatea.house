@@ -16,7 +16,7 @@ Commands:
 
 import sys
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import click
 from rich.console import Console
@@ -481,6 +481,204 @@ def daemon(ctx, interval, backend, model):
         raise click.Abort()
 
 
+@cli.group()
+def gsc():
+    """Google Search Console integration commands."""
+    pass
+
+
+@gsc.command("verify-config")
+@click.option("--config", "config_path", default=None, help="Path to GSC config file")
+def gsc_verify_config(config_path):
+    """Show the configured GSC verification tag and settings."""
+    from execution.monitor.gsc import load_gsc_config, get_verification_meta
+
+    try:
+        cfg = load_gsc_config(Path(config_path) if config_path else None)
+    except FileNotFoundError as e:
+        console.print(f"[red]{e}[/red]")
+        raise click.Abort()
+
+    console.print("[blue]Google Search Console config[/blue]")
+    console.print(f"  Site URL: {cfg.site_url}")
+    console.print(f"  Credential type: {cfg.credential_type}")
+    console.print(f"  Credentials path: {cfg.credentials_path}")
+    if cfg.credentials_path:
+        exists = "[green]found[/green]" if cfg.credentials_path.exists() else "[red]missing[/red]"
+        console.print(f"  Credentials file: {exists}")
+
+    meta = get_verification_meta(cfg)
+    if meta:
+        console.print(f"\n[green]Verification tag:[/green]")
+        console.print(f"  {meta}")
+    else:
+        console.print("\n[yellow]No verification_code configured.[/yellow]")
+        console.print("  Add it to config/gsc.yaml to render the meta tag.")
+
+
+@gsc.command("test-connection")
+@click.option("--config", "config_path", default=None, help="Path to GSC config file")
+def gsc_test_connection(config_path):
+    """Test connectivity to the GSC API."""
+    from execution.monitor.gsc import load_gsc_config, GoogleSearchConsole
+
+    try:
+        cfg = load_gsc_config(Path(config_path) if config_path else None)
+    except FileNotFoundError as e:
+        console.print(f"[red]{e}[/red]")
+        raise click.Abort()
+
+    console.print(f"[blue]Testing GSC API connection for {cfg.site_url}...[/blue]")
+    client = GoogleSearchConsole(cfg)
+    result = client.test_connection()
+
+    if result.get("success"):
+        console.print("[green]Connection successful![/green]")
+        console.print(f"  Site: {result.get('site', {})}")
+    else:
+        console.print("[red]Connection failed:[/red]")
+        console.print(f"  {result.get('error', 'Unknown error')}")
+        raise click.Abort()
+
+
+@gsc.command("fetch-performance")
+@click.option("--start-date", default=None, help="Start date (YYYY-MM-DD)")
+@click.option("--end-date", default=None, help="End date (YYYY-MM-DD)")
+@click.option("--dimensions", default="page,query", help="Comma-separated dimensions")
+@click.option("--dry-run", is_flag=True, help="Fetch but do not store")
+@click.option("--config", "config_path", default=None, help="Path to GSC config file")
+@click.pass_context
+def gsc_fetch_performance(ctx, start_date, end_date, dimensions, dry_run, config_path):
+    """Fetch search analytics from GSC and store snapshots."""
+    from execution.monitor.gsc import (
+        load_gsc_config, GoogleSearchConsole, summarize_performance
+    )
+
+    db_path = ctx.obj["db_path"]
+    if not db_path.exists():
+        console.print("[red]Database not found. Run 'init' first.[/red]")
+        raise click.Abort()
+
+    try:
+        cfg = load_gsc_config(Path(config_path) if config_path else None)
+    except FileNotFoundError as e:
+        console.print(f"[red]{e}[/red]")
+        raise click.Abort()
+
+    dims = [d.strip() for d in dimensions.split(",") if d.strip()]
+
+    # Mirror the client's default date range so we can tag summary rows.
+    effective_end = end_date or (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
+    effective_start = start_date or (
+        datetime.strptime(effective_end, "%Y-%m-%d")
+        - timedelta(days=cfg.default_days)
+    ).strftime("%Y-%m-%d")
+
+    console.print(f"[blue]Fetching GSC performance data[/blue]")
+    console.print(f"  Site: {cfg.site_url}")
+    console.print(f"  Dimensions: {', '.join(dims)}")
+    console.print(f"  Start: {effective_start}")
+    console.print(f"  End: {effective_end}")
+
+    try:
+        client = GoogleSearchConsole(cfg)
+        rows = client.fetch_all_search_analytics(
+            start_date=start_date,
+            end_date=end_date,
+            dimensions=dims,
+        )
+    except Exception as e:
+        console.print(f"[red]Failed to fetch GSC data: {e}[/red]")
+        raise click.Abort()
+
+    summary = summarize_performance(rows)
+    console.print(f"\n[green]Fetched {len(rows)} rows[/green]")
+    console.print(f"  Clicks: {summary['total_clicks']}")
+    console.print(f"  Impressions: {summary['total_impressions']}")
+    console.print(f"  Avg CTR: {summary['avg_ctr']:.2%}")
+    console.print(f"  Avg position: {summary['avg_position']}")
+
+    if dry_run:
+        console.print("\n[yellow]Dry run - not storing snapshots.[/yellow]")
+        return
+
+    db = Database(db_path)
+    snapshots = [row.to_dict() for row in rows]
+    default_date = effective_end if "date" not in dims else None
+    inserted = db.insert_performance_snapshots(snapshots, default_snapshot_date=default_date)
+    console.print(f"\n[green]Stored {inserted} snapshots in database.[/green]")
+
+
+@gsc.command("submit-sitemap")
+@click.option("--sitemap-url", default="https://chinatea.house/sitemap.xml", help="Sitemap URL")
+@click.option("--config", "config_path", default=None, help="Path to GSC config file")
+def gsc_submit_sitemap(sitemap_url, config_path):
+    """Submit a sitemap URL to Google Search Console."""
+    from execution.monitor.gsc import load_gsc_config, GoogleSearchConsole
+
+    try:
+        cfg = load_gsc_config(Path(config_path) if config_path else None)
+    except FileNotFoundError as e:
+        console.print(f"[red]{e}[/red]")
+        raise click.Abort()
+
+    client = GoogleSearchConsole(cfg)
+    result = client.submit_sitemap(sitemap_url)
+
+    if result.get("success"):
+        console.print(f"[green]Submitted sitemap:[/green] {sitemap_url}")
+    else:
+        console.print(f"[red]Sitemap submission failed:[/red]")
+        console.print(f"  {result.get('error', 'Unknown error')}")
+        raise click.Abort()
+
+
+@gsc.command("underperforming")
+@click.option("--min-impressions", default=100, help="Minimum impressions threshold")
+@click.option("--max-ctr", default=0.02, help="Maximum CTR threshold")
+@click.option("--start-date", default=None, help="Start date (YYYY-MM-DD)")
+@click.option("--end-date", default=None, help="End date (YYYY-MM-DD)")
+@click.option("--limit", default=50, help="Number of results")
+@click.pass_context
+def gsc_underperforming(ctx, min_impressions, max_ctr, start_date, end_date, limit):
+    """List pages with high impressions but low CTR."""
+    db_path = ctx.obj["db_path"]
+    if not db_path.exists():
+        console.print("[red]Database not found.[/red]")
+        raise click.Abort()
+
+    db = Database(db_path)
+    pages = db.get_underperforming_pages(
+        min_impressions=min_impressions,
+        max_ctr=max_ctr,
+        start_date=start_date,
+        end_date=end_date,
+        limit=limit,
+    )
+
+    if not pages:
+        console.print("[green]No underperforming pages found.[/green]")
+        return
+
+    table = Table(title="Underperforming Pages (CTR Rewrite Candidates)")
+    table.add_column("URL", style="cyan")
+    table.add_column("Clicks", justify="right")
+    table.add_column("Impressions", justify="right")
+    table.add_column("CTR", justify="right")
+    table.add_column("Position", justify="right")
+
+    for p in pages:
+        table.add_row(
+            p["url"],
+            str(p["clicks"]),
+            str(p["impressions"]),
+            f"{p['ctr']:.2%}",
+            f"{p['avg_position']:.1f}",
+        )
+
+    console.print(table)
+
+
 @cli.command()
 @click.pass_context
 def gaps(ctx):
@@ -514,6 +712,71 @@ def gaps(ctx):
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")
         raise click.Abort()
+
+
+@cli.group()
+def indexnow():
+    """IndexNow fast-indexing commands."""
+    pass
+
+
+@indexnow.command("generate-key")
+@click.option("--output", default="config/indexnow.key", help="Path to save the key")
+def indexnow_generate_key(output):
+    """Generate and save an IndexNow API key."""
+    from execution.monitor.indexnow import generate_key
+
+    key = generate_key()
+    output_path = Path(output)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(key, encoding="utf-8")
+    console.print(f"[green]IndexNow key generated and saved to {output_path}[/green]")
+    console.print(f"  Key: {key}")
+    console.print("\n[yellow]Important:[/yellow] expose this key at https://chinatea.house/{key}.txt")
+
+
+@indexnow.command("write-verification")
+@click.option("--output", default=str(DEFAULT_OUTPUT_PATH), help="Site output directory")
+def indexnow_write_verification(output):
+    """Write the IndexNow verification file to the output directory."""
+    from execution.monitor.indexnow import get_key, write_key_file
+
+    key = get_key()
+    if not key:
+        console.print("[red]No IndexNow key found. Run 'indexnow generate-key' first.[/red]")
+        raise click.Abort()
+
+    output_path = Path(output)
+    output_path.mkdir(parents=True, exist_ok=True)
+    verification_path = write_key_file(key, output_path)
+    console.print(f"[green]Verification file written:[/green] {verification_path}")
+
+
+@indexnow.command("ping")
+@click.argument("urls", nargs=-1, required=True)
+@click.option("--host", default=None, help="Site host (e.g., chinatea.house)")
+@click.option("--key", default=None, help="IndexNow key (or set INDEXNOW_KEY)")
+def indexnow_ping(urls, host, key):
+    """Ping IndexNow with one or more URLs."""
+    from execution.monitor.indexnow import ping
+
+    try:
+        result = ping(list(urls), key=key, host=host)
+    except ValueError as e:
+        console.print(f"[red]{e}[/red]")
+        raise click.Abort()
+
+    if result.get("success"):
+        console.print(f"[green]IndexNow ping accepted for {result['urls_submitted']} URLs[/green]")
+    else:
+        console.print("[red]IndexNow ping failed or was rejected[/red]")
+
+    for r in result.get("results", []):
+        status = r.get("status_code")
+        ok = "[green]OK[/green]" if r.get("ok") else "[red]FAIL[/red]"
+        console.print(f"  {r['endpoint']}: {status} {ok}")
+        if r.get("response"):
+            console.print(f"    {r['response'][:200]}")
 
 
 @cli.command()

@@ -10,6 +10,8 @@ from typing import Any
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import xxhash
 
+from execution.monitor.gsc import get_verification_meta
+
 
 class TemplateEngine:
     """Manages Jinja2 template rendering."""
@@ -37,6 +39,12 @@ class TemplateEngine:
         env.globals["current_year"] = datetime.now().year
         env.globals["site_name"] = "China Tea House"
         env.globals["site_url"] = "https://chinatea.house"
+
+        # Google Search Console verification tag (rendered only if configured)
+        try:
+            env.globals["gsc_verification"] = get_verification_meta()
+        except Exception:
+            env.globals["gsc_verification"] = None
 
         return env
 
@@ -341,8 +349,8 @@ def create_tea_detail_context(
         "tea_analysis": _build_tea_analysis(tea, category, region, province),
         "cross_links": cross_links,
         "parent_links": parent_links,
-        "page_title": f"{tea.name_en} - {category.name_en}",
-        "meta_description": tea.description_brief[:160],
+        "page_title": f"{tea.name_en} ({tea.name_zh or 'Chinese Tea'}) | Taste, Brew & Buying Guide",
+        "meta_description": f"Discover {tea.name_en}, a {category.name_en.lower()} from {region.name_en if region else 'China'}. {tea.description_brief[:120]}",
         "canonical_url": f"https://chinatea.house/tea/{tea.id}/",
         "breadcrumbs": [
             {"label": category.name_en, "url": f"/category/{category.id}/"},
@@ -378,8 +386,8 @@ def create_comparison_context(
         "related_comparisons": related_comparisons,
         "cross_links": cross_links,
         "parent_links": parent_links,
-        "page_title": f"{tea_a.name_en} vs {tea_b.name_en}",
-        "meta_description": f"Compare {tea_a.name_en} and {tea_b.name_en}: flavor profiles, brewing methods, prices.",
+        "page_title": f"{tea_a.name_en} vs {tea_b.name_en}: Which Chinese Tea Wins?",
+        "meta_description": f"{tea_a.name_en} or {tea_b.name_en}? Compare flavor, brewing, caffeine, body, and price to choose the right Chinese tea for you.",
         "canonical_url": f"https://chinatea.house/compare/{tea_a.id}-vs-{tea_b.id}/",
         "breadcrumbs": [
             {"label": "Comparisons", "url": "/compare/"},
@@ -413,8 +421,8 @@ def create_category_context(
         "cross_links": cross_links,
         "parent_links": parent_links,
         "category_guide": _build_category_guide(category, teas, regions),
-        "page_title": f"{category.name_en} - Complete Guide",
-        "meta_description": category.description[:160],
+        "page_title": f"{category.name_en} ({category.name_zh or '中国茶'}) | Complete Guide & Best Teas",
+        "meta_description": f"Explore {category.name_en} ({category.name_zh}): famous varieties, brewing guides, flavor profiles, and top-rated teas from China.",
         "canonical_url": f"https://chinatea.house/category/{category.id}/",
         "breadcrumbs": [
             {"label": "Categories", "url": "/category/"},
@@ -450,8 +458,8 @@ def create_region_context(
         "cross_links": cross_links,
         "parent_links": parent_links,
         "region_guide": _build_region_guide(region, teas, child_regions, categories_in_region),
-        "page_title": f"{region.name_en} Tea Region",
-        "meta_description": region.terroir_notes[:160] if region.terroir_notes else f"Discover teas from {region.name_en}",
+        "page_title": f"{region.name_en} Tea Region ({region.name_zh or '中国'}) | Varieties & Terroir",
+        "meta_description": f"Explore teas from {region.name_en} ({region.name_zh}). {region.terroir_notes[:130] if region.terroir_notes else 'Discover famous Chinese teas, flavor profiles, and brewing guides from this region.'}",
         "canonical_url": f"https://chinatea.house/region/{region.id}/",
         "breadcrumbs": [
             {"label": "Regions", "url": "/region/"},
@@ -486,8 +494,8 @@ def create_home_context(
         "category_count": len(categories),
         "region_count": len(regions),
         "comparison_count": comparison_count,
-        "page_title": "China Tea House - Your Guide to Authentic Chinese Tea",
-        "meta_description": f"Discover {len(teas)} Chinese tea varieties across green, white, oolong, black, dark, pu'er, yellow, and scented teas.",
+        "page_title": "Chinese Tea Guide | Types, Regions, Brewing & Comparisons",
+        "meta_description": f"Explore {len(teas)} Chinese teas by category, region, and flavor. Compare teas side-by-side, find brewing guides, and discover the best Chinese tea for you.",
         "canonical_url": "https://chinatea.house/",
         "breadcrumbs": [],
     }
@@ -505,8 +513,8 @@ def create_region_index_context(
         "all_regions": all_regions,
         "regions_by_province": regions_by_province,
         "teas_by_region": teas_by_region,
-        "page_title": "Chinese Tea Regions",
-        "meta_description": "Explore 39 tea-producing regions of China, from Fujian's Wuyi Mountains to Yunnan's ancient forests.",
+        "page_title": "Chinese Tea Regions | Map of Origins, Provinces & Terroir",
+        "meta_description": "Explore Chinese tea regions from Fujian and Yunnan to Zhejiang and Taiwan. Discover famous teas, terroir, and regional flavor profiles.",
         "canonical_url": "https://chinatea.house/region/",
         "breadcrumbs": [
             {"label": "Regions", "url": None},
@@ -522,8 +530,8 @@ def create_category_index_context(
     return {
         "categories": categories,
         "teas_by_category": teas_by_category,
-        "page_title": "Chinese Tea Categories",
-        "meta_description": "Explore the 8 major categories of Chinese tea. From delicate white teas to robust pu'er, discover each tea family.",
+        "page_title": "Chinese Tea Types | Green, Oolong, Pu'er, Black, White & More",
+        "meta_description": "Learn the 8 main types of Chinese tea. Compare green, oolong, pu'er, black, white, yellow, dark, and scented teas by flavor and brewing.",
         "canonical_url": "https://chinatea.house/category/",
         "breadcrumbs": [
             {"label": "Categories", "url": None},

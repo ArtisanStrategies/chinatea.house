@@ -6,6 +6,10 @@
     <title>{% block title %}{{ page_title }}{% endblock %} | China Tea House</title>
     <meta name="description" content="{% block description %}{{ meta_description }}{% endblock %}">
 
+    {% if gsc_verification %}
+    {{ gsc_verification | safe }}
+    {% endif %}
+
     {% if canonical_url %}
     <link rel="canonical" href="{{ canonical_url }}">
     {% endif %}

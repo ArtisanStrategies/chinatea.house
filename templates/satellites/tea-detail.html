@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tea.name_en }}{% if tea.name_zh %} ({{ tea.name_zh }}){% endif %} - Chinese {{ category.name_en }}{% endblock %}
+{% block title %}{{ tea.name_en }}{% if tea.name_zh %} ({{ tea.name_zh }}){% endif %} | Taste, Brew & Buying Guide{% endblock %}
 
-{% block description %}Learn about {{ tea.name_en }}{% if tea.name_zh %} ({{ tea.name_zh }}){% endif %}, a {{ category.name_en | lower }} from {{ region.name_en }}. Discover brewing methods, flavor profile, and where to buy this {% if tea.tier == 1 %}famous{% else %}traditional{% endif %} Chinese tea.{% endblock %}
+{% block description %}Discover {{ tea.name_en }}{% if tea.name_zh %} ({{ tea.name_zh }}){% endif %}, a {{ category.name_en | lower }} from {{ region.name_en }}. Explore flavor, brewing parameters, caffeine, and how to choose the best {% if tea.tier == 1 %}famous{% else %}authentic{% endif %} Chinese tea.{% endblock %}
 
 {% block extra_head %}
 <style>

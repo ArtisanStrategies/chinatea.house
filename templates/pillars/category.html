@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}{{ category.name_en }}{% if category.name_zh %} ({{ category.name_zh }}){% endif %} - Complete Guide to Chinese {{ category.name_en }}{% endblock %}
+{% block title %}{{ category.name_en }}{% if category.name_zh %} ({{ category.name_zh }}){% endif %} | Best Teas, Brewing & Flavor Guide{% endblock %}
 
-{% block description %}Explore {{ category.name_en | lower }}: history, famous varieties, brewing methods, and flavor profiles. Discover {{ teas | length }}+ {{ category.name_en | lower }} varieties from China's finest tea regions.{% endblock %}
+{% block description %}Explore {{ category.name_en | lower }}{% if category.name_zh %} ({{ category.name_zh }}){% endif %}: top varieties, brewing guides, flavor profiles, and buying tips. Discover {{ teas | length }}+ authentic {{ category.name_en | lower }} teas from China.{% endblock %}
 
 {% block breadcrumbs %}
 <nav class="breadcrumbs" aria-label="Breadcrumb">

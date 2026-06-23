@@ -362,3 +362,27 @@ AFTER UPDATE ON teaware
 BEGIN
     UPDATE teaware SET updated_at = datetime('now') WHERE id = NEW.id;
 END;
+
+-- ============================================================================
+-- PERFORMANCE DATA
+-- ============================================================================
+
+-- Google Search Console performance snapshots
+CREATE TABLE IF NOT EXISTS page_performance_snapshots (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    url TEXT NOT NULL,
+    snapshot_date TEXT NOT NULL,
+    query TEXT,
+    clicks INTEGER NOT NULL DEFAULT 0,
+    impressions INTEGER NOT NULL DEFAULT 0,
+    ctr REAL NOT NULL DEFAULT 0.0,
+    avg_position REAL NOT NULL DEFAULT 0.0,
+    device TEXT,
+    country TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    UNIQUE(url, snapshot_date, query, device, country)
+);
+
+CREATE INDEX IF NOT EXISTS idx_page_performance_url ON page_performance_snapshots(url);
+CREATE INDEX IF NOT EXISTS idx_page_performance_date ON page_performance_snapshots(snapshot_date);
+CREATE INDEX IF NOT EXISTS idx_page_performance_query ON page_performance_snapshots(query);

@@ -19,3 +19,12 @@ pytest-cov>=4.0.0
 # Content generation (optional - only needed for AI content)
 anthropic>=0.34.0
 openai>=1.0.0  # For OpenRouter support
+
+# Google Search Console integration
+google-api-python-client>=2.100.0
+google-auth>=2.22.0
+google-auth-oauthlib>=1.0.0
+pyyaml>=6.0.1  # For GSC YAML config
+
+# Indexing & deployment helpers
+requests>=2.31.0

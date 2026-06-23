@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}{{ region.name_en }}{% if region.name_zh %} ({{ region.name_zh }}){% endif %} Tea Region - Chinese Tea Growing Areas{% endblock %}
+{% block title %}{{ region.name_en }}{% if region.name_zh %} ({{ region.name_zh }}){% endif %} Tea Region | Best Teas & Terroir{% endblock %}
 
-{% block description %}Discover teas from {{ region.name_en }}, China. Learn about {{ teas | length }} tea varieties, terroir characteristics, and famous teas from this renowned tea-producing region.{% endblock %}
+{% block description %}Discover teas from {{ region.name_en }}{% if region.name_zh %} ({{ region.name_zh }}){% endif %}, China. Explore {{ teas | length }} local varieties, terroir, flavor profiles, and famous teas from this renowned tea region.{% endblock %}
 
 {% block extra_head %}
 <style>

@@ -1,0 +1,28 @@
+# Google Search Console configuration for chinatea.house
+# Copy this file to gsc.yaml and fill in your values.
+# gsc.yaml is ignored by git and should never be committed.
+
+# The site URL as registered in GSC.
+# - Domain property: "sc-domain:chinatea.house"
+# - URL-prefix property: "https://chinatea.house/"
+site_url: "sc-domain:chinatea.house"
+
+# HTML tag verification code from GSC. After verifying, the meta tag will be
+# rendered on every page so Google can confirm ownership on rebuilds.
+# Example: verification_code: "abc123..."
+verification_code: null
+
+# API credentials type: "service_account" or "oauth".
+# OAuth uses GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_REFRESH_TOKEN
+# from environment variables (e.g., an .env file).
+credential_type: "oauth"
+
+# Path to the service account JSON key (only used when credential_type is
+# "service_account"). The service account must be an owner of the GSC property.
+credentials_path: "config/gsc-service-account.json"
+
+# Default lookback window (in days) for GSC analytics queries.
+default_days: 28
+
+# OAuth client secrets path (only needed for credential_type: oauth).
+client_secrets_path: null

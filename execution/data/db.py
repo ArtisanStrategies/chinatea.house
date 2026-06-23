@@ -8,7 +8,7 @@ import json
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Optional, TypeVar, Type
+from typing import Any, Optional, TypeVar, Type
 
 from .models import (
     Tea, Category, Subcategory, Region, Teaware, Occasion,
@@ -633,6 +633,180 @@ class Database:
             stats["pages_by_status"] = {row["status"]: row["count"] for row in manifest_rows}
 
             return stats
+
+    # =========================================================================
+    # PERFORMANCE SNAPSHOTS
+    # =========================================================================
+
+    def insert_performance_snapshot(
+        self,
+        url: str,
+        snapshot_date: str,
+        clicks: int = 0,
+        impressions: int = 0,
+        ctr: float = 0.0,
+        avg_position: float = 0.0,
+        query: Optional[str] = None,
+        device: Optional[str] = None,
+        country: Optional[str] = None,
+    ) -> None:
+        """Insert or replace a GSC performance snapshot row."""
+        with self.connection() as conn:
+            conn.execute("""
+                INSERT INTO page_performance_snapshots
+                    (url, snapshot_date, query, clicks, impressions, ctr,
+                     avg_position, device, country)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(url, snapshot_date, query, device, country)
+                DO UPDATE SET
+                    clicks = excluded.clicks,
+                    impressions = excluded.impressions,
+                    ctr = excluded.ctr,
+                    avg_position = excluded.avg_position,
+                    created_at = datetime('now')
+            """, (
+                url, snapshot_date, query, clicks, impressions, ctr,
+                avg_position, device, country
+            ))
+
+    def insert_performance_snapshots(
+        self,
+        snapshots: list[dict],
+        default_snapshot_date: Optional[str] = None,
+    ) -> int:
+        """Bulk insert performance snapshots from GSC rows.
+
+        For non-daily fetches (no 'date' dimension), use default_snapshot_date
+        to satisfy the NOT NULL snapshot_date column.
+        """
+        inserted = 0
+        for snap in snapshots:
+            snapshot_date = snap.get("date") or default_snapshot_date
+            if not snapshot_date:
+                raise ValueError(
+                    "snapshot_date is required. Either include 'date' in GSC "
+                    "dimensions or provide default_snapshot_date."
+                )
+            self.insert_performance_snapshot(
+                url=snap["url"],
+                snapshot_date=snapshot_date,
+                query=snap.get("query"),
+                clicks=snap["clicks"],
+                impressions=snap["impressions"],
+                ctr=snap["ctr"],
+                avg_position=snap["position"],
+                device=snap.get("device"),
+                country=snap.get("country"),
+            )
+            inserted += 1
+        return inserted
+
+    def get_latest_snapshot_date(self) -> Optional[str]:
+        """Return the most recent snapshot date in the database."""
+        with self.connection() as conn:
+            row = conn.execute(
+                "SELECT MAX(snapshot_date) as latest FROM page_performance_snapshots"
+            ).fetchone()
+            return row["latest"] if row else None
+
+    def get_performance_for_url(
+        self,
+        url: str,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
+    ) -> list[dict]:
+        """Get performance rows for a URL over a date range."""
+        with self.connection() as conn:
+            query = "SELECT * FROM page_performance_snapshots WHERE url = ?"
+            params: list[Any] = [url]
+            if start_date:
+                query += " AND snapshot_date >= ?"
+                params.append(start_date)
+            if end_date:
+                query += " AND snapshot_date <= ?"
+                params.append(end_date)
+            query += " ORDER BY snapshot_date DESC, impressions DESC"
+            rows = conn.execute(query, params).fetchall()
+            return [dict(row) for row in rows]
+
+    def get_performance_summary(
+        self,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
+        url_only: bool = True,
+    ) -> dict:
+        """Aggregate performance summary.
+
+        Set url_only=False to include non-page dimension summaries (query-only,
+        date-only), but note that this can double-count if multiple grains are
+        stored for the same period.
+        """
+        with self.connection() as conn:
+            query = """
+                SELECT
+                    COALESCE(SUM(clicks), 0) AS total_clicks,
+                    COALESCE(SUM(impressions), 0) AS total_impressions,
+                    COUNT(DISTINCT url) AS url_count
+                FROM page_performance_snapshots
+                WHERE 1=1
+            """
+            params: list[Any] = []
+            if url_only:
+                query += " AND url IS NOT NULL AND url != ''"
+            if start_date:
+                query += " AND snapshot_date >= ?"
+                params.append(start_date)
+            if end_date:
+                query += " AND snapshot_date <= ?"
+                params.append(end_date)
+            row = conn.execute(query, params).fetchone()
+            total_clicks = row["total_clicks"]
+            total_impressions = row["total_impressions"]
+            avg_ctr = total_clicks / total_impressions if total_impressions else 0.0
+            return {
+                "total_clicks": total_clicks,
+                "total_impressions": total_impressions,
+                "avg_ctr": round(avg_ctr, 4),
+                "url_count": row["url_count"],
+            }
+
+    def get_underperforming_pages(
+        self,
+        min_impressions: int = 100,
+        max_ctr: float = 0.02,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
+        limit: int = 50,
+    ) -> list[dict]:
+        """Find pages with high impressions but low CTR (CTR rewrite candidates)."""
+        with self.connection() as conn:
+            query = """
+                SELECT
+                    url,
+                    SUM(clicks) AS clicks,
+                    SUM(impressions) AS impressions,
+                    ROUND(CAST(SUM(clicks) AS REAL) / NULLIF(SUM(impressions), 0), 4) AS ctr,
+                    ROUND(SUM(avg_position * impressions) / NULLIF(SUM(impressions), 0), 2) AS avg_position
+                FROM page_performance_snapshots
+                WHERE url IS NOT NULL AND url != ''
+            """
+            params: list[Any] = []
+            if start_date:
+                query += " AND snapshot_date >= ?"
+                params.append(start_date)
+            if end_date:
+                query += " AND snapshot_date <= ?"
+                params.append(end_date)
+            query += """
+                GROUP BY url
+                HAVING SUM(impressions) >= ?
+                   AND ctr <= ?
+                ORDER BY impressions DESC
+                LIMIT ?
+            """
+            params.extend([min_impressions, max_ctr, limit])
+            rows = conn.execute(query, params).fetchall()
+            return [dict(row) for row in rows]
 
     # =========================================================================
     # EXPORT / IMPORT

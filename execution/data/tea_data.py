@@ -1479,6 +1479,8 @@ SCENTED_TEAS = [
 # AGGREGATE ALL TEAS
 # =============================================================================
 
+from .tea_data_extended import ADDITIONAL_TEAS
+
 ALL_TEAS = (
     GREEN_TEAS +
     OOLONG_TEAS +
@@ -1486,7 +1488,8 @@ ALL_TEAS = (
     BLACK_TEAS +
     DARK_TEAS +
     YELLOW_TEAS +
-    SCENTED_TEAS
+    SCENTED_TEAS +
+    ADDITIONAL_TEAS
 )
 
 

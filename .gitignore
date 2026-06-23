@@ -64,6 +64,11 @@ Thumbs.db
 .env.local
 *.pem
 credentials.json
+config/gsc.yaml
+config/gsc-service-account.json
+config/*.json
+.gsc.yaml
+.gsc.yml
 
 # Wrangler
 .wrangler/
