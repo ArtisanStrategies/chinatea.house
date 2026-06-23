@@ -85,3 +85,4 @@ htmlcov/
 
 # AI-generated content (track separately or regenerate)
 data/curated/*.json.bak
+config/indexnow.key
