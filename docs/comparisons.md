@@ -1,10 +1,15 @@
+---
+layout: default
+title: Chinese Tea Comparisons
+---
+
 # Chinese Tea Comparisons
 
 Side-by-side comparisons of Chinese teas to help you understand the differences between similar styles.
 
 ## Live comparisons
 
-https://chinatea.house/compare/
+<https://chinatea.house/compare/>
 
 ## Examples
 
@@ -23,5 +28,5 @@ https://chinatea.house/compare/
 
 ## Related
 
-- [Chinese Tea Dataset](Chinese-Tea-Dataset)
-- [Tea Finder](Tea-Finder)
+- [Chinese Tea Dataset](./dataset)
+- [Tea Finder](./finder)

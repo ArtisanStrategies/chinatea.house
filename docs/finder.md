@@ -1,10 +1,15 @@
+---
+layout: default
+title: Chinese Tea Finder
+---
+
 # Chinese Tea Finder
 
 Answer a few questions and get a tea recommendation from the China Tea House collection.
 
 ## Try it live
 
-https://chinatea.house/finder/
+<https://chinatea.house/finder/>
 
 ## How it works
 
@@ -18,6 +23,6 @@ The tea finder matches your preferences—caffeine level, flavor profile, mood, 
 
 ## Related tools
 
-- [Brewing Guide](Brewing-Guide)
-- [Caffeine Chart](Caffeine-Chart)
-- [Chinese Tea Dataset](Chinese-Tea-Dataset)
+- [Brewing Guide](./brewing-guide)
+- [Caffeine Chart](./caffeine-chart)
+- [Chinese Tea Dataset](./dataset)

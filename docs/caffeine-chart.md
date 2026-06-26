@@ -1,14 +1,19 @@
+---
+layout: default
+title: Chinese Tea Caffeine Chart
+---
+
 # Chinese Tea Caffeine Chart
 
 A visual guide to caffeine content across Chinese tea categories.
 
 ## Live chart
 
-https://chinatea.house/chinese-tea-caffeine-chart/
+<https://chinatea.house/chinese-tea-caffeine-chart/>
 
 ## Image asset
 
-https://chinatea.house/assets/chinese-tea-caffeine-chart.png
+<https://chinatea.house/assets/chinese-tea-caffeine-chart.png>
 
 ## Quick reference
 
@@ -27,5 +32,5 @@ Use the [Tea Finder](https://chinatea.house/finder/) to filter by caffeine level
 
 ## Related
 
-- [Chinese Tea Dataset](Chinese-Tea-Dataset)
-- [Brewing Guide](Brewing-Guide)
+- [Chinese Tea Dataset](./dataset)
+- [Brewing Guide](./brewing-guide)

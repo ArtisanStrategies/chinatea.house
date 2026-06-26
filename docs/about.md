@@ -1,10 +1,15 @@
+---
+layout: default
+title: About China Tea House
+---
+
 # About China Tea House
 
 China Tea House is a free reference for Chinese tea: types, origins, caffeine, brewing, and comparisons.
 
 ## Website
 
-https://chinatea.house/
+<https://chinatea.house/>
 
 ## Goals
 
@@ -14,9 +19,9 @@ https://chinatea.house/
 
 ## Source code
 
-https://github.com/ArtisanStrategies/chinatea.house
+<https://github.com/ArtisanStrategies/chinatea.house>
 
 ## Stay updated
 
-- RSS feed: https://chinatea.house/feed.xml
-- GitHub releases: https://github.com/ArtisanStrategies/chinatea.house/releases
+- RSS feed: <https://chinatea.house/feed.xml>
+- GitHub releases: <https://github.com/ArtisanStrategies/chinatea.house/releases>

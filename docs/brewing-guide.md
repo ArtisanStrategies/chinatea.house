@@ -1,10 +1,15 @@
+---
+layout: default
+title: Chinese Tea Brewing Guide
+---
+
 # Chinese Tea Brewing Guide
 
 A practical reference for brewing Chinese tea at home.
 
 ## Live guide
 
-https://chinatea.house/guide/how-to-brew-chinese-tea/
+<https://chinatea.house/guide/how-to-brew-chinese-tea/>
 
 ## Gongfu vs. Western style
 
@@ -23,5 +28,5 @@ https://chinatea.house/guide/how-to-brew-chinese-tea/
 
 ## Interactive tools
 
-- Brewing calculator: https://chinatea.house/brewing-calculator/
-- Tea Finder: https://chinatea.house/finder/
+- Brewing calculator: <https://chinatea.house/brewing-calculator/>
+- Tea Finder: <https://chinatea.house/finder/>
