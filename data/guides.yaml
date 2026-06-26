@@ -193,3 +193,51 @@
       body: Ripe pu'er, sheng pu'er, Wuyi yancha, and roasted oolongs are classic choices. The clay softens astringency and deepens the body of these teas.
     - heading: Care and Cleaning
       body: Rinse with hot water after use and let the pot air dry with the lid off. Avoid soap or detergent, as the clay will absorb it and ruin future brews.
+
+- id: best-green-tea-for-beginners
+  title: Best Green Tea for Beginners
+  title_zh: null
+  description: New to green tea? These approachable Chinese green teas are fresh, forgiving, and perfect for beginners.
+  sections:
+    - heading: Longjing (Dragon Well)
+      body: Longjing is China's most famous green tea. It is nutty, sweet, and smooth with no bitterness when brewed correctly. Look for Hangzhou or West Lake origin for authenticity.
+    - heading: Biluochun
+      body: Biluochun is rolled into tight spirals and has a fruity, floral aroma. It is slightly more intense than Longjing but still very approachable for newcomers.
+    - heading: Huangshan Maofeng
+      body: Huangshan Maofeng has a light, orchid-like fragrance and a clean, refreshing taste. It is a great choice if you prefer delicate teas.
+    - heading: Anji Baicha
+      body: Anji Baicha is unusually pale and rich in amino acids. It tastes mild, sweet, and slightly creamy, making it one of the easiest green teas to love.
+    - heading: Brewing Tip for Beginners
+      body: Use water around 80°C, not boiling. Steep for 2 minutes. Boiling water will make green tea bitter.
+
+- id: best-oolong-tea-for-beginners
+  title: Best Oolong Tea for Beginners
+  title_zh: null
+  description: Start your oolong journey with these beginner-friendly Chinese oolongs. Floral, creamy, and easy to brew.
+  sections:
+    - heading: Tie Guan Yin
+      body: Tie Guan Yin from Anxi is the classic starter oolong. It is lightly oxidized, floral, creamy, and very forgiving. It works well brewed both Western and gongfu style.
+    - heading: Da Hong Pao
+      body: Da Hong Pao is a roasted Wuyi yancha with notes of stone fruit, toast, and mineral. It is fuller-bodied and a good introduction to darker oolongs.
+    - heading: Ali Shan Oolong
+      body: Ali Shan from Taiwan is silky, floral, and naturally sweet. High-mountain oolongs are prized for their clean, elegant flavor.
+    - heading: Milk Oolong
+      body: Jin Xuan or milk oolong has a naturally creamy, buttery texture. It is a crowd-pleaser and one of the easiest oolongs to enjoy right away.
+    - heading: Brewing Tip for Beginners
+      body: Start with 90°C water and a 3-minute steep. As you gain confidence, try gongfu brewing with shorter infusions to experience the tea's evolution.
+
+- id: best-black-tea-for-beginners
+  title: Best Black Tea for Beginners
+  title_zh: null
+  description: Discover the best Chinese black teas for beginners. These are sweet, smooth, and easy to brew with boiling water.
+  sections:
+    - heading: Keemun
+      body: Keemun from Anhui is often called the Burgundy of teas. It is fruity, floral, and wine-like with a naturally sweet finish.
+    - heading: Dianhong
+      body: Yunnan Dianhong is malty, honeyed, and bold. It is excellent with milk or on its own and very forgiving to brew.
+    - heading: Jin Jun Mei
+      body: Jin Jun Mei is a premium Wuyi black tea made from tiny buds. It is sweet, floral, and smooth, though more expensive.
+    - heading: Lapsang Souchong
+      body: Lapsang Souchong is smoked over pine wood. It is divisive but iconic. Try the non-smoked versions first if you prefer a milder introduction.
+    - heading: Brewing Tip for Beginners
+      body: Use boiling water and steep for 3–4 minutes. Chinese black tea rarely goes bitter, so it is one of the easiest categories for beginners.
