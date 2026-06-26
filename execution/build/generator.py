@@ -155,6 +155,7 @@ class SiteGenerator:
             try:
                 self._export_tea_datasets()
                 self._generate_shareable_assets()
+                self._generate_rss_feed()
             except Exception as e:
                 result["errors"].append(f"dataset export: {str(e)}")
 
@@ -612,6 +613,57 @@ class SiteGenerator:
             "data": {"page": "dataset", "tea_count": len(teas)},
             "context": context,
         }]
+
+    def _generate_rss_feed(self) -> None:
+        """Generate an RSS feed for guides and new pages."""
+        from xml.sax.saxutils import escape
+
+        guides = load_guides()
+        today = datetime.now().strftime("%a, %d %b %Y %H:%M:%S +0000")
+
+        xml_lines = [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">',
+            '  <channel>',
+            '    <title>China Tea House</title>',
+            '    <link>https://chinatea.house/</link>',
+            '    <description>A free guide to Chinese tea: types, regions, brewing, and comparisons.</description>',
+            '    <language>en-us</language>',
+            '    <lastBuildDate>' + today + '</lastBuildDate>',
+            '    <atom:link href="https://chinatea.house/feed.xml" rel="self" type="application/rss+xml"/>',
+        ]
+
+        items = []
+        for guide in guides:
+            items.append({
+                "title": guide["title"],
+                "link": f"https://chinatea.house/guide/{guide['id']}/",
+                "description": guide["description"],
+            })
+        # Add key pages
+        items.extend([
+            {"title": "Chinese Tea Caffeine Chart", "link": "https://chinatea.house/chinese-tea-caffeine-chart/", "description": "Compare caffeine levels across 136 Chinese teas."},
+            {"title": "Find Your Chinese Tea", "link": "https://chinatea.house/find-your-tea/", "description": "Interactive tea recommendation tool."},
+            {"title": "Chinese Tea Dataset", "link": "https://chinatea.house/dataset/", "description": "Free JSON and CSV dataset of Chinese teas."},
+        ])
+
+        for item in items:
+            xml_lines.extend([
+                '    <item>',
+                '      <title>' + escape(item["title"]) + '</title>',
+                '      <link>' + escape(item["link"]) + '</link>',
+                '      <description>' + escape(item["description"]) + '</description>',
+                '      <pubDate>' + today + '</pubDate>',
+                '    </item>',
+            ])
+
+        xml_lines.extend([
+            '  </channel>',
+            '</rss>',
+        ])
+
+        rss_path = self.output_dir / "feed.xml"
+        rss_path.write_text('\n'.join(xml_lines), encoding='utf-8')
 
     def _generate_shareable_assets(self) -> None:
         """Generate shareable images/charts for social media."""
