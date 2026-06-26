@@ -22,13 +22,20 @@ ENDPOINTS = [
 ]
 
 
-def create_key_file(output_dir: str) -> Path:
-    """Write the IndexNow key file to the site output directory."""
+def create_key_file(output_dir: str) -> list[Path]:
+    """Write the IndexNow key file(s) to the site output directory."""
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    key_path = out / KEY_FILE_NAME
-    key_path.write_text(INDEXNOW_KEY + "\n", encoding="utf-8")
-    return key_path
+    paths = []
+    # Named-key file (spec-compliant)
+    named_path = out / KEY_FILE_NAME
+    named_path.write_text(INDEXNOW_KEY + "\n", encoding="utf-8")
+    paths.append(named_path)
+    # Generic indexnow.txt for search engines that prefer it
+    generic_path = out / "indexnow.txt"
+    generic_path.write_text(INDEXNOW_KEY + "\n", encoding="utf-8")
+    paths.append(generic_path)
+    return paths
 
 
 def _resolve_sub_sitemap_path(sitemap_url: str, base_dir: Path) -> str | None:
