@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Chinese Tea Caffeine Chart | Levels by Tea Type{% endblock %}
+
+{% block description %}Compare caffeine levels across Chinese teas. Our chart lists green, oolong, black, pu'er, white, yellow, dark, and scented teas with caffeine ratings and brewing notes.{% endblock %}
+
+{% block og_type %}article{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <a href="/guide/">Guides</a>
+    <span>/</span>
+    <span>Caffeine Chart</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="category-page">
+    <header class="category-hero">
+        <div class="hero-watermark">茶</div>
+        <div class="hero-content">
+            <h1>Chinese Tea Caffeine Chart</h1>
+            <p class="category-intro">
+                Compare caffeine levels across {{ teas | length }} Chinese teas.
+                Use this chart to choose a tea that matches your energy needs,
+                whether you want a morning boost or an evening wind-down.
+            </p>
+        </div>
+    </header>
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">Quick Reference</p>
+            <h2 class="section-title">Caffeine by Category</h2>
+        </div>
+        <div class="char-grid">
+            <div class="char-item"><h3>Green Tea</h3><p>Low to moderate</p></div>
+            <div class="char-item"><h3>White Tea</h3><p>Low to high (bud teas can be high)</p></div>
+            <div class="char-item"><h3>Yellow Tea</h3><p>Low to moderate</p></div>
+            <div class="char-item"><h3>Oolong</h3><p>Moderate to high</p></div>
+            <div class="char-item"><h3>Black Tea</h3><p>Moderate to high</p></div>
+            <div class="char-item"><h3>Pu'er</h3><p>Raw high; ripe moderate</p></div>
+            <div class="char-item"><h3>Dark Tea</h3><p>Low to moderate</p></div>
+            <div class="char-item"><h3>Scented Tea</h3><p>Depends on base tea</p></div>
+        </div>
+    </section>
+
+    <section class="featured-teas-section">
+        <div class="section-header">
+            <p class="section-label">Full Chart</p>
+            <h2 class="section-title">Caffeine Levels for Every Tea</h2>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="comparison-table" style="width: 100%; min-width: 600px;">
+                <thead>
+                    <tr>
+                        <th>Tea</th>
+                        <th>Category</th>
+                        <th>Caffeine</th>
+                        <th>Best Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tea in teas %}
+                    <tr>
+                        <td><a href="/tea/{{ tea.id }}/">{{ tea.name_en }}</a></td>
+                        <td>{{ tea.category_id | replace('-', ' ') | title }}</td>
+                        <td>{{ tea.caffeine_level.value | title }}</td>
+                        <td>
+                            {% if tea.caffeine_level.value in ['high', 'very high'] %}Morning / Focus
+                            {% elif tea.caffeine_level.value == 'moderate' %}Anytime
+                            {% else %}Afternoon / Evening
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">How to Use</p>
+            <h2 class="section-title">Reading the Chart</h2>
+        </div>
+        <div class="brewing-methods">
+            <div class="method">
+                <p>
+                    Caffeine levels are approximate and depend on harvest time, leaf grade, and brewing strength.
+                    Bud-heavy teas and first flush teas usually contain more caffeine than older leaves.
+                </p>
+                <p>
+                    For a deeper explanation, read our
+                    <a href="/guide/caffeine-in-chinese-tea/">caffeine in Chinese tea guide</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+</article>
+{% endblock %}
+
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Chinese Tea Caffeine Chart",
+    "description": "Compare caffeine levels across Chinese teas by category and type.",
+    "articleSection": "Tea Guide"
+}
+</script>
+{% endblock %}

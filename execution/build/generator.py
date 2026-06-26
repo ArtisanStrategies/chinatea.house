@@ -23,6 +23,7 @@ from .templates import (
     create_brewing_guide_context,
     create_guide_context,
     create_guide_index_context,
+    create_caffeine_chart_context,
     load_guides,
 )
 from .links import InternalLinkBuilder
@@ -99,6 +100,10 @@ class SiteGenerator:
         if not template_filter or template_filter == "guide":
             pages_to_generate.extend(self._collect_guide_pages())
             pages_to_generate.extend(self._collect_guide_index_page())
+
+        # Caffeine chart page
+        if not template_filter or template_filter == "caffeine-chart":
+            pages_to_generate.extend(self._collect_caffeine_chart_page())
 
         # Apply limit if specified
         if limit:
@@ -507,6 +512,18 @@ class SiteGenerator:
             "context": context,
         }]
 
+    def _collect_caffeine_chart_page(self) -> list[dict]:
+        """Collect the caffeine chart page to generate."""
+        teas = self.db.get_all_teas()
+        context = create_caffeine_chart_context(teas=teas)
+
+        return [{
+            "url": "/chinese-tea-caffeine-chart/",
+            "template": "pillars/caffeine-chart.html",
+            "data": {"page": "caffeine-chart"},
+            "context": context,
+        }]
+
     def _generate_page(self, page_info: dict, template_hashes: dict) -> None:
         """Generate a single page."""
         url = page_info["url"]
@@ -619,7 +636,7 @@ class SiteGenerator:
         # Evergreen guide sitemap
         guides = load_guides()
         if guides:
-            guide_urls = ["/guide/"] + [f"/guide/{g['id']}/" for g in guides]
+            guide_urls = ["/guide/", "/chinese-tea-caffeine-chart/"] + [f"/guide/{g['id']}/" for g in guides]
             sitemap_index.append(self._generate_sitemap(
                 "sitemap-guides.xml",
                 guide_urls,

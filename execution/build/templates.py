@@ -731,3 +731,27 @@ def create_guide_index_context(guides: list[dict]) -> dict[str, Any]:
             {"label": "Guides", "url": None},
         ],
     }
+
+
+def create_caffeine_chart_context(teas) -> dict[str, Any]:
+    """Create template context for the caffeine chart page."""
+    sorted_teas = sorted(
+        teas,
+        key=lambda t: (
+            {"low": 0, "moderate": 1, "high": 2, "very high": 3}.get(
+                t.caffeine_level.value.lower() if t.caffeine_level else "moderate", 1
+            ),
+            t.category_id,
+            t.name_en,
+        ),
+    )
+    return {
+        "teas": sorted_teas,
+        "page_title": "Chinese Tea Caffeine Chart | Levels by Tea Type",
+        "meta_description": "Compare caffeine levels across Chinese teas. Our chart lists green, oolong, black, pu'er, white, yellow, dark, and scented teas with caffeine ratings and brewing notes.",
+        "canonical_url": "https://chinatea.house/chinese-tea-caffeine-chart/",
+        "breadcrumbs": [
+            {"label": "Guides", "url": "/guide/"},
+            {"label": "Caffeine Chart", "url": None},
+        ],
+    }
