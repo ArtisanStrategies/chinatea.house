@@ -20,6 +20,7 @@ from .templates import (
     create_region_index_context,
     create_category_index_context,
     create_occasion_context,
+    create_brewing_guide_context,
 )
 from .links import InternalLinkBuilder
 from .manifest import PageManifestManager, count_words, count_internal_links
@@ -86,6 +87,10 @@ class SiteGenerator:
         # Occasion pages
         if not template_filter or template_filter == "occasion":
             pages_to_generate.extend(self._collect_occasion_pages())
+
+        # Brewing guide pages
+        if not template_filter or template_filter == "brewing":
+            pages_to_generate.extend(self._collect_brewing_pages())
 
         # Apply limit if specified
         if limit:
@@ -426,6 +431,41 @@ class SiteGenerator:
 
         return pages
 
+    def _collect_brewing_pages(self) -> list[dict]:
+        """Collect all brewing guide pages to generate."""
+        pages = []
+        categories = self.db.get_all_categories()
+        teas = self.db.get_all_teas()
+
+        teas_by_category = {}
+        for tea in teas:
+            teas_by_category.setdefault(tea.category_id, []).append(tea)
+
+        for category in categories:
+            example_teas = sorted(
+                teas_by_category.get(category.id, []),
+                key=lambda t: (t.tier, t.name_en)
+            )[:6]
+
+            context = create_brewing_guide_context(
+                category=category,
+                example_teas=example_teas,
+            )
+
+            data = {
+                "category": category.id,
+                "example_teas": [t.id for t in example_teas],
+            }
+
+            pages.append({
+                "url": f"/brewing/{category.id}/",
+                "template": "pillars/brewing-guide.html",
+                "data": data,
+                "context": context,
+            })
+
+        return pages
+
     def _generate_page(self, page_info: dict, template_hashes: dict) -> None:
         """Generate a single page."""
         url = page_info["url"]
@@ -521,6 +561,16 @@ class SiteGenerator:
             sitemap_index.append(self._generate_sitemap(
                 "sitemap-occasions.xml",
                 [f"/best-tea-for/{o.id}/" for o in occasions],
+                priority="0.7",
+                changefreq="monthly"
+            ))
+
+        # Brewing guide sitemap
+        categories = self.db.get_all_categories()
+        if categories:
+            sitemap_index.append(self._generate_sitemap(
+                "sitemap-brewing.xml",
+                [f"/brewing/{c.id}/" for c in categories],
                 priority="0.7",
                 changefreq="monthly"
             ))

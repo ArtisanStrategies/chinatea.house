@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}How to Brew {{ category.name_en }} | Temperature, Ratio & Steeps{% endblock %}
+
+{% block description %}Learn how to brew {{ category.name_en | lower }} at home. Get the right water temperature, leaf ratio, steeping times, and gongfu vs Western methods.{% endblock %}
+
+{% block og_type %}article{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <a href="/category/{{ category.id }}/">{{ category.name_en }}</a>
+    <span>/</span>
+    <span>Brewing Guide</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="category-page">
+    <header class="category-hero">
+        <div class="hero-watermark">茶</div>
+        <div class="hero-content">
+            <h1>How to Brew {{ category.name_en }}</h1>
+            <p class="category-intro">
+                Master {{ category.name_en | lower }} brewing with the right temperature, leaf ratio, and steeping time.
+                Whether you use a gaiwan, teapot, or simple mug, this guide will help you get the best cup.
+            </p>
+        </div>
+    </header>
+
+    <section class="characteristics-section">
+        <div class="section-header">
+            <p class="section-label">Quick Reference</p>
+            <h2 class="section-title">Brewing Parameters</h2>
+        </div>
+        <div class="char-grid">
+            <div class="char-item">
+                <h3>Water Temperature</h3>
+                <p>{{ params.temp }}</p>
+            </div>
+            <div class="char-item">
+                <h3>Leaf Ratio</h3>
+                <p>{{ params.ratio }}</p>
+            </div>
+            <div class="char-item">
+                <h3>First Steep</h3>
+                <p>{{ params.first_steep }}</p>
+            </div>
+            <div class="char-item">
+                <h3>Subsequent Steeps</h3>
+                <p>{{ params.subsequent }}</p>
+            </div>
+            <div class="char-item">
+                <h3>Best Vessel</h3>
+                <p>{{ params.vessel }}</p>
+            </div>
+            <div class="char-item">
+                <h3>Water Quality</h3>
+                <p>{{ params.water }}</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">Methods</p>
+            <h2 class="section-title">Gongfu vs Western Style</h2>
+        </div>
+        <div class="brewing-methods">
+            <div class="method">
+                <h3>Gongfu Brewing</h3>
+                <p>{{ gongfu_description }}</p>
+                <ul>
+                    <li>Use more leaf and less water.</li>
+                    <li>Steep briefly, then re-steep many times.</li>
+                    <li>Best for experiencing flavor evolution.</li>
+                </ul>
+            </div>
+            <div class="method">
+                <h3>Western Brewing</h3>
+                <p>{{ western_description }}</p>
+                <ul>
+                    <li>Use less leaf and more water.</li>
+                    <li>Steep longer for a single strong cup.</li>
+                    <li>Simple and convenient for daily drinking.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    {% if example_teas %}
+    <section class="featured-teas-section">
+        <div class="section-header">
+            <p class="section-label">Practice On</p>
+            <h2 class="section-title">Great {{ category.name_en }} to Brew</h2>
+        </div>
+        <div class="tea-cards-grid">
+            {% for tea in example_teas %}
+            <a href="/tea/{{ tea.id }}/" class="tea-card">
+                <div class="tea-card-inner">
+                    <h3>{{ tea.name_en }}{% if tea.name_zh %} <span class="zh">{{ tea.name_zh }}</span>{% endif %}</h3>
+                    <p>{{ tea.description_brief | truncate(120) }}</p>
+                </div>
+                <span class="tea-card-arrow">→</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</article>
+{% endblock %}
+
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Brew {{ category.name_en }}",
+    "description": "Learn how to brew {{ category.name_en | lower }} at home with the right temperature, leaf ratio, and steeping time.",
+    "totalTime": "PT5M"
+}
+</script>
+{% endblock %}

@@ -565,6 +565,106 @@ def _tea_matches_occasion(tea, occasion) -> bool:
     return True
 
 
+def _brewing_params(category_id: str) -> dict[str, str]:
+    """Return brewing parameter text for each tea category."""
+    params = {
+        "green": {
+            "temp": "75–85°C (165–185°F)",
+            "ratio": "2 g per 100 ml (Western); 4 g per 100 ml (gongfu)",
+            "first_steep": "1–2 minutes (Western); 20–30 seconds (gongfu)",
+            "subsequent": "Add 10–15 seconds per steep",
+            "vessel": "Glass mug or gaiwan",
+            "water": "Soft, low-mineral spring water",
+        },
+        "white": {
+            "temp": "80–85°C (175–185°F)",
+            "ratio": "2 g per 100 ml (Western); 5 g per 100 ml (gongfu)",
+            "first_steep": "2–3 minutes (Western); 30–45 seconds (gongfu)",
+            "subsequent": "Add 15–20 seconds per steep",
+            "vessel": "Gaiwan or porcelain teapot",
+            "water": "Soft, filtered water",
+        },
+        "yellow": {
+            "temp": "80–85°C (175–185°F)",
+            "ratio": "2 g per 100 ml (Western); 4 g per 100 ml (gongfu)",
+            "first_steep": "2 minutes (Western); 30 seconds (gongfu)",
+            "subsequent": "Add 10–15 seconds per steep",
+            "vessel": "Gaiwan or glass teapot",
+            "water": "Soft, low-mineral water",
+        },
+        "oolong": {
+            "temp": "90–100°C (195–212°F)",
+            "ratio": "2 g per 100 ml (Western); 5–7 g per 100 ml (gongfu)",
+            "first_steep": "3 minutes (Western); 20–40 seconds (gongfu)",
+            "subsequent": "Add 5–10 seconds per steep",
+            "vessel": "Gaiwan or Yixing teapot",
+            "water": "Medium-mineral spring water",
+        },
+        "black": {
+            "temp": "95–100°C (203–212°F)",
+            "ratio": "2 g per 100 ml (Western); 4–5 g per 100 ml (gongfu)",
+            "first_steep": "3–4 minutes (Western); 30–60 seconds (gongfu)",
+            "subsequent": "Add 15–20 seconds per steep",
+            "vessel": "Porcelain teapot or gaiwan",
+            "water": "Filtered tap or spring water",
+        },
+        "puerh": {
+            "temp": "95–100°C (203–212°F)",
+            "ratio": "2 g per 100 ml (Western); 6–8 g per 100 ml (gongfu)",
+            "first_steep": "3–4 minutes (Western); 10–20 seconds after rinse (gongfu)",
+            "subsequent": "Add 5–10 seconds per steep",
+            "vessel": "Yixing teapot or gaiwan",
+            "water": "Medium-to-high mineral spring water",
+        },
+        "dark": {
+            "temp": "100°C (212°F)",
+            "ratio": "2 g per 100 ml (Western); 5–7 g per 100 ml (gongfu)",
+            "first_steep": "3–5 minutes (Western); 20–30 seconds after rinse (gongfu)",
+            "subsequent": "Add 10–15 seconds per steep",
+            "vessel": "Gaiwan or clay teapot",
+            "water": "Filtered or spring water",
+        },
+        "scented": {
+            "temp": "80–90°C (175–195°F)",
+            "ratio": "2 g per 100 ml (Western); 4–5 g per 100 ml (gongfu)",
+            "first_steep": "2–3 minutes (Western); 30–45 seconds (gongfu)",
+            "subsequent": "Add 10–15 seconds per steep",
+            "vessel": "Glass mug or gaiwan",
+            "water": "Soft, filtered water",
+        },
+    }
+    return params.get(category_id, params["green"])
+
+
+def create_brewing_guide_context(
+    category,
+    example_teas,
+) -> dict[str, Any]:
+    """Create template context for a category brewing guide page."""
+    params = _brewing_params(category.id)
+
+    return {
+        "category": category,
+        "params": params,
+        "example_teas": example_teas,
+        "gongfu_description": (
+            f"Gongfu brewing brings out the full aroma and layered flavors of {category.name_en.lower()}. "
+            "Use a small vessel, plenty of leaf, and many short infusions."
+        ),
+        "western_description": (
+            f"Western brewing is the easiest way to enjoy {category.name_en.lower()} with a mug or large teapot. "
+            "Use less leaf, more water, and one or two longer steeps."
+        ),
+        "page_title": f"How to Brew {category.name_en} | Temperature, Ratio & Steeps",
+        "meta_description": f"Learn how to brew {category.name_en.lower()} at home. Get the right water temperature, leaf ratio, steeping times, and gongfu vs Western methods.",
+        "canonical_url": f"https://chinatea.house/brewing/{category.id}/",
+        "breadcrumbs": [
+            {"label": category.name_en, "url": f"/category/{category.id}/"},
+            {"label": "Brewing Guide", "url": None},
+        ],
+    }
+
+
 def create_occasion_context(
     occasion,
     all_teas,
