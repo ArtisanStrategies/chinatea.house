@@ -901,4 +901,45 @@
     }
 }
 </script>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "What does {{ tea.name_en }} taste like?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "{{ tea.name_en }} is a {{ category.name_en | lower }} from {{ region.name_en }}. It has {{ tea.flavor_primary | join(', ') }} notes with a {{ tea.body | lower }} body."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How do you brew {{ tea.name_en }}?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "{% if tea.brewing_gongfu %}For gongfu style, use about {{ tea.brewing_gongfu.leaf_ratio_g_per_100ml }}g of leaf per 100ml of water at {{ tea.brewing_gongfu.water_temp_c }}°C. Steep for {{ tea.brewing_gongfu.first_steep_seconds }} seconds, then increase slightly with each infusion. {% endif %}{% if tea.brewing_western %}For Western style, use 2g per 100ml and steep for about {{ tea.brewing_western.first_steep_seconds // 60 }} minutes.{% endif %}"
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "How much caffeine is in {{ tea.name_en }}?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "{{ tea.name_en }} has a {{ tea.caffeine_level.value if tea.caffeine_level else 'moderate' }} caffeine level compared to other Chinese teas. Exact caffeine depends on leaf grade, harvest time, and brewing strength."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Where is {{ tea.name_en }} from?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "{{ tea.name_en }} comes from {{ region.name_en }} in China. {{ region.terroir_notes[:200] if region.terroir_notes else 'This region is known for producing distinctive Chinese teas.' }}"
+            }
+        }
+    ]
+}
+</script>
 {% endblock %}
