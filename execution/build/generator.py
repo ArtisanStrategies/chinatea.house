@@ -4,6 +4,8 @@ Static site generator for chinatea.house.
 Generates 50,000+ pages with parallel processing and incremental builds.
 """
 
+import csv
+import json
 import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
@@ -28,6 +30,7 @@ from .templates import (
     create_about_context,
     create_contact_context,
     create_tea_finder_context,
+    create_dataset_context,
     load_guides,
 )
 from .links import InternalLinkBuilder
@@ -118,6 +121,10 @@ class SiteGenerator:
         if not template_filter or template_filter == "tea-finder":
             pages_to_generate.extend(self._collect_tea_finder_page())
 
+        # Dataset download page
+        if not template_filter or template_filter == "dataset":
+            pages_to_generate.extend(self._collect_dataset_page())
+
         # Apply limit if specified
         if limit:
             pages_to_generate = pages_to_generate[:limit]
@@ -141,6 +148,13 @@ class SiteGenerator:
                 result["pages_generated"] += 1
             except Exception as e:
                 result["errors"].append(f"{page_info['url']}: {str(e)}")
+
+        # Export downloadable datasets (only on full builds or when explicitly requested)
+        if not template_filter or template_filter == "dataset":
+            try:
+                self._export_tea_datasets()
+            except Exception as e:
+                result["errors"].append(f"dataset export: {str(e)}")
 
         result["duration_seconds"] = time.time() - start_time
         return result
@@ -585,6 +599,61 @@ class SiteGenerator:
             "context": context,
         }]
 
+    def _collect_dataset_page(self) -> list[dict]:
+        """Collect the dataset download page."""
+        teas = self.db.get_all_teas()
+        context = create_dataset_context(tea_count=len(teas))
+
+        return [{
+            "url": "/dataset/",
+            "template": "pillars/dataset.html",
+            "data": {"page": "dataset", "tea_count": len(teas)},
+            "context": context,
+        }]
+
+    def _export_tea_datasets(self) -> None:
+        """Export downloadable JSON and CSV datasets of all teas."""
+        teas = self.db.get_all_teas()
+        categories = {c.id: c.name_en for c in self.db.get_all_categories()}
+        regions = {r.id: r.name_en for r in self.db.get_all_regions()}
+
+        dataset_dir = self.output_dir / "data"
+        dataset_dir.mkdir(parents=True, exist_ok=True)
+
+        records = []
+        for tea in teas:
+            records.append({
+                "id": tea.id,
+                "name_en": tea.name_en,
+                "name_zh": tea.name_zh,
+                "category": categories.get(tea.category_id, tea.category_id),
+                "region": regions.get(tea.region_id, tea.region_id),
+                "caffeine_level": tea.caffeine_level.value if tea.caffeine_level else None,
+                "body": tea.body.value if tea.body else None,
+                "oxidation_level": tea.oxidation_level,
+                "flavor_primary": ",".join(tea.flavor_primary) if tea.flavor_primary else None,
+                "description_brief": tea.description_brief,
+                "tier": tea.tier,
+            })
+
+        # JSON export
+        json_path = dataset_dir / "chinese-tea-dataset.json"
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump({
+                "source": "https://chinatea.house",
+                "generated_at": datetime.now().isoformat(),
+                "count": len(records),
+                "teas": records,
+            }, f, ensure_ascii=False, indent=2)
+
+        # CSV export
+        csv_path = dataset_dir / "chinese-tea-dataset.csv"
+        if records:
+            with open(csv_path, "w", encoding="utf-8", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=records[0].keys())
+                writer.writeheader()
+                writer.writerows(records)
+
     def _generate_page(self, page_info: dict, template_hashes: dict) -> None:
         """Generate a single page."""
         url = page_info["url"]
@@ -708,7 +777,7 @@ class SiteGenerator:
         # Static utility sitemap
         sitemap_index.append(self._generate_sitemap(
             "sitemap-static.xml",
-            ["/about/", "/contact/", "/find-your-tea/"],
+            ["/about/", "/contact/", "/find-your-tea/", "/dataset/"],
             priority="0.5",
             changefreq="yearly"
         ))

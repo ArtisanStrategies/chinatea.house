@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Chinese Tea Dataset | Free JSON & CSV Download{% endblock %}
+
+{% block description %}Download a free dataset of {{ tea_count }} Chinese teas in JSON or CSV format. Includes category, region, caffeine, flavor, and oxidation data.{% endblock %}
+
+{% block og_type %}website{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Dataset</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="category-page">
+    <header class="category-hero">
+        <div class="hero-watermark">茶</div>
+        <div class="hero-content">
+            <h1>Chinese Tea Dataset</h1>
+            <p class="category-intro">
+                A free, structured dataset of {{ tea_count }} Chinese teas.
+                Use it for research, apps, visualizations, or tea education projects.
+            </p>
+        </div>
+    </header>
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">Download</p>
+            <h2 class="section-title">Get the Data</h2>
+        </div>
+        <div class="home-grid">
+            <a class="home-card" href="/data/chinese-tea-dataset.json" download>
+                <h3>JSON Format</h3>
+                <p>Structured data with nested objects, ideal for apps and APIs.</p>
+                <span class="meta">Download .json</span>
+            </a>
+            <a class="home-card" href="/data/chinese-tea-dataset.csv" download>
+                <h3>CSV Format</h3>
+                <p>Flat spreadsheet format, ideal for Excel or data analysis.</p>
+                <span class="meta">Download .csv</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">Fields</p>
+            <h2 class="section-title">What's Included</h2>
+        </div>
+        <div class="brewing-methods">
+            <div class="method">
+                <ul>
+                    <li><strong>id</strong> — URL-safe identifier</li>
+                    <li><strong>name_en</strong> — English name</li>
+                    <li><strong>name_zh</strong> — Chinese name</li>
+                    <li><strong>category</strong> — Green, oolong, black, pu'er, white, yellow, dark, scented</li>
+                    <li><strong>region</strong> — Production region</li>
+                    <li><strong>caffeine_level</strong> — Low, moderate, or high</li>
+                    <li><strong>body</strong> — Light, medium, full, etc.</li>
+                    <li><strong>oxidation_level</strong> — Oxidation percentage</li>
+                    <li><strong>flavor_primary</strong> — Primary flavor notes</li>
+                    <li><strong>description_brief</strong> — Short description</li>
+                    <li><strong>tier</strong> — Data completeness tier</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">License</p>
+            <h2 class="section-title">Usage</h2>
+        </div>
+        <div class="brewing-methods">
+            <div class="method">
+                <p>
+                    This dataset is provided freely for educational and non-commercial use.
+                    Attribution to <a href="https://chinatea.house">China Tea House</a> is appreciated.
+                </p>
+            </div>
+        </div>
+    </section>
+</article>
+{% endblock %}

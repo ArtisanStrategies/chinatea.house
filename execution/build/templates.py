@@ -879,3 +879,16 @@ def create_tea_finder_context(teas) -> dict[str, Any]:
             {"label": "Tea Finder", "url": None},
         ],
     }
+
+
+def create_dataset_context(tea_count: int) -> dict[str, Any]:
+    """Create template context for the dataset download page."""
+    return {
+        "tea_count": tea_count,
+        "page_title": "Chinese Tea Dataset | Free JSON & CSV Download",
+        "meta_description": f"Download a free dataset of {tea_count} Chinese teas in JSON or CSV format. Includes category, region, caffeine, flavor, and oxidation data.",
+        "canonical_url": "https://chinatea.house/dataset/",
+        "breadcrumbs": [
+            {"label": "Dataset", "url": None},
+        ],
+    }
