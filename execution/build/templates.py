@@ -755,3 +755,43 @@ def create_caffeine_chart_context(teas) -> dict[str, Any]:
             {"label": "Caffeine Chart", "url": None},
         ],
     }
+
+
+def create_comparison_index_context(categories, comparisons, teas) -> dict[str, Any]:
+    """Create template context for the comparison index page."""
+    tea_map = {t.id: t for t in teas}
+    featured = []
+
+    # Pick a diverse set of high-relevance comparisons
+    seen_pairs = set()
+    for comp in comparisons:
+        tea_a = tea_map.get(comp.tea_a_id)
+        tea_b = tea_map.get(comp.tea_b_id)
+        if not tea_a or not tea_b:
+            continue
+        if tea_a.tier <= 2 and tea_b.tier <= 2:
+            pair_key = tuple(sorted([tea_a.category_id, tea_b.category_id]))
+            if pair_key not in seen_pairs:
+                featured.append({
+                    "tea_a_id": tea_a.id,
+                    "tea_b_id": tea_b.id,
+                    "tea_a_name": tea_a.name_en,
+                    "tea_b_name": tea_b.name_en,
+                    "category_a": tea_a.category_id,
+                    "category_b": tea_b.category_id,
+                })
+                seen_pairs.add(pair_key)
+        if len(featured) >= 12:
+            break
+
+    return {
+        "categories": categories,
+        "comparison_count": len(comparisons),
+        "featured_comparisons": featured,
+        "page_title": "Tea Comparisons | Side-by-Side Chinese Tea Guides",
+        "meta_description": "Compare Chinese teas side-by-side. Explore hundreds of tea comparisons across green, oolong, black, pu'er, white, yellow, dark, and scented teas.",
+        "canonical_url": "https://chinatea.house/compare/",
+        "breadcrumbs": [
+            {"label": "Comparisons", "url": None},
+        ],
+    }

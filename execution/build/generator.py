@@ -24,6 +24,7 @@ from .templates import (
     create_guide_context,
     create_guide_index_context,
     create_caffeine_chart_context,
+    create_comparison_index_context,
     load_guides,
 )
 from .links import InternalLinkBuilder
@@ -87,6 +88,7 @@ class SiteGenerator:
         # Comparison pages
         if not template_filter or template_filter == "comparison":
             pages_to_generate.extend(self._collect_comparison_pages())
+            pages_to_generate.extend(self._collect_comparison_index_page())
 
         # Occasion pages
         if not template_filter or template_filter == "occasion":
@@ -367,6 +369,24 @@ class SiteGenerator:
 
         return pages
 
+    def _collect_comparison_index_page(self) -> list[dict]:
+        """Collect the comparison index page to generate."""
+        categories = self.db.get_all_categories()
+        comparisons = self.db.get_all_comparisons(valid_only=True)
+        teas = self.db.get_all_teas()
+        context = create_comparison_index_context(
+            categories=categories,
+            comparisons=comparisons,
+            teas=teas,
+        )
+
+        return [{
+            "url": "/compare/",
+            "template": "pillars/comparison-index.html",
+            "data": {"comparison_count": len(comparisons)},
+            "context": context,
+        }]
+
     def _collect_comparison_pages(self) -> list[dict]:
         """Collect all comparison pages to generate."""
         pages = []
@@ -602,7 +622,7 @@ class SiteGenerator:
         # Comparison sitemap
         comparisons = self.db.get_all_comparisons()
         if comparisons:
-            urls = []
+            urls = ["/compare/"]
             for comp in comparisons:
                 sorted_ids = sorted([comp.tea_a_id, comp.tea_b_id])
                 urls.append(f"/compare/{sorted_ids[0]}-vs-{sorted_ids[1]}/")

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Tea Comparisons | Side-by-Side Chinese Tea Guides{% endblock %}
+
+{% block description %}Compare Chinese teas side-by-side. Explore {{ comparison_count }} tea comparisons across green, oolong, black, pu'er, white, yellow, dark, and scented teas.{% endblock %}
+
+{% block og_type %}website{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Comparisons</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="category-page">
+    <header class="category-hero">
+        <div class="hero-watermark">茶</div>
+        <div class="hero-content">
+            <h1>Tea Comparisons</h1>
+            <p class="category-intro">
+                Explore side-by-side comparisons of Chinese teas.
+                Whether you are deciding between two famous teas or learning how categories differ,
+                these comparisons help you choose your next cup.
+            </p>
+        </div>
+    </header>
+
+    <section class="featured-teas-section">
+        <div class="section-header">
+            <p class="section-label">Featured</p>
+            <h2 class="section-title">Popular Tea Comparisons</h2>
+        </div>
+        <div class="tea-cards-grid">
+            {% for comp in featured_comparisons %}
+            <a href="/compare/{{ comp.tea_a_id }}-vs-{{ comp.tea_b_id }}/" class="tea-card">
+                <div class="tea-card-inner">
+                    <h3>{{ comp.tea_a_name }} vs {{ comp.tea_b_name }}</h3>
+                    <p>{{ comp.tea_a_name }} ({{ comp.category_a | replace('-', ' ') | title }}) versus {{ comp.tea_b_name }} ({{ comp.category_b | replace('-', ' ') | title }}).</p>
+                </div>
+                <span class="tea-card-arrow">→</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="featured-teas-section">
+        <div class="section-header">
+            <p class="section-label">By Category</p>
+            <h2 class="section-title">Browse Comparisons</h2>
+        </div>
+        <div class="tea-cards-grid">
+            {% for category in categories %}
+            <a href="/category/{{ category.id }}/" class="tea-card">
+                <div class="tea-card-inner">
+                    <h3>{{ category.name_en }}</h3>
+                    <p>Explore {{ category.name_en | lower }} teas and their comparisons.</p>
+                </div>
+                <span class="tea-card-arrow">→</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</article>
+{% endblock %}
