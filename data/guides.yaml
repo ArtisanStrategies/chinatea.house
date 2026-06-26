@@ -4,7 +4,7 @@
   description: A simple introduction to Chinese tea categories, flavors, and how to start brewing at home.
   sections:
     - heading: Start with Familiar Flavors
-      body: If you are new to Chinese tea, begin with approachable styles. Green teas like Longjing are fresh and vegetal. White teas like Bai Mudan are gentle and sweet. For something floral and creamy, try a light oolong such as Tie Guan Yin.
+      body: If you are new to Chinese tea, begin with approachable styles. Green teas like <a href="/tea/xi-hu-longjing/">Longjing</a> are fresh and vegetal. White teas like <a href="/tea/bai-mudan/">Bai Mudan</a> are gentle and sweet. For something floral and creamy, try a light oolong such as <a href="/tea/tie-guan-yin/">Tie Guan Yin</a>.
     - heading: Understand the Eight Categories
       body: Chinese tea is traditionally grouped into green, white, yellow, oolong, black, dark, pu'er, and scented teas. Each category has distinct processing, oxidation, and flavor characteristics.
     - heading: Keep Brewing Simple
@@ -24,7 +24,7 @@
     - heading: Oolong and Black Tea
       body: Oolong ranges widely depending on oxidation and roasting. Black tea is typically moderate to high in caffeine, especially when brewed strong with boiling water.
     - heading: Pu'er and Dark Tea
-      body: Raw sheng pu'er can be high in caffeine. Ripe shou pu'er is often lower due to microbial fermentation, making it a popular evening choice.
+      body: Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a> can be high in caffeine. Ripe <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> is often lower due to microbial fermentation, making it a popular evening choice.
     - heading: Controlling Your Brew
       body: Use less leaf, cooler water, and shorter steep times to reduce caffeine. For more caffeine, use more leaf, hotter water, and longer steeps.
 
@@ -48,9 +48,9 @@
   description: Pu'er and Chinese black tea are both dark and warming, but they differ in processing, flavor, aging, and brewing. Here's how to choose.
   sections:
     - heading: Processing Sets Them Apart
-      body: Black tea is fully oxidized and then dried. Pu'er goes through additional microbial fermentation or is pressed and aged as raw sheng pu'er.
+      body: Black tea is fully oxidized and then dried. Pu'er goes through additional microbial fermentation or is pressed and aged as raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a>.
     - heading: Flavor Differences
-      body: Black tea is typically malty, fruity, and sweet. Ripe shou pu'er is earthy, smooth, and sometimes cocoa-like. Raw sheng pu'er is more floral, bitter-sweet, and evolves over time.
+      body: Black tea is typically malty, fruity, and sweet. Ripe <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> is earthy, smooth, and sometimes cocoa-like. Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a> is more floral, bitter-sweet, and evolves over time.
     - heading: Aging Potential
       body: High-quality pu'er, especially sheng, is prized for aging. Black tea is best enjoyed within one to two years while it is fresh and aromatic.
     - heading: Brewing Notes
@@ -91,7 +91,7 @@
 - id: raw-vs-ripe-puerh
   title: Raw vs Ripe Pu'er
   title_zh: null
-  description: Sheng and shou pu'er look similar but taste very different. Learn the difference between raw and ripe pu'er tea.
+  description: Sheng and <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> look similar but taste very different. Learn the difference between raw and ripe pu'er tea.
   sections:
     - heading: Sheng Pu'er Is Raw
       body: Sheng pu'er is made from sun-withered leaves that are steamed and pressed. It is greenish in color, often bitter-sweet, and evolves over decades.
@@ -124,7 +124,7 @@
   description: Need a natural boost? Discover the Chinese teas with the most caffeine and energizing flavor profiles for mornings and focus.
   sections:
     - heading: Black Tea for a Strong Start
-      body: Chinese black teas like Dianhong and Keemun are fully oxidized and typically higher in caffeine. They deliver a bold, malty cup that wakes you up.
+      body: Chinese black teas like <a href="/tea/dianhong-gongfu/">Dianhong</a> and <a href="/tea/qimen-hongcha/">Keemun</a> are fully oxidized and typically higher in caffeine. They deliver a bold, malty cup that wakes you up.
     - heading: Raw Pu'er for Focus
       body: Young sheng pu'er can be stimulating and mentally clarifying. Its bitterness and sweetness create an alert, focused state.
     - heading: High-Mountain Oolong
@@ -138,7 +138,7 @@
   description: Looking to unwind? These low-caffeine Chinese teas are calming, soothing, and perfect for evening or stress relief.
   sections:
     - heading: White Tea for Gentle Calm
-      body: White teas like Bai Mudan and Shou Mei are low in caffeine and naturally sweet. They offer a gentle, calming cup any time of day.
+      body: White teas like <a href="/tea/bai-mudan/">Bai Mudan</a> and Shou Mei are low in caffeine and naturally sweet. They offer a gentle, calming cup any time of day.
     - heading: Ripe Pu'er for Evening
       body: Shou pu'er is fermented, smooth, and low in caffeine. Its earthy warmth is comforting after dinner or before bed.
     - heading: Chrysanthemum and Scented Teas
@@ -152,13 +152,13 @@
   description: How to choose Chinese tea as a gift. Tips for beginners, tea lovers, and special occasions by budget and taste.
   sections:
     - heading: Know the Recipient
-      body: Beginners appreciate gentle teas like Bai Mudan, Longjing, or Jasmine Pearls. Experienced drinkers may prefer rare oolongs, aged pu'er, or Wuyi yancha.
+      body: Beginners appreciate gentle teas like <a href="/tea/bai-mudan/">Bai Mudan</a>, <a href="/tea/xi-hu-longjing/">Longjing</a>, or <a href="/tea/jasmine-dragon-pearl/">Jasmine Pearls</a>. Experienced drinkers may prefer rare oolongs, aged pu'er, or Wuyi yancha.
     - heading: Match the Occasion
       body: For holidays and formal occasions, choose elegant teas in beautiful packaging. For casual gifts, a curated sampler of three to five teas is thoughtful and easy to enjoy.
     - heading: Budget-Friendly Options
       body: Good quality green teas, jasmine teas, and ripe pu'er are affordable and widely appreciated. Look for fresh harvest dates and whole leaves rather than dust.
     - heading: Splurge-Worthy Teas
-      body: For a premium gift, consider West Lake Longjing, Tie Guan Yin from Anxi, aged sheng pu'er, or high-mountain Taiwanese oolong. These teas carry prestige and memorable flavor.
+      body: For a premium gift, consider West Lake <a href="/tea/xi-hu-longjing/">Longjing</a>, <a href="/tea/tie-guan-yin/">Tie Guan Yin</a> from Anxi, aged sheng pu'er, or high-mountain Taiwanese oolong. These teas carry prestige and memorable flavor.
     - heading: Presentation Matters
       body: Tea gifts feel more special in a nice tin, gift box, or with a small gaiwan. Include brewing instructions so the recipient gets the best experience.
 
@@ -200,13 +200,13 @@
   description: New to green tea? These approachable Chinese green teas are fresh, forgiving, and perfect for beginners.
   sections:
     - heading: Longjing (Dragon Well)
-      body: Longjing is China's most famous green tea. It is nutty, sweet, and smooth with no bitterness when brewed correctly. Look for Hangzhou or West Lake origin for authenticity.
+      body: <a href="/tea/xi-hu-longjing/">Longjing</a> is China\'s most famous green tea. It is nutty, sweet, and smooth with no bitterness when brewed correctly. Look for Hangzhou or West Lake origin for authenticity.
     - heading: Biluochun
-      body: Biluochun is rolled into tight spirals and has a fruity, floral aroma. It is slightly more intense than Longjing but still very approachable for newcomers.
+      body: <a href="/tea/biluochun/">Biluochun</a> is rolled into tight spirals and has a fruity, floral aroma. It is slightly more intense than Longjing but still very approachable for newcomers.
     - heading: Huangshan Maofeng
-      body: Huangshan Maofeng has a light, orchid-like fragrance and a clean, refreshing taste. It is a great choice if you prefer delicate teas.
+      body: <a href="/tea/huangshan-maofeng/">Huangshan Maofeng</a> has a light, orchid-like fragrance and a clean, refreshing taste. It is a great choice if you prefer delicate teas.
     - heading: Anji Baicha
-      body: Anji Baicha is unusually pale and rich in amino acids. It tastes mild, sweet, and slightly creamy, making it one of the easiest green teas to love.
+      body: <a href="/tea/anji-bai-cha/">Anji Baicha</a> is unusually pale and rich in amino acids. It tastes mild, sweet, and slightly creamy, making it one of the easiest green teas to love.
     - heading: Brewing Tip for Beginners
       body: Use water around 80°C, not boiling. Steep for 2 minutes. Boiling water will make green tea bitter.
 
@@ -215,14 +215,14 @@
   title_zh: null
   description: Start your oolong journey with these beginner-friendly Chinese oolongs. Floral, creamy, and easy to brew.
   sections:
-    - heading: Tie Guan Yin
-      body: Tie Guan Yin from Anxi is the classic starter oolong. It is lightly oxidized, floral, creamy, and very forgiving. It works well brewed both Western and gongfu style.
+    - heading: <a href="/tea/tie-guan-yin/">Tie Guan Yin</a>
+      body: <a href="/tea/tie-guan-yin/">Tie Guan Yin</a> from Anxi is the classic starter oolong. It is lightly oxidized, floral, creamy, and very forgiving. It works well brewed both Western and gongfu style.
     - heading: Da Hong Pao
-      body: Da Hong Pao is a roasted Wuyi yancha with notes of stone fruit, toast, and mineral. It is fuller-bodied and a good introduction to darker oolongs.
+      body: <a href="/tea/da-hong-pao/">Da Hong Pao</a> is a roasted Wuyi yancha with notes of stone fruit, toast, and mineral. It is fuller-bodied and a good introduction to darker oolongs.
     - heading: Ali Shan Oolong
-      body: Ali Shan from Taiwan is silky, floral, and naturally sweet. High-mountain oolongs are prized for their clean, elegant flavor.
+      body: <a href="/tea/alishan-oolong/">Ali Shan</a> from Taiwan is silky, floral, and naturally sweet. High-mountain oolongs are prized for their clean, elegant flavor.
     - heading: Milk Oolong
-      body: Jin Xuan or milk oolong has a naturally creamy, buttery texture. It is a crowd-pleaser and one of the easiest oolongs to enjoy right away.
+      body: <a href="/tea/jin-xuan/">Jin Xuan</a> or milk oolong has a naturally creamy, buttery texture. It is a crowd-pleaser and one of the easiest oolongs to enjoy right away.
     - heading: Brewing Tip for Beginners
       body: Start with 90°C water and a 3-minute steep. As you gain confidence, try gongfu brewing with shorter infusions to experience the tea's evolution.
 
@@ -231,13 +231,13 @@
   title_zh: null
   description: Discover the best Chinese black teas for beginners. These are sweet, smooth, and easy to brew with boiling water.
   sections:
-    - heading: Keemun
-      body: Keemun from Anhui is often called the Burgundy of teas. It is fruity, floral, and wine-like with a naturally sweet finish.
-    - heading: Dianhong
-      body: Yunnan Dianhong is malty, honeyed, and bold. It is excellent with milk or on its own and very forgiving to brew.
+    - heading: <a href="/tea/qimen-hongcha/">Keemun</a>
+      body: <a href="/tea/qimen-hongcha/"><a href="/tea/qimen-hongcha/">Keemun</a></a> from Anhui is often called the Burgundy of teas. It is fruity, floral, and wine-like with a naturally sweet finish.
+    - heading: <a href="/tea/dianhong-gongfu/">Dianhong</a>
+      body: <a href="/tea/dianhong-gongfu/">Yunnan <a href="/tea/dianhong-gongfu/">Dianhong</a></a> is malty, honeyed, and bold. It is excellent with milk or on its own and very forgiving to brew.
     - heading: Jin Jun Mei
-      body: Jin Jun Mei is a premium Wuyi black tea made from tiny buds. It is sweet, floral, and smooth, though more expensive.
+      body: <a href="/tea/jin-jun-mei/">Jin Jun Mei</a> is a premium Wuyi black tea made from tiny buds. It is sweet, floral, and smooth, though more expensive.
     - heading: Lapsang Souchong
-      body: Lapsang Souchong is smoked over pine wood. It is divisive but iconic. Try the non-smoked versions first if you prefer a milder introduction.
+      body: <a href="/tea/zhengshan-xiaozhong/">Lapsang Souchong</a> is smoked over pine wood. It is divisive but iconic. Try the non-smoked versions first if you prefer a milder introduction.
     - heading: Brewing Tip for Beginners
       body: Use boiling water and steep for 3–4 minutes. Chinese black tea rarely goes bitter, so it is one of the easiest categories for beginners.
