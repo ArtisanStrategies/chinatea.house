@@ -20,16 +20,6 @@ jobs:
       - name: Checkout source repository
         uses: actions/checkout@v4
 
-      - name: Ensure wiki is enabled
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.repos.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              has_wiki: true
-            });
-
       - name: Checkout wiki
         uses: actions/checkout@v4
         with:
