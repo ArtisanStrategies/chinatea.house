@@ -39,7 +39,10 @@ Found an error or want to suggest a tea? Contact hello@chinatea.house or open an
 ## Related Links
 
 - [Chinese Tea Caffeine Chart](https://chinatea.house/chinese-tea-caffeine-chart/)
-- [Tea Finder](https://chinatea.house/find-your-tea/)
+- [Tea Finder](https://chinatea.house/finder/)
 - [Brewing Calculator](https://chinatea.house/brewing-calculator/)
 - [Dataset](https://chinatea.house/dataset/)
 - [RSS Feed](https://chinatea.house/feed.xml)
+- [GitHub Docs Site](https://artisanstrategies.github.io/chinatea.house/)
+- [Dataset Release v1.0](https://github.com/ArtisanStrategies/chinatea.house/releases/tag/dataset-v1.0)
+- [Cite this Repository](CITATION.cff)
