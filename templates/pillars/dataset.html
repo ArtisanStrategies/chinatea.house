@@ -6,6 +6,40 @@
 
 {% block og_type %}website{% endblock %}
 
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Chinese Tea Dataset",
+  "description": "A free, structured dataset of {{ tea_count }} Chinese teas covering category, region, caffeine, flavor, oxidation, and brewing parameters.",
+  "url": "https://chinatea.house/dataset/",
+  "license": "https://chinatea.house/dataset/",
+  "creator": {
+    "@type": "Organization",
+    "name": "China Tea House",
+    "url": "https://chinatea.house/"
+  },
+  "distribution": [
+    {
+      "@type": "DataDownload",
+      "contentUrl": "https://chinatea.house/data/chinese-tea-dataset.json",
+      "encodingFormat": "application/json",
+      "name": "Chinese Tea Dataset JSON"
+    },
+    {
+      "@type": "DataDownload",
+      "contentUrl": "https://chinatea.house/data/chinese-tea-dataset.csv",
+      "encodingFormat": "text/csv",
+      "name": "Chinese Tea Dataset CSV"
+    }
+  ],
+  "isBasedOn": "https://chinatea.house/",
+  "keywords": ["Chinese tea", "tea dataset", "caffeine", "oolong", "pu-erh", "green tea", "black tea"]
+}
+</script>
+{% endblock %}
+
 {% block breadcrumbs %}
 <nav class="breadcrumbs" aria-label="Breadcrumb">
     <a href="/">Home</a>
