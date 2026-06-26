@@ -892,3 +892,15 @@ def create_dataset_context(tea_count: int) -> dict[str, Any]:
             {"label": "Dataset", "url": None},
         ],
     }
+
+
+def create_brewing_calculator_context() -> dict[str, Any]:
+    """Create template context for the brewing calculator page."""
+    return {
+        "page_title": "Chinese Tea Brewing Calculator | Leaf, Water & Temperature",
+        "meta_description": "Calculate how much Chinese tea and water to use for gongfu or Western brewing. Get temperature and steeping guidance for any tea category.",
+        "canonical_url": "https://chinatea.house/brewing-calculator/",
+        "breadcrumbs": [
+            {"label": "Brewing Calculator", "url": None},
+        ],
+    }

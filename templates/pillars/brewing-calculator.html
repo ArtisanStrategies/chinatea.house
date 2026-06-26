@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Chinese Tea Brewing Calculator | Leaf, Water & Temperature{% endblock %}
+
+{% block description %}Calculate how much Chinese tea and water to use for gongfu or Western brewing. Get temperature and steeping guidance for any tea category.{% endblock %}
+
+{% block og_type %}website{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Brewing Calculator</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="category-page">
+    <header class="category-hero">
+        <div class="hero-watermark">茶</div>
+        <div class="hero-content">
+            <h1>Chinese Tea Brewing Calculator</h1>
+            <p class="category-intro">
+                Enter your vessel size and tea category, and get a simple leaf-to-water ratio,
+                water temperature, and steeping time for gongfu or Western style brewing.
+            </p>
+        </div>
+    </header>
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">Calculator</p>
+            <h2 class="section-title">Enter Your Brew</h2>
+        </div>
+        <div style="max-width: 600px; margin: 0 auto;">
+            <div style="margin-bottom: 1.5rem;">
+                <label for="vessel-size" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Vessel Size (ml)</label>
+                <input type="number" id="vessel-size" value="150" min="50" max="1000" step="10" style="width: 100%; padding: 0.75rem; font-size: 1rem; border: 1px solid var(--silk); border-radius: 4px; background: var(--cream);">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label for="category-select" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Tea Category</label>
+                <select id="category-select" style="width: 100%; padding: 0.75rem; font-size: 1rem; border: 1px solid var(--silk); border-radius: 4px; background: var(--cream);">
+                    <option value="green">Green Tea</option>
+                    <option value="white">White Tea</option>
+                    <option value="yellow">Yellow Tea</option>
+                    <option value="oolong">Oolong</option>
+                    <option value="black">Black Tea</option>
+                    <option value="puerh">Pu'er</option>
+                    <option value="dark">Dark Tea</option>
+                    <option value="scented">Scented Tea</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label for="style-select" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Brewing Style</label>
+                <select id="style-select" style="width: 100%; padding: 0.75rem; font-size: 1rem; border: 1px solid var(--silk); border-radius: 4px; background: var(--cream);">
+                    <option value="gongfu">Gongfu</option>
+                    <option value="western">Western</option>
+                </select>
+            </div>
+            <button id="calc-button" style="width: 100%; padding: 1rem; background: var(--ink); color: var(--cream); border: none; font-size: 1rem; cursor: pointer; border-radius: 4px;">Calculate</button>
+        </div>
+    </section>
+
+    <section class="brewing-section" id="results" style="display: none;">
+        <div class="section-header">
+            <p class="section-label">Result</p>
+            <h2 class="section-title">Your Brewing Parameters</h2>
+        </div>
+        <div class="char-grid">
+            <div class="char-item">
+                <h3>Leaf Amount</h3>
+                <p id="result-leaf">—</p>
+            </div>
+            <div class="char-item">
+                <h3>Water Temperature</h3>
+                <p id="result-temp">—</p>
+            </div>
+            <div class="char-item">
+                <h3>First Steep</h3>
+                <p id="result-steep">—</p>
+            </div>
+            <div class="char-item">
+                <h3>Re-steeps</h3>
+                <p id="result-steeps">—</p>
+            </div>
+        </div>
+    </section>
+</article>
+
+<script>
+const params = {
+    green: { gongfu: { leaf: 5, temp: 80, steep: '20-30s', steeps: '4-6' }, western: { leaf: 2, temp: 80, steep: '2 min', steeps: '2-3' } },
+    white: { gongfu: { leaf: 5, temp: 85, steep: '30-45s', steeps: '5-7' }, western: { leaf: 2, temp: 85, steep: '3 min', steeps: '2-3' } },
+    yellow: { gongfu: { leaf: 4, temp: 85, steep: '30s', steeps: '4-6' }, western: { leaf: 2, temp: 85, steep: '2 min', steeps: '2-3' } },
+    oolong: { gongfu: { leaf: 6, temp: 95, steep: '20-40s', steeps: '6-10' }, western: { leaf: 2, temp: 95, steep: '3 min', steeps: '2-3' } },
+    black: { gongfu: { leaf: 4, temp: 100, steep: '30-60s', steeps: '5-7' }, western: { leaf: 2, temp: 100, steep: '3-4 min', steeps: '2-3' } },
+    puerh: { gongfu: { leaf: 7, temp: 100, steep: '10-20s (after rinse)', steeps: '8-12' }, western: { leaf: 2, temp: 100, steep: '3-4 min', steeps: '2-4' } },
+    dark: { gongfu: { leaf: 6, temp: 100, steep: '20-30s (after rinse)', steeps: '6-10' }, western: { leaf: 2, temp: 100, steep: '3-5 min', steeps: '2-4' } },
+    scented: { gongfu: { leaf: 4, temp: 85, steep: '30-45s', steeps: '4-6' }, western: { leaf: 2, temp: 85, steep: '2-3 min', steeps: '2-3' } },
+};
+
+document.getElementById('calc-button').addEventListener('click', () => {
+    const size = parseInt(document.getElementById('vessel-size').value) || 150;
+    const cat = document.getElementById('category-select').value;
+    const style = document.getElementById('style-select').value;
+    const p = params[cat][style];
+    const leaf = Math.round((p.leaf / 100) * size * 10) / 10;
+
+    document.getElementById('result-leaf').textContent = `${leaf}g`;
+    document.getElementById('result-temp').textContent = `${p.temp}°C`;
+    document.getElementById('result-steep').textContent = p.steep;
+    document.getElementById('result-steeps').textContent = p.steeps;
+    document.getElementById('results').style.display = 'block';
+});
+</script>
+{% endblock %}

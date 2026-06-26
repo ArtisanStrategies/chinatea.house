@@ -32,6 +32,7 @@ from .templates import (
     create_contact_context,
     create_tea_finder_context,
     create_dataset_context,
+    create_brewing_calculator_context,
     load_guides,
 )
 from .links import InternalLinkBuilder
@@ -125,6 +126,10 @@ class SiteGenerator:
         # Dataset download page
         if not template_filter or template_filter == "dataset":
             pages_to_generate.extend(self._collect_dataset_page())
+
+        # Brewing calculator page
+        if not template_filter or template_filter == "brewing-calculator":
+            pages_to_generate.extend(self._collect_brewing_calculator_page())
 
         # Apply limit if specified
         if limit:
@@ -614,6 +619,17 @@ class SiteGenerator:
             "context": context,
         }]
 
+    def _collect_brewing_calculator_page(self) -> list[dict]:
+        """Collect the brewing calculator page."""
+        context = create_brewing_calculator_context()
+
+        return [{
+            "url": "/brewing-calculator/",
+            "template": "pillars/brewing-calculator.html",
+            "data": {"page": "brewing-calculator"},
+            "context": context,
+        }]
+
     def _generate_rss_feed(self) -> None:
         """Generate an RSS feed for guides and new pages."""
         from xml.sax.saxutils import escape
@@ -899,7 +915,7 @@ class SiteGenerator:
         # Static utility sitemap
         sitemap_index.append(self._generate_sitemap(
             "sitemap-static.xml",
-            ["/about/", "/contact/", "/find-your-tea/", "/dataset/"],
+            ["/about/", "/contact/", "/find-your-tea/", "/dataset/", "/brewing-calculator/"],
             priority="0.5",
             changefreq="yearly"
         ))
