@@ -22,6 +22,9 @@ class InternalLinkBuilder:
         self._category_cache = None
         self._region_cache = None
         self._teaware_cache = None
+        self._tea_cache = None
+        self._comparison_cache = None
+        self._comparisons_by_tea_cache = None
 
     @property
     def categories(self):
@@ -38,6 +41,33 @@ class InternalLinkBuilder:
             regs = self.db.get_all_regions()
             self._region_cache = {r.id: r for r in regs}
         return self._region_cache
+
+    @property
+    def teas(self):
+        """Cached tea lookup by ID."""
+        if self._tea_cache is None:
+            teas = self.db.get_all_teas()
+            self._tea_cache = {t.id: t for t in teas}
+        return self._tea_cache
+
+    @property
+    def comparisons(self):
+        """Cached comparison lookup by ID."""
+        if self._comparison_cache is None:
+            comps = self.db.get_all_comparisons(valid_only=True)
+            self._comparison_cache = {c.id: c for c in comps}
+        return self._comparison_cache
+
+    @property
+    def comparisons_by_tea(self):
+        """Cached mapping of tea ID -> list of comparison objects."""
+        if self._comparisons_by_tea_cache is None:
+            mapping: dict[str, list] = {}
+            for comp in self.comparisons.values():
+                mapping.setdefault(comp.tea_a_id, []).append(comp)
+                mapping.setdefault(comp.tea_b_id, []).append(comp)
+            self._comparisons_by_tea_cache = mapping
+        return self._comparisons_by_tea_cache
 
     @property
     def teaware(self):
@@ -201,10 +231,10 @@ class InternalLinkBuilder:
         }
 
     def get_comparison_links(self, tea_a, tea_b) -> dict:
-        """Get internal links for a comparison page."""
+        """Get internal links for a comparison page using cached data."""
         # Related comparisons (other comparisons involving these teas)
-        comps_a = self.db.get_comparisons_for_tea(tea_a.id)
-        comps_b = self.db.get_comparisons_for_tea(tea_b.id)
+        comps_a = self.comparisons_by_tea.get(tea_a.id, [])
+        comps_b = self.comparisons_by_tea.get(tea_b.id, [])
 
         related = []
         seen = set()
@@ -213,9 +243,9 @@ class InternalLinkBuilder:
                 (comp.tea_a_id == tea_a.id and comp.tea_b_id == tea_b.id) or
                 (comp.tea_a_id == tea_b.id and comp.tea_b_id == tea_a.id)
             ):
-                # Load the tea objects for display
-                other_a = self.db.get_tea(comp.tea_a_id)
-                other_b = self.db.get_tea(comp.tea_b_id)
+                # Load the tea objects for display from cache
+                other_a = self.teas.get(comp.tea_a_id)
+                other_b = self.teas.get(comp.tea_b_id)
                 if other_a and other_b:
                     related.append({
                         "tea_a": other_a,

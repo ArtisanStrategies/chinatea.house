@@ -161,30 +161,6 @@ ADDITIONAL_TEAS = [
         oxidation_level=0.30, subcategory_id="tieguanyin", tier=2,
     ),
     _tea(
-        "rou-gui", "Rou Gui", "肉桂", "oolong", "wuyi-mountains",
-        "One of the most popular Wuyi rock oolongs, named for its distinct cinnamon-like spice. Bold, warming, and mineral with a sweet aftertaste.",
-        ["cinnamon", "mineral", "spicy"], BodyLevel.MEDIUM_FULL, CaffeineLevel.MODERATE,
-        oxidation_level=0.60, subcategory_id="wuyi-yancha", roast_level=RoastLevel.MEDIUM, tier=1,
-    ),
-    _tea(
-        "shui-xian", "Shui Xian", "水仙", "oolong", "wuyi-mountains",
-        "Wuyi rock oolong meaning Water Sprite. Known for its orchid fragrance, mineral body, and excellent aging potential when well-roasted.",
-        ["orchid", "mineral", "woody"], BodyLevel.FULL, CaffeineLevel.MODERATE,
-        oxidation_level=0.55, subcategory_id="wuyi-yancha", roast_level=RoastLevel.MEDIUM, tier=1,
-    ),
-    _tea(
-        "tie-luo-han", "Tie Luo Han", "铁罗汉", "oolong", "wuyi-mountains",
-        "One of the four famous bushes of Wuyi. Full-bodied, mineral, and long-lasting with a distinctive medicinal complexity.",
-        ["mineral", "medicinal", "roasted"], BodyLevel.FULL, CaffeineLevel.MODERATE,
-        oxidation_level=0.60, subcategory_id="wuyi-yancha", roast_level=RoastLevel.MEDIUM_HEAVY, tier=2,
-    ),
-    _tea(
-        "bai-ji-guan", "Bai Ji Guan", "白鸡冠", "oolong", "wuyi-mountains",
-        "Rare Wuyi yancha with pale yellow-green leaves. Lighter in roast and body, with a unique savory-sweet profile sometimes described as chicken-broth umami.",
-        ["savory", "sweet", "mineral"], BodyLevel.MEDIUM, CaffeineLevel.MODERATE,
-        oxidation_level=0.45, subcategory_id="wuyi-yancha", roast_level=RoastLevel.LIGHT, tier=2,
-    ),
-    _tea(
         "milan-xiang", "Mi Lan Xiang Dancong", "蜜兰香单丛", "oolong", "phoenix-mountain",
         "Honey-orchid fragrance dancong from Phoenix Mountain. Intensely aromatic with honeyed fruit and orchid notes.",
         ["honey", "orchid", "fruit"], BodyLevel.MEDIUM, CaffeineLevel.MODERATE,
@@ -247,12 +223,6 @@ ADDITIONAL_TEAS = [
         oxidation_level=0.95, subcategory_id="dianhong", tier=2,
     ),
     _tea(
-        "jin-jun-mei", "Jin Jun Mei", "金骏眉", "black", "wuyi-mountains",
-        "Luxury Wuyi black tea made exclusively from buds. Honey-sweet, floral, and incredibly smooth with a lasting finish.",
-        ["honey", "floral", "smooth"], BodyLevel.MEDIUM, CaffeineLevel.MODERATE,
-        oxidation_level=0.95, subcategory_id="zhengshan-xiaozhong", tier=1,
-    ),
-    _tea(
         "yin-jun-mei", "Yin Jun Mei", "银骏眉", "black", "wuyi-mountains",
         "Silver Eyebrow black tea made from bud-and-leaf sets. Similar to Jin Jun Mei but more affordable, with a sweet, fruity character.",
         ["fruit", "sweet", "malt"], BodyLevel.MEDIUM, CaffeineLevel.MODERATE,
@@ -283,12 +253,6 @@ ADDITIONAL_TEAS = [
         "White tea made from larger leaves and fewer buds than Shou Mei. Earthy, sweet, and commonly aged for deeper flavor.",
         ["earthy", "sweet", "mellow"], BodyLevel.MEDIUM, CaffeineLevel.LOW,
         oxidation_level=0.10, subcategory_id="shoumei", tier=2,
-    ),
-    _tea(
-        "zhenghe-yinzhen", "Zhenghe Baihao Yinzhen", "政和白毫银针", "white", "zhenghe",
-        "Silver Needle from Zhenghe rather than Fuding. Slightly fuller-bodied and more floral, with a warm hay sweetness.",
-        ["hay", "floral", "honey"], BodyLevel.LIGHT_MEDIUM, CaffeineLevel.LOW,
-        oxidation_level=0.10, subcategory_id="yinzhen", tier=2,
     ),
     _tea(
         "yue-guang-bai", "Yue Guang Bai", "月光白", "white", "yunnan",

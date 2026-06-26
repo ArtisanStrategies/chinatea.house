@@ -1480,6 +1480,7 @@ SCENTED_TEAS = [
 # =============================================================================
 
 from .tea_data_extended import ADDITIONAL_TEAS
+from .tea_data_extended_batch2 import ADDITIONAL_TEAS_BATCH2
 
 ALL_TEAS = (
     GREEN_TEAS +
@@ -1489,7 +1490,8 @@ ALL_TEAS = (
     DARK_TEAS +
     YELLOW_TEAS +
     SCENTED_TEAS +
-    ADDITIONAL_TEAS
+    ADDITIONAL_TEAS +
+    ADDITIONAL_TEAS_BATCH2
 )
 
 
