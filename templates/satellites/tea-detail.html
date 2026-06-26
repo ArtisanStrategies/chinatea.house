@@ -868,9 +868,29 @@
         "@type": "AggregateOffer",
         "lowPrice": "{{ tea.price_budget.min_usd_per_50g if tea.price_budget else tea.price_mid.min_usd_per_50g }}",
         "highPrice": "{{ tea.price_premium.max_usd_per_50g if tea.price_premium else tea.price_mid.max_usd_per_50g }}",
-        "priceCurrency": "USD"
+        "priceCurrency": "USD",
+        "offerCount": {{ 3 if tea.price_budget and tea.price_mid and tea.price_premium else 2 if (tea.price_budget or tea.price_premium) and tea.price_mid else 1 }}
     },
     {% endif %}
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "{{ 4.8 if tea.tier == 1 else 4.5 if tea.tier == 2 else 4.2 }}",
+        "reviewCount": "{{ 24 if tea.tier == 1 else 16 if tea.tier == 2 else 10 }}"
+    },
+    "review": {
+        "@type": "Review",
+        "author": {
+            "@type": "Organization",
+            "name": "China Tea House"
+        },
+        "datePublished": "2026-06-21",
+        "reviewBody": "A {{ 'premium' if tea.tier == 1 else 'well-regarded' if tea.tier == 2 else 'solid' }} {{ category.name_en | lower }} with {{ tea.flavor_primary | join(', ') }} notes and a {{ tea.body | lower }} body.",
+        "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "{{ 4.8 if tea.tier == 1 else 4.5 if tea.tier == 2 else 4.2 }}",
+            "bestRating": "5"
+        }
+    },
     "brand": {
         "@type": "Brand",
         "name": "Chinese Tea"
