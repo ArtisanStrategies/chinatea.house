@@ -795,3 +795,27 @@ def create_comparison_index_context(categories, comparisons, teas) -> dict[str, 
             {"label": "Comparisons", "url": None},
         ],
     }
+
+
+def create_about_context() -> dict[str, Any]:
+    """Create template context for the About page."""
+    return {
+        "page_title": "About China Tea House",
+        "meta_description": "China Tea House is a free guide to Chinese tea. Learn about tea types, regions, brewing methods, and compare teas side by side.",
+        "canonical_url": "https://chinatea.house/about/",
+        "breadcrumbs": [
+            {"label": "About", "url": None},
+        ],
+    }
+
+
+def create_contact_context() -> dict[str, Any]:
+    """Create template context for the Contact page."""
+    return {
+        "page_title": "Contact China Tea House",
+        "meta_description": "Get in touch with China Tea House. Share feedback, suggest a tea, or ask a question about Chinese tea.",
+        "canonical_url": "https://chinatea.house/contact/",
+        "breadcrumbs": [
+            {"label": "Contact", "url": None},
+        ],
+    }

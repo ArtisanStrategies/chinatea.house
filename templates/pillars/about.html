@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}About China Tea House{% endblock %}
+
+{% block description %}China Tea House is a free guide to Chinese tea. Learn about tea types, regions, brewing methods, and compare teas side by side.{% endblock %}
+
+{% block og_type %}website{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>About</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="category-page">
+    <header class="category-hero">
+        <div class="hero-watermark">茶</div>
+        <div class="hero-content">
+            <h1>About China Tea House</h1>
+            <p class="category-intro">
+                China Tea House is a free, independent guide to Chinese tea.
+                We help tea drinkers explore the world of Chinese tea with clear, practical information.
+            </p>
+        </div>
+    </header>
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">Our Mission</p>
+            <h2 class="section-title">Making Chinese Tea Accessible</h2>
+        </div>
+        <div class="brewing-methods">
+            <div class="method">
+                <p>
+                    Chinese tea can feel overwhelming. Hundreds of teas, dozens of regions, and countless brewing traditions
+                    make it hard to know where to start. We organize Chinese tea into clear categories, explain the basics,
+                    and let you compare teas side by side so you can find what you love.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">What You'll Find</p>
+            <h2 class="section-title">Tea Profiles, Comparisons & Guides</h2>
+        </div>
+        <div class="brewing-methods">
+            <div class="method">
+                <ul>
+                    <li>Detailed profiles for green, oolong, black, pu'er, white, yellow, dark, and scented teas.</li>
+                    <li>Side-by-side comparisons to help you choose between teas.</li>
+                    <li>Brewing guides for every major tea category.</li>
+                    <li>Practical articles on caffeine, storage, gifts, tasting, and teaware.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</article>
+{% endblock %}

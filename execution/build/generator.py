@@ -25,6 +25,8 @@ from .templates import (
     create_guide_index_context,
     create_caffeine_chart_context,
     create_comparison_index_context,
+    create_about_context,
+    create_contact_context,
     load_guides,
 )
 from .links import InternalLinkBuilder
@@ -106,6 +108,10 @@ class SiteGenerator:
         # Caffeine chart page
         if not template_filter or template_filter == "caffeine-chart":
             pages_to_generate.extend(self._collect_caffeine_chart_page())
+
+        # Static utility pages
+        if not template_filter or template_filter == "static":
+            pages_to_generate.extend(self._collect_static_pages())
 
         # Apply limit if specified
         if limit:
@@ -544,6 +550,24 @@ class SiteGenerator:
             "context": context,
         }]
 
+    def _collect_static_pages(self) -> list[dict]:
+        """Collect static utility pages like About and Contact."""
+        pages = [
+            {
+                "url": "/about/",
+                "template": "pillars/about.html",
+                "data": {"page": "about"},
+                "context": create_about_context(),
+            },
+            {
+                "url": "/contact/",
+                "template": "pillars/contact.html",
+                "data": {"page": "contact"},
+                "context": create_contact_context(),
+            },
+        ]
+        return pages
+
     def _generate_page(self, page_info: dict, template_hashes: dict) -> None:
         """Generate a single page."""
         url = page_info["url"]
@@ -663,6 +687,14 @@ class SiteGenerator:
                 priority="0.8",
                 changefreq="monthly"
             ))
+
+        # Static utility sitemap
+        sitemap_index.append(self._generate_sitemap(
+            "sitemap-static.xml",
+            ["/about/", "/contact/"],
+            priority="0.5",
+            changefreq="yearly"
+        ))
 
         # Write sitemap index
         self._write_sitemap_index(sitemap_index)

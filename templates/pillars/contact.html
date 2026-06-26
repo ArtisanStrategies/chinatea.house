@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Contact China Tea House{% endblock %}
+
+{% block description %}Get in touch with China Tea House. Share feedback, suggest a tea, or ask a question about Chinese tea.{% endblock %}
+
+{% block og_type %}website{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Contact</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="category-page">
+    <header class="category-hero">
+        <div class="hero-watermark">茶</div>
+        <div class="hero-content">
+            <h1>Contact Us</h1>
+            <p class="category-intro">
+                Have a question, suggestion, or correction? We'd love to hear from you.
+            </p>
+        </div>
+    </header>
+
+    <section class="brewing-section">
+        <div class="brewing-methods">
+            <div class="method">
+                <p>
+                    <strong>Email:</strong> <a href="mailto:hello@chinatea.house">hello@chinatea.house</a>
+                </p>
+                <p>
+                    We welcome feedback on tea profiles, brewing parameters, and new topics you'd like us to cover.
+                    Please allow a few days for a response.
+                </p>
+            </div>
+        </div>
+    </section>
+</article>
+{% endblock %}
