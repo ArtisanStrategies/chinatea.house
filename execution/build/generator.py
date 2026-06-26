@@ -27,6 +27,7 @@ from .templates import (
     create_comparison_index_context,
     create_about_context,
     create_contact_context,
+    create_tea_finder_context,
     load_guides,
 )
 from .links import InternalLinkBuilder
@@ -112,6 +113,10 @@ class SiteGenerator:
         # Static utility pages
         if not template_filter or template_filter == "static":
             pages_to_generate.extend(self._collect_static_pages())
+
+        # Interactive tea finder
+        if not template_filter or template_filter == "tea-finder":
+            pages_to_generate.extend(self._collect_tea_finder_page())
 
         # Apply limit if specified
         if limit:
@@ -568,6 +573,18 @@ class SiteGenerator:
         ]
         return pages
 
+    def _collect_tea_finder_page(self) -> list[dict]:
+        """Collect the interactive tea finder page."""
+        teas = self.db.get_all_teas()
+        context = create_tea_finder_context(teas=teas)
+
+        return [{
+            "url": "/find-your-tea/",
+            "template": "pillars/tea-finder.html",
+            "data": {"page": "tea-finder"},
+            "context": context,
+        }]
+
     def _generate_page(self, page_info: dict, template_hashes: dict) -> None:
         """Generate a single page."""
         url = page_info["url"]
@@ -691,7 +708,7 @@ class SiteGenerator:
         # Static utility sitemap
         sitemap_index.append(self._generate_sitemap(
             "sitemap-static.xml",
-            ["/about/", "/contact/"],
+            ["/about/", "/contact/", "/find-your-tea/"],
             priority="0.5",
             changefreq="yearly"
         ))

@@ -819,3 +819,16 @@ def create_contact_context() -> dict[str, Any]:
             {"label": "Contact", "url": None},
         ],
     }
+
+
+def create_tea_finder_context(teas) -> dict[str, Any]:
+    """Create template context for the interactive tea finder."""
+    return {
+        "teas": teas,
+        "page_title": "Find Your Chinese Tea | Personalized Tea Finder",
+        "meta_description": "Answer a few questions and find the best Chinese tea for your taste, mood, and caffeine preference.",
+        "canonical_url": "https://chinatea.house/find-your-tea/",
+        "breadcrumbs": [
+            {"label": "Tea Finder", "url": None},
+        ],
+    }
