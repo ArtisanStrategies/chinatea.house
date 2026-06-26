@@ -145,3 +145,51 @@
       body: Chrysanthemum pu'er and jasmine teas are traditionally enjoyed for relaxation. The floral aromas are soothing and the caffeine is moderate to low.
     - heading: Brew Gently for Less Caffeine
       body: Use fewer leaves, cooler water, and shorter steep times to reduce caffeine. This makes almost any tea more suitable for evening sipping.
+
+- id: chinese-tea-gifts
+  title: Chinese Tea Gifts
+  title_zh: null
+  description: How to choose Chinese tea as a gift. Tips for beginners, tea lovers, and special occasions by budget and taste.
+  sections:
+    - heading: Know the Recipient
+      body: Beginners appreciate gentle teas like Bai Mudan, Longjing, or Jasmine Pearls. Experienced drinkers may prefer rare oolongs, aged pu'er, or Wuyi yancha.
+    - heading: Match the Occasion
+      body: For holidays and formal occasions, choose elegant teas in beautiful packaging. For casual gifts, a curated sampler of three to five teas is thoughtful and easy to enjoy.
+    - heading: Budget-Friendly Options
+      body: Good quality green teas, jasmine teas, and ripe pu'er are affordable and widely appreciated. Look for fresh harvest dates and whole leaves rather than dust.
+    - heading: Splurge-Worthy Teas
+      body: For a premium gift, consider West Lake Longjing, Tie Guan Yin from Anxi, aged sheng pu'er, or high-mountain Taiwanese oolong. These teas carry prestige and memorable flavor.
+    - heading: Presentation Matters
+      body: Tea gifts feel more special in a nice tin, gift box, or with a small gaiwan. Include brewing instructions so the recipient gets the best experience.
+
+- id: how-to-taste-tea
+  title: How to Taste Tea Like a Pro
+  title_zh: null
+  description: Learn the basics of tea tasting. Discover how to evaluate aroma, flavor, body, finish, and mouthfeel in every cup.
+  sections:
+    - heading: Start with the Aroma
+      body: Smell the dry leaves first, then the wet leaves after the initial rinse or steep. Aroma gives clues about freshness, roast level, and processing style.
+    - heading: Sip Mindfully
+      body: Take a small sip and let the liquor coat your tongue. Notice sweetness, bitterness, astringency, and umami. Good tea should have a clean, pleasant finish.
+    - heading: Feel the Body
+      body: Body refers to the weight and texture of the tea. Is it light and refreshing, or thick and coating? Terms like silky, brisk, creamy, and full describe this sensation.
+    - heading: Notice the Finish
+      body: The aftertaste, or finish, is a sign of quality. Great teas leave a lingering sweetness, cooling sensation, or returning aroma minutes after the sip.
+    - heading: Take Notes
+      body: Keep a simple tasting journal. Record the tea name, origin, brewing parameters, and your impressions. Over time you will recognize patterns and preferences.
+
+- id: yixing-teapot-guide
+  title: Yixing Teapot Guide
+  title_zh: null
+  description: What is a Yixing teapot, how to season it, and which teas brew best in unglazed clay.
+  sections:
+    - heading: What Is Yixing Clay
+      body: Yixing teapots come from Yixing in Jiangsu province, China. The unglazed clay absorbs tea oils over time, seasoning the pot and enhancing flavor.
+    - heading: Seasoning Your Teapot
+      body: Rinse the new pot with hot water, then brew a strong batch of the tea you plan to dedicate to it. Repeat two or three times. Some people also boil the pot briefly in the same tea.
+    - heading: One Tea per Pot
+      body: Most collectors dedicate one Yixing pot to one category of tea, often ripe pu'er, sheng pu'er, or darker oolongs. This prevents flavor cross-contamination and builds seasoning.
+    - heading: Best Teas for Yixing
+      body: Ripe pu'er, sheng pu'er, Wuyi yancha, and roasted oolongs are classic choices. The clay softens astringency and deepens the body of these teas.
+    - heading: Care and Cleaning
+      body: Rinse with hot water after use and let the pot air dry with the lid off. Avoid soap or detergent, as the clay will absorb it and ruin future brews.
