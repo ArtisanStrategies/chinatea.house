@@ -153,6 +153,7 @@ class SiteGenerator:
         if not template_filter or template_filter == "dataset":
             try:
                 self._export_tea_datasets()
+                self._generate_shareable_assets()
             except Exception as e:
                 result["errors"].append(f"dataset export: {str(e)}")
 
@@ -610,6 +611,54 @@ class SiteGenerator:
             "data": {"page": "dataset", "tea_count": len(teas)},
             "context": context,
         }]
+
+    def _generate_shareable_assets(self) -> None:
+        """Generate shareable images/charts for social media."""
+        import matplotlib
+        matplotlib.use('Agg')
+        import matplotlib.pyplot as plt
+        from collections import defaultdict
+
+        teas = self.db.get_all_teas()
+        categories = {c.id: c.name_en for c in self.db.get_all_categories()}
+
+        # Prepare category caffeine counts
+        cat_order = ['green', 'oolong', 'black', 'puerh', 'white', 'yellow', 'dark', 'scented']
+        caffeine_order = ['low', 'moderate', 'high']
+        color_map = {'low': '#7a9e7a', 'moderate': '#b8956c', 'high': '#a65d4e'}
+
+        counts = {cat: defaultdict(int) for cat in cat_order}
+        for tea in teas:
+            cat = tea.category_id
+            caf = tea.caffeine_level.value if tea.caffeine_level else 'moderate'
+            if cat in cat_order and caf in caffeine_order:
+                counts[cat][caf] += 1
+
+        bottom = [0] * len(cat_order)
+        fig, ax = plt.subplots(figsize=(12, 7))
+
+        for caf in caffeine_order:
+            values = [counts[cat][caf] for cat in cat_order]
+            ax.bar(
+                [categories.get(c, c).replace(' Tea', '') for c in cat_order],
+                values,
+                bottom=bottom,
+                label=caf.title(),
+                color=color_map[caf]
+            )
+            bottom = [b + v for b, v in zip(bottom, values)]
+
+        ax.set_ylabel('Number of Teas', fontsize=12)
+        ax.set_title('Chinese Tea Caffeine Levels by Category\n136 teas from chinatea.house', fontsize=16, pad=20)
+        ax.legend(title='Caffeine Level', loc='upper right')
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        plt.tight_layout()
+
+        assets_dir = self.output_dir / "assets"
+        assets_dir.mkdir(parents=True, exist_ok=True)
+        plt.savefig(assets_dir / "chinese-tea-caffeine-chart.png", dpi=150, bbox_inches='tight', facecolor='white')
+        plt.close(fig)
 
     def _export_tea_datasets(self) -> None:
         """Export downloadable JSON and CSV datasets of all teas."""

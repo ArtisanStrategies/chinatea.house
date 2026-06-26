@@ -28,3 +28,4 @@ pyyaml>=6.0.1  # For GSC YAML config
 
 # Indexing & deployment helpers
 requests>=2.31.0
+matplotlib>=3.7.0

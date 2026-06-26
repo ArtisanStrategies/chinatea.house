@@ -5,6 +5,7 @@
 {% block description %}Compare caffeine levels across Chinese teas. Our chart lists green, oolong, black, pu'er, white, yellow, dark, and scented teas with caffeine ratings and brewing notes.{% endblock %}
 
 {% block og_type %}article{% endblock %}
+{% block og_image %}https://chinatea.house/assets/chinese-tea-caffeine-chart.png{% endblock %}
 
 {% block breadcrumbs %}
 <nav class="breadcrumbs" aria-label="Breadcrumb">
@@ -44,6 +45,17 @@
             <div class="char-item"><h3>Pu'er</h3><p>Raw high; ripe moderate</p></div>
             <div class="char-item"><h3>Dark Tea</h3><p>Low to moderate</p></div>
             <div class="char-item"><h3>Scented Tea</h3><p>Depends on base tea</p></div>
+        </div>
+    </section>
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">Visual Summary</p>
+            <h2 class="section-title">Caffeine Levels by Category</h2>
+        </div>
+        <div style="text-align: center;">
+            <img src="/assets/chinese-tea-caffeine-chart.png" alt="Chinese tea caffeine levels by category" style="max-width: 100%; height: auto; border-radius: 8px;">
+            <p style="margin-top: 1rem; color: var(--ink-faint);">Share this chart: <a href="/assets/chinese-tea-caffeine-chart.png" download>download PNG</a></p>
         </div>
     </section>
 
