@@ -91,6 +91,9 @@ jobs:
           test -f output/robots.txt
           test -f output/sitemap.xml
 
+      - name: Create IndexNow key file
+        run: python execution/promotion/indexnow.py --create-key output
+
       - name: Setup Node.js for Wrangler
         uses: actions/setup-node@v4
         with:
@@ -107,6 +110,10 @@ jobs:
           wrangler pages deploy output/ \
             --project-name=chinatea-house \
             --branch=main
+
+      - name: Submit sitemap to IndexNow
+        run: python execution/promotion/indexnow.py --submit output/sitemap.xml
+        continue-on-error: true
 
       - name: Save database cache
         uses: actions/cache/save@v4
