@@ -323,6 +323,52 @@ def _build_region_guide(region, teas, child_regions, categories_in_region) -> li
     return paragraphs
 
 
+def _related_guides_for_tea(tea) -> list[dict]:
+    """Return a list of related evergreen guide IDs/names for a tea."""
+    guides = load_guides()
+    guide_map = {g["id"]: g for g in guides}
+    related_ids = []
+
+    category_guide_map = {
+        "green": "best-green-tea-for-beginners",
+        "oolong": "best-oolong-tea-for-beginners",
+        "black": "best-black-tea-for-beginners",
+    }
+    if tea.category_id in category_guide_map:
+        related_ids.append(category_guide_map[tea.category_id])
+
+    related_ids.append("caffeine-in-chinese-tea")
+
+    if tea.category_id in ["puerh", "dark", "white"]:
+        related_ids.append("how-to-store-chinese-tea")
+
+    if tea.category_id in ["oolong", "puerh", "dark"]:
+        related_ids.append("gongfu-tea-setup")
+
+    if tea.category_id in ["oolong", "puerh"]:
+        related_ids.append("yixing-teapot-guide")
+
+    if tea.category_id == "puerh":
+        related_ids.append("raw-vs-ripe-puerh")
+        related_ids.append("puerh-vs-black-tea")
+
+    if tea.category_id == "green":
+        related_ids.append("oolong-vs-green-tea")
+
+    if tea.caffeine_level and tea.caffeine_level.value in ["high", "moderate"]:
+        related_ids.append("best-chinese-tea-for-energy")
+    if tea.caffeine_level and tea.caffeine_level.value == "low":
+        related_ids.append("best-chinese-tea-for-relaxation")
+
+    seen = set()
+    result = []
+    for gid in related_ids:
+        if gid not in seen and gid in guide_map:
+            result.append({"id": gid, "title": guide_map[gid]["title"]})
+            seen.add(gid)
+    return result[:4]
+
+
 def create_tea_detail_context(
     tea,
     category,
@@ -348,6 +394,7 @@ def create_tea_detail_context(
         "occasions": {o.id: o for o in occasions} if occasions else {},
         "recommended_teaware": recommended_teaware,
         "tea_analysis": _build_tea_analysis(tea, category, region, province),
+        "related_guides": _related_guides_for_tea(tea),
         "cross_links": cross_links,
         "parent_links": parent_links,
         "page_title": f"{tea.name_en} ({tea.name_zh or 'Chinese Tea'}) | Taste, Brew & Buying Guide",

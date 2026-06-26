@@ -850,6 +850,22 @@
         </section>
         {% endif %}
 
+        <!-- Related Guides -->
+        {% if related_guides %}
+        <section class="tea-section">
+            <h2>Related Guides</h2>
+            <p>Learn more about teas like {{ tea.name_en }}:</p>
+            <div class="comparisons-list">
+                {% for guide in related_guides %}
+                <a href="/guide/{{ guide.id }}/" class="comparison-link">
+                    <span>{{ guide.title }}</span>
+                    <span class="arrow">→</span>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
+
         {% include "components/internal-links.html" %}
     </div>
 </article>
