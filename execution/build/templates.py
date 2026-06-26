@@ -501,8 +501,8 @@ def create_home_context(
         "category_count": len(categories),
         "region_count": len(regions),
         "comparison_count": comparison_count,
-        "page_title": "Chinese Tea Guide | Types, Regions, Brewing & Comparisons",
-        "meta_description": f"Explore {len(teas)} Chinese teas by category, region, and flavor. Compare teas side-by-side, find brewing guides, and discover the best Chinese tea for you.",
+        "page_title": "Chinese Tea: Types, Regions, Brewing & Comparisons | China Tea House",
+        "meta_description": f"Explore {len(teas)} Chinese teas by type, region, and flavor. Compare teas side by side, read brewing guides, and discover the best Chinese tea for beginners and enthusiasts.",
         "canonical_url": "https://chinatea.house/",
         "breadcrumbs": [],
     }
