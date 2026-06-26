@@ -7,6 +7,7 @@ Generates 50,000+ pages with parallel processing and incremental builds.
 import csv
 import json
 import time
+from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
@@ -659,6 +660,26 @@ class SiteGenerator:
         assets_dir.mkdir(parents=True, exist_ok=True)
         plt.savefig(assets_dir / "chinese-tea-caffeine-chart.png", dpi=150, bbox_inches='tight', facecolor='white')
         plt.close(fig)
+
+        # Categories chart
+        cat_counts = Counter(t.category_id for t in teas)
+        cat_order = ['green', 'oolong', 'black', 'puerh', 'white', 'yellow', 'dark', 'scented']
+        colors_cat = ['#7a9e7a', '#b8956c', '#a65d4e', '#5c4a3d', '#c9c4b8', '#c9b896', '#8b6914', '#b89fa3']
+        values = [cat_counts.get(c, 0) for c in cat_order]
+        short_labels = [categories.get(c, c).replace(' Tea', '') for c in cat_order]
+
+        fig2, ax2 = plt.subplots(figsize=(12, 7))
+        bars = ax2.barh(short_labels[::-1], values[::-1], color=colors_cat[::-1])
+        ax2.set_xlabel('Number of Teas', fontsize=12)
+        ax2.set_title('The 8 Types of Chinese Tea\n136 teas from chinatea.house', fontsize=16, pad=20)
+        ax2.spines['top'].set_visible(False)
+        ax2.spines['right'].set_visible(False)
+        for bar in bars:
+            width = bar.get_width()
+            ax2.text(width + 0.3, bar.get_y() + bar.get_height()/2, str(int(width)), va='center', fontsize=10)
+        plt.tight_layout()
+        plt.savefig(assets_dir / "chinese-tea-categories.png", dpi=150, bbox_inches='tight', facecolor='white')
+        plt.close(fig2)
 
     def _export_tea_datasets(self) -> None:
         """Export downloadable JSON and CSV datasets of all teas."""
