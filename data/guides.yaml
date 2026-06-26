@@ -1,0 +1,57 @@
+- id: chinese-tea-for-beginners
+  title: Chinese Tea for Beginners
+  title_zh: null
+  description: A simple introduction to Chinese tea categories, flavors, and how to start brewing at home.
+  sections:
+    - heading: Start with Familiar Flavors
+      body: If you are new to Chinese tea, begin with approachable styles. Green teas like Longjing are fresh and vegetal. White teas like Bai Mudan are gentle and sweet. For something floral and creamy, try a light oolong such as Tie Guan Yin.
+    - heading: Understand the Eight Categories
+      body: Chinese tea is traditionally grouped into green, white, yellow, oolong, black, dark, pu'er, and scented teas. Each category has distinct processing, oxidation, and flavor characteristics.
+    - heading: Keep Brewing Simple
+      body: Use water just off the boil for black and pu'er teas, and cooler water around 80°C for green and white teas. Start with 2 grams of leaf per 100 ml of water and steep for 2–3 minutes.
+    - heading: Taste Broadly
+      body: The best way to learn is to compare. Try teas from different regions and categories side by side to discover what you enjoy most.
+
+- id: caffeine-in-chinese-tea
+  title: Caffeine in Chinese Tea
+  title_zh: null
+  description: How much caffeine is in green tea, oolong, black tea, and pu'er? A practical guide for every category.
+  sections:
+    - heading: Caffeine Varies by Leaf, Not Just Category
+      body: Caffeine content depends on the cultivar, harvest time, leaf grade, and brewing method more than the category alone. Buds and young leaves generally contain more caffeine than mature leaves.
+    - heading: Green and White Tea
+      body: These are often lower in caffeine when brewed gently, but high-quality silver-tip whites can be surprisingly high because they are made almost entirely from buds.
+    - heading: Oolong and Black Tea
+      body: Oolong ranges widely depending on oxidation and roasting. Black tea is typically moderate to high in caffeine, especially when brewed strong with boiling water.
+    - heading: Pu'er and Dark Tea
+      body: Raw sheng pu'er can be high in caffeine. Ripe shou pu'er is often lower due to microbial fermentation, making it a popular evening choice.
+    - heading: Controlling Your Brew
+      body: Use less leaf, cooler water, and shorter steep times to reduce caffeine. For more caffeine, use more leaf, hotter water, and longer steeps.
+
+- id: oolong-vs-green-tea
+  title: Oolong vs Green Tea
+  title_zh: null
+  description: Oolong and green tea are both famous Chinese teas, but they differ in oxidation, flavor, caffeine, and brewing. Learn which one suits you.
+  sections:
+    - heading: Oxidation Is the Main Difference
+      body: Green tea is unoxidized, giving it a fresh, grassy, and sometimes nutty profile. Oolong is partially oxidized, ranging from light and floral to dark and roasted.
+    - heading: Flavor Profiles
+      body: Green tea tends to be brisk, vegetal, and clean. Oolong offers more complexity, with notes of orchid, cream, fruit, toast, or minerals depending on the style.
+    - heading: Caffeine and Body
+      body: Oolong generally has a fuller body and can be higher in caffeine than most green teas, especially darker roasts. Green tea is usually lighter and more refreshing.
+    - heading: Brewing Approach
+      body: Green tea likes cooler water around 75–85°C. Oolong can handle hotter water, often 90–100°C, and rewards gongfu brewing with many short infusions.
+
+- id: puerh-vs-black-tea
+  title: Pu'er vs Black Tea
+  title_zh: null
+  description: Pu'er and Chinese black tea are both dark and warming, but they differ in processing, flavor, aging, and brewing. Here's how to choose.
+  sections:
+    - heading: Processing Sets Them Apart
+      body: Black tea is fully oxidized and then dried. Pu'er goes through additional microbial fermentation or is pressed and aged as raw sheng pu'er.
+    - heading: Flavor Differences
+      body: Black tea is typically malty, fruity, and sweet. Ripe shou pu'er is earthy, smooth, and sometimes cocoa-like. Raw sheng pu'er is more floral, bitter-sweet, and evolves over time.
+    - heading: Aging Potential
+      body: High-quality pu'er, especially sheng, is prized for aging. Black tea is best enjoyed within one to two years while it is fresh and aromatic.
+    - heading: Brewing Notes
+      body: Both can use boiling water. Ripe pu'er benefits from a quick rinse. Black tea is more forgiving and works well in a teapot or mug.

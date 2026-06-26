@@ -21,6 +21,8 @@ from .templates import (
     create_category_index_context,
     create_occasion_context,
     create_brewing_guide_context,
+    create_guide_context,
+    load_guides,
 )
 from .links import InternalLinkBuilder
 from .manifest import PageManifestManager, count_words, count_internal_links
@@ -91,6 +93,10 @@ class SiteGenerator:
         # Brewing guide pages
         if not template_filter or template_filter == "brewing":
             pages_to_generate.extend(self._collect_brewing_pages())
+
+        # Evergreen guide pages
+        if not template_filter or template_filter == "guide":
+            pages_to_generate.extend(self._collect_guide_pages())
 
         # Apply limit if specified
         if limit:
@@ -466,6 +472,27 @@ class SiteGenerator:
 
         return pages
 
+    def _collect_guide_pages(self) -> list[dict]:
+        """Collect all evergreen guide pages to generate."""
+        pages = []
+        guides = load_guides()
+
+        for guide in guides:
+            context = create_guide_context(guide=guide)
+
+            data = {
+                "guide_id": guide["id"],
+            }
+
+            pages.append({
+                "url": f"/guide/{guide['id']}/",
+                "template": "pillars/guide.html",
+                "data": data,
+                "context": context,
+            })
+
+        return pages
+
     def _generate_page(self, page_info: dict, template_hashes: dict) -> None:
         """Generate a single page."""
         url = page_info["url"]
@@ -572,6 +599,16 @@ class SiteGenerator:
                 "sitemap-brewing.xml",
                 [f"/brewing/{c.id}/" for c in categories],
                 priority="0.7",
+                changefreq="monthly"
+            ))
+
+        # Evergreen guide sitemap
+        guides = load_guides()
+        if guides:
+            sitemap_index.append(self._generate_sitemap(
+                "sitemap-guides.xml",
+                [f"/guide/{g['id']}/" for g in guides],
+                priority="0.8",
                 changefreq="monthly"
             ))
 

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}{{ guide.title }}{% endblock %}
+
+{% block description %}{{ guide.description }}{% endblock %}
+
+{% block og_type %}article{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Guides</span>
+    <span>/</span>
+    <span>{{ guide.title }}</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="category-page">
+    <header class="category-hero">
+        <div class="hero-watermark">茶</div>
+        <div class="hero-content">
+            <h1>{{ guide.title }}{% if guide.title_zh %} <span class="zh">{{ guide.title_zh }}</span>{% endif %}</h1>
+            <p class="category-intro">{{ guide.description }}</p>
+        </div>
+    </header>
+
+    {% for section in guide.sections %}
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">Guide</p>
+            <h2 class="section-title">{{ section.heading }}</h2>
+        </div>
+        <div class="brewing-methods">
+            <div class="method">
+                <p>{{ section.body }}</p>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+</article>
+{% endblock %}
+
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ guide.title }}",
+    "description": "{{ guide.description }}",
+    "articleSection": "Tea Guide"
+}
+</script>
+{% endblock %}

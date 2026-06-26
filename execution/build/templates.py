@@ -9,6 +9,7 @@ from typing import Any
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import xxhash
+import yaml
 
 from execution.monitor.gsc import get_verification_meta
 
@@ -687,5 +688,29 @@ def create_occasion_context(
         "breadcrumbs": [
             {"label": "Best Tea For", "url": "/best-tea-for/"},
             {"label": occasion.name, "url": None},
+        ],
+    }
+
+
+def load_guides() -> list[dict]:
+    """Load evergreen guide articles from data/guides.yaml."""
+    guide_file = Path("data/guides.yaml")
+    if not guide_file.exists():
+        return []
+    with open(guide_file, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    return data or []
+
+
+def create_guide_context(guide: dict) -> dict[str, Any]:
+    """Create template context for an evergreen guide page."""
+    return {
+        "guide": guide,
+        "page_title": guide["title"],
+        "meta_description": guide["description"],
+        "canonical_url": f"https://chinatea.house/guide/{guide['id']}/",
+        "breadcrumbs": [
+            {"label": "Guides", "url": "/guide/"},
+            {"label": guide["title"], "url": None},
         ],
     }
