@@ -473,6 +473,7 @@ def create_home_context(
     regions,
     teas,
     comparison_count: int,
+    occasions=None,
 ) -> dict[str, Any]:
     """Create template context for the homepage."""
     featured_teas = sorted(teas, key=lambda tea: (tea.tier, tea.name_en))[:8]
@@ -490,6 +491,7 @@ def create_home_context(
         "teas_by_category": teas_by_category,
         "featured_regions": featured_regions,
         "featured_teas": featured_teas,
+        "occasions": occasions or [],
         "tea_count": len(teas),
         "category_count": len(categories),
         "region_count": len(regions),
@@ -535,5 +537,55 @@ def create_category_index_context(
         "canonical_url": "https://chinatea.house/category/",
         "breadcrumbs": [
             {"label": "Categories", "url": None},
+        ],
+    }
+
+
+def _tea_matches_occasion(tea, occasion) -> bool:
+    """Check if a tea matches an occasion's preferred categories and attributes."""
+    # Preferred categories
+    if occasion.preferred_categories and tea.category_id not in occasion.preferred_categories:
+        return False
+
+    # Preferred attributes
+    for attr, values in occasion.preferred_attributes.items():
+        if attr == "caffeine_level":
+            if tea.caffeine_level.value not in values:
+                return False
+        elif attr == "body":
+            if tea.body.value not in values:
+                return False
+        elif attr == "tier":
+            if tea.tier not in values:
+                return False
+        elif attr == "roast_level":
+            if not tea.roast_level or tea.roast_level.value not in values:
+                return False
+
+    return True
+
+
+def create_occasion_context(
+    occasion,
+    all_teas,
+) -> dict[str, Any]:
+    """Create template context for best-tea-for occasion page."""
+    recommended = [t for t in all_teas if _tea_matches_occasion(t, occasion)]
+    # Sort by tier (best first) then name
+    recommended = sorted(recommended, key=lambda t: (t.tier, t.name_en))
+
+    top_picks = recommended[:8]
+    alternatives = recommended[8:16]
+
+    return {
+        "occasion": occasion,
+        "recommended_teas": top_picks,
+        "alternative_teas": alternatives,
+        "page_title": f"Best Tea for {occasion.name} | China Tea House Recommendations",
+        "meta_description": f"Find the best Chinese tea for {occasion.name.lower()}. Our curated picks include {len(top_picks)} teas matched by flavor, caffeine, body, and brewing style.",
+        "canonical_url": f"https://chinatea.house/best-tea-for/{occasion.id}/",
+        "breadcrumbs": [
+            {"label": "Best Tea For", "url": "/best-tea-for/"},
+            {"label": occasion.name, "url": None},
         ],
     }

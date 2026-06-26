@@ -19,6 +19,7 @@ from .templates import (
     create_home_context,
     create_region_index_context,
     create_category_index_context,
+    create_occasion_context,
 )
 from .links import InternalLinkBuilder
 from .manifest import PageManifestManager, count_words, count_internal_links
@@ -82,6 +83,10 @@ class SiteGenerator:
         if not template_filter or template_filter == "comparison":
             pages_to_generate.extend(self._collect_comparison_pages())
 
+        # Occasion pages
+        if not template_filter or template_filter == "occasion":
+            pages_to_generate.extend(self._collect_occasion_pages())
+
         # Apply limit if specified
         if limit:
             pages_to_generate = pages_to_generate[:limit]
@@ -115,12 +120,14 @@ class SiteGenerator:
         regions = self.db.get_all_regions()
         teas = self.db.get_all_teas()
         comparisons = self.db.get_all_comparisons(valid_only=True)
+        occasions = self.db.get_all_occasions()
 
         data = {
             "categories": [c.id for c in categories],
             "regions_count": len(regions),
             "teas_count": len(teas),
             "comparisons_count": len(comparisons),
+            "occasions": [o.id for o in occasions],
         }
 
         context = create_home_context(
@@ -128,6 +135,7 @@ class SiteGenerator:
             regions=regions,
             teas=teas,
             comparison_count=len(comparisons),
+            occasions=occasions,
         )
 
         return [{
@@ -395,6 +403,29 @@ class SiteGenerator:
 
         return pages
 
+    def _collect_occasion_pages(self) -> list[dict]:
+        """Collect all best-tea-for occasion pages to generate."""
+        pages = []
+        occasions = self.db.get_all_occasions()
+        teas = self.db.get_all_teas()
+
+        for occasion in occasions:
+            context = create_occasion_context(occasion=occasion, all_teas=teas)
+
+            data = {
+                "occasion": occasion.model_dump(),
+                "recommended_teas": [t.id for t in context["recommended_teas"]],
+            }
+
+            pages.append({
+                "url": f"/best-tea-for/{occasion.id}/",
+                "template": "pillars/occasion.html",
+                "data": data,
+                "context": context,
+            })
+
+        return pages
+
     def _generate_page(self, page_info: dict, template_hashes: dict) -> None:
         """Generate a single page."""
         url = page_info["url"]
@@ -481,6 +512,16 @@ class SiteGenerator:
                 "sitemap-comparisons.xml",
                 urls,
                 priority="0.6",
+                changefreq="monthly"
+            ))
+
+        # Occasion sitemap
+        occasions = self.db.get_all_occasions()
+        if occasions:
+            sitemap_index.append(self._generate_sitemap(
+                "sitemap-occasions.xml",
+                [f"/best-tea-for/{o.id}/" for o in occasions],
+                priority="0.7",
                 changefreq="monthly"
             ))
 

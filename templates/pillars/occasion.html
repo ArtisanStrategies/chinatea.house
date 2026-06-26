@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Best Tea for {{ occasion.name }}{% endblock %}
+
+{% block description %}Find the best Chinese tea for {{ occasion.name | lower }}. Our curated picks include {{ recommended_teas | length }} teas matched by flavor, caffeine, body, and brewing style.{% endblock %}
+
+{% block og_type %}article{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Best Tea For</span>
+    <span>/</span>
+    <span>{{ occasion.name }}</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="category-page">
+    <header class="category-hero">
+        <div class="hero-watermark">茶</div>
+        <div class="hero-content">
+            <h1>Best Tea for {{ occasion.name }}</h1>
+            <p class="category-intro">{{ occasion.description }}</p>
+
+            <div class="category-stats">
+                <div class="stat">
+                    <span class="stat-number">{{ recommended_teas | length }}</span>
+                    <span class="stat-label">Recommended Teas</span>
+                </div>
+                {% if occasion.time_of_day %}
+                <div class="stat">
+                    <span class="stat-number">{{ occasion.time_of_day | title }}</span>
+                    <span class="stat-label">Best Time</span>
+                </div>
+                {% endif %}
+                {% if occasion.season %}
+                <div class="stat">
+                    <span class="stat-number">{{ occasion.season | title }}</span>
+                    <span class="stat-label">Season</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    {% if recommended_teas %}
+    <section class="featured-teas-section">
+        <div class="section-header">
+            <p class="section-label">Top Picks</p>
+            <h2 class="section-title">Best Teas for {{ occasion.name }}</h2>
+        </div>
+        <div class="tea-cards-grid">
+            {% for tea in recommended_teas %}
+            <a href="/tea/{{ tea.id }}/" class="tea-card">
+                <div class="tea-card-inner">
+                    <h3>{{ tea.name_en }}{% if tea.name_zh %} <span class="zh">{{ tea.name_zh }}</span>{% endif %}</h3>
+                    <p>{{ tea.description_brief | truncate(120) }}</p>
+                    {% if tea.flavor_primary %}
+                    <div class="tea-flavors">
+                        {% for flavor in tea.flavor_primary[:3] %}
+                        <span class="tag">{{ flavor }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <span class="tea-card-arrow">→</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if alternative_teas %}
+    <section class="featured-teas-section" style="background: var(--paper);">
+        <div class="section-header">
+            <p class="section-label" style="color: var(--ink-faint);">More Options</p>
+            <h2 class="section-title" style="color: var(--ink);">Also Worth Trying</h2>
+        </div>
+        <div class="tea-cards-grid">
+            {% for tea in alternative_teas %}
+            <a href="/tea/{{ tea.id }}/" class="tea-card" style="background: var(--ink);">
+                <div class="tea-card-inner">
+                    <h3>{{ tea.name_en }}{% if tea.name_zh %} <span class="zh">{{ tea.name_zh }}</span>{% endif %}</h3>
+                    <p>{{ tea.description_brief | truncate(120) }}</p>
+                    {% if tea.flavor_primary %}
+                    <div class="tea-flavors">
+                        {% for flavor in tea.flavor_primary[:3] %}
+                        <span class="tag">{{ flavor }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <span class="tea-card-arrow">→</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">Why These Teas?</p>
+            <h2 class="section-title">How We Chose</h2>
+        </div>
+        <div class="brewing-methods">
+            <div class="method">
+                <p>
+                    We selected these teas for {{ occasion.name | lower }} based on their caffeine level,
+                    body, flavor intensity, and traditional use in China.
+                    {{ occasion.description }}
+                </p>
+                <p>
+                    Prefer something different? Browse all
+                    <a href="/category/">Chinese tea categories</a> or compare teas side-by-side.
+                </p>
+            </div>
+        </div>
+    </section>
+</article>
+{% endblock %}
+
+{% block schema_markup %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Best Tea for {{ occasion.name }}",
+    "description": "Find the best Chinese tea for {{ occasion.name | lower }}.",
+    "articleSection": "Tea Recommendations"
+}
+</script>
+{% endblock %}

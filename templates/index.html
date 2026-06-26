@@ -282,6 +282,26 @@
             {% endfor %}
         </div>
     </section>
+
+    {% if occasions %}
+    <section class="home-section">
+        <div class="home-section-header">
+            <div>
+                <h2>Best Tea For</h2>
+                <p>Discover the right Chinese tea for every moment—morning energy, evening relaxation, hosting guests, and more.</p>
+            </div>
+        </div>
+        <div class="home-grid">
+            {% for occasion in occasions %}
+            <a class="home-card" href="/best-tea-for/{{ occasion.id }}/">
+                <h3>{{ occasion.name }}</h3>
+                <p>{{ occasion.description | truncate(130) }}</p>
+                <span class="meta">Recommendation</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
 </div>
 {% endblock %}
 
