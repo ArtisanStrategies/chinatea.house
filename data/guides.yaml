@@ -55,3 +55,93 @@
       body: High-quality pu'er, especially sheng, is prized for aging. Black tea is best enjoyed within one to two years while it is fresh and aromatic.
     - heading: Brewing Notes
       body: Both can use boiling water. Ripe pu'er benefits from a quick rinse. Black tea is more forgiving and works well in a teapot or mug.
+
+- id: how-to-store-chinese-tea
+  title: How to Store Chinese Tea
+  title_zh: null
+  description: Keep your Chinese tea fresh and flavorful with proper storage. Learn about air, light, moisture, and temperature for every tea type.
+  sections:
+    - heading: Keep It Airtight
+      body: Oxygen is the enemy of fresh tea. Store tea in airtight containers such as tins, sealed bags, or dedicated tea caddies. Avoid clear glass jars unless kept in a dark cupboard.
+    - heading: Avoid Light and Heat
+      body: Light and heat degrade tea quickly. Keep your tea in a cool, dark place away from stoves, windows, and radiators. A pantry or drawer works well.
+    - heading: Control Humidity
+      body: Moisture causes mold and off-flavors. Do not store tea in the refrigerator unless it is vacuum-sealed. Use desiccant packets in humid climates.
+    - heading: Separate Strong Odors
+      body: Tea absorbs odors easily. Keep it away from spices, coffee, and strong-smelling foods. Pu'er and dark teas can be stored together, but keep them separate from green and white teas.
+    - heading: Pu'er Is Different
+      body: Ripe and raw pu'er can improve with age when stored with controlled airflow and moderate humidity. This is not true for green, white, or lightly oxidized oolongs.
+
+- id: gongfu-tea-setup
+  title: Gongfu Tea Setup for Beginners
+  title_zh: null
+  description: Build a simple gongfu tea setup at home. Learn which teaware you need, how to use it, and how to brew small cups with big flavor.
+  sections:
+    - heading: Start with a Gaiwan
+      body: A gaiwan is the most versatile gongfu vessel. It is affordable, easy to clean, and works for every tea category. A 100–150 ml size is ideal for beginners.
+    - heading: Add a Fairness Pitcher
+      body: A fairness pitcher ensures each cup has the same strength. It also makes pouring easier and helps cool the liquor slightly before drinking.
+    - heading: Choose Small Cups
+      body: Gongfu tea is served in small cups, often 30–60 ml. Small cups let you taste the tea's evolution across many infusions.
+    - heading: Use a Tea Tray or Boat
+      body: Gongfu brewing involves rinsing and pouring water over the vessel. A small tea tray or tea boat catches spills and keeps your table clean.
+    - heading: Basic Gongfu Steps
+      body: Rinse the leaves with a quick splash of hot water if needed. Steep briefly, pour into the fairness pitcher, then serve. Repeat for multiple infusions.
+
+- id: raw-vs-ripe-puerh
+  title: Raw vs Ripe Pu'er
+  title_zh: null
+  description: Sheng and shou pu'er look similar but taste very different. Learn the difference between raw and ripe pu'er tea.
+  sections:
+    - heading: Sheng Pu'er Is Raw
+      body: Sheng pu'er is made from sun-withered leaves that are steamed and pressed. It is greenish in color, often bitter-sweet, and evolves over decades.
+    - heading: Shou Pu'er Is Ripe
+      body: Shou pu'er undergoes accelerated fermentation to mimic aged sheng. It is dark, earthy, smooth, and ready to drink soon after production.
+    - heading: Flavor Differences
+      body: Sheng can be floral, fruity, astringent, and complex. Shou is typically earthy, woody, sweet, and mellow with notes of cocoa or wet forest.
+    - heading: Caffeine and Timing
+      body: Young sheng can be high in caffeine and stimulating. Shou is generally gentler on the stomach and lower in caffeine, making it suitable for evening.
+    - heading: Aging
+      body: High-quality sheng is prized for aging. Shou is designed to be consumed relatively young, though it can smooth out over a few years.
+
+- id: loose-leaf-vs-tea-bags
+  title: Loose Leaf vs Tea Bags
+  title_zh: null
+  description: Why loose leaf Chinese tea usually tastes better than tea bags. Learn about leaf quality, space to expand, and flavor extraction.
+  sections:
+    - heading: Whole Leaves Brew Better
+      body: Loose leaf tea usually contains larger, whole leaves that release flavor gradually. Tea bags often contain dust and fannings that steep quickly and can taste flat.
+    - heading: Room to Expand
+      body: Whole leaves need space to unfurl. Loose leaf in a gaiwan or teapot allows this. Tea bags constrain the leaves and limit extraction.
+    - heading: Better Quality Sourcing
+      body: Premium Chinese teas are rarely sold in bags. Loose leaf lets you see the leaf shape, color, and quality before you buy.
+    - heading: More Control
+      body: With loose leaf, you control the amount of leaf, water temperature, and steep time. This flexibility is key to brewing great Chinese tea.
+
+- id: best-chinese-tea-for-energy
+  title: Best Chinese Tea for Energy
+  title_zh: null
+  description: Need a natural boost? Discover the Chinese teas with the most caffeine and energizing flavor profiles for mornings and focus.
+  sections:
+    - heading: Black Tea for a Strong Start
+      body: Chinese black teas like Dianhong and Keemun are fully oxidized and typically higher in caffeine. They deliver a bold, malty cup that wakes you up.
+    - heading: Raw Pu'er for Focus
+      body: Young sheng pu'er can be stimulating and mentally clarifying. Its bitterness and sweetness create an alert, focused state.
+    - heading: High-Mountain Oolong
+      body: Taiwanese-style high-mountain oolongs like Alishan or Da Yu Ling are smooth, aromatic, and moderately caffeinated. They offer energy without jitters.
+    - heading: Brew for More Caffeine
+      body: Use more leaf, hotter water, and longer steep times to extract more caffeine. First flushes and bud-heavy teas also tend to contain more caffeine.
+
+- id: best-chinese-tea-for-relaxation
+  title: Best Chinese Tea for Relaxation
+  title_zh: null
+  description: Looking to unwind? These low-caffeine Chinese teas are calming, soothing, and perfect for evening or stress relief.
+  sections:
+    - heading: White Tea for Gentle Calm
+      body: White teas like Bai Mudan and Shou Mei are low in caffeine and naturally sweet. They offer a gentle, calming cup any time of day.
+    - heading: Ripe Pu'er for Evening
+      body: Shou pu'er is fermented, smooth, and low in caffeine. Its earthy warmth is comforting after dinner or before bed.
+    - heading: Chrysanthemum and Scented Teas
+      body: Chrysanthemum pu'er and jasmine teas are traditionally enjoyed for relaxation. The floral aromas are soothing and the caffeine is moderate to low.
+    - heading: Brew Gently for Less Caffeine
+      body: Use fewer leaves, cooler water, and shorter steep times to reduce caffeine. This makes almost any tea more suitable for evening sipping.

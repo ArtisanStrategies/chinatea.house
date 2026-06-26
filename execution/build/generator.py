@@ -22,6 +22,7 @@ from .templates import (
     create_occasion_context,
     create_brewing_guide_context,
     create_guide_context,
+    create_guide_index_context,
     load_guides,
 )
 from .links import InternalLinkBuilder
@@ -97,6 +98,7 @@ class SiteGenerator:
         # Evergreen guide pages
         if not template_filter or template_filter == "guide":
             pages_to_generate.extend(self._collect_guide_pages())
+            pages_to_generate.extend(self._collect_guide_index_page())
 
         # Apply limit if specified
         if limit:
@@ -493,6 +495,18 @@ class SiteGenerator:
 
         return pages
 
+    def _collect_guide_index_page(self) -> list[dict]:
+        """Collect the guide index page to generate."""
+        guides = load_guides()
+        context = create_guide_index_context(guides=guides)
+
+        return [{
+            "url": "/guide/",
+            "template": "pillars/guide-index.html",
+            "data": {"guide_count": len(guides)},
+            "context": context,
+        }]
+
     def _generate_page(self, page_info: dict, template_hashes: dict) -> None:
         """Generate a single page."""
         url = page_info["url"]
@@ -605,9 +619,10 @@ class SiteGenerator:
         # Evergreen guide sitemap
         guides = load_guides()
         if guides:
+            guide_urls = ["/guide/"] + [f"/guide/{g['id']}/" for g in guides]
             sitemap_index.append(self._generate_sitemap(
                 "sitemap-guides.xml",
-                [f"/guide/{g['id']}/" for g in guides],
+                guide_urls,
                 priority="0.8",
                 changefreq="monthly"
             ))

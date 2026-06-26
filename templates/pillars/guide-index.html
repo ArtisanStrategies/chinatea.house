@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Chinese Tea Guides | Brewing, Buying & Tasting{% endblock %}
+
+{% block description %}Explore our Chinese tea guides. Learn how to brew, store, and choose tea, plus comparisons of caffeine, flavor, and health benefits.{% endblock %}
+
+{% block og_type %}website{% endblock %}
+
+{% block breadcrumbs %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Guides</span>
+</nav>
+{% endblock %}
+
+{% block content %}
+<article class="category-page">
+    <header class="category-hero">
+        <div class="hero-watermark">茶</div>
+        <div class="hero-content">
+            <h1>Chinese Tea Guides</h1>
+            <p class="category-intro">
+                Practical guides to help you brew, store, compare, and enjoy Chinese tea.
+                From beginner basics to deep dives on caffeine, pu'er, and gongfu brewing.
+            </p>
+        </div>
+    </header>
+
+    <section class="featured-teas-section">
+        <div class="tea-cards-grid">
+            {% for guide in guides %}
+            <a href="/guide/{{ guide.id }}/" class="tea-card">
+                <div class="tea-card-inner">
+                    <h3>{{ guide.title }}</h3>
+                    <p>{{ guide.description }}</p>
+                </div>
+                <span class="tea-card-arrow">→</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</article>
+{% endblock %}

@@ -302,6 +302,25 @@
         </div>
     </section>
     {% endif %}
+
+    <section class="home-section">
+        <div class="home-section-header">
+            <div>
+                <h2>Tea Guides</h2>
+                <p>Learn how to brew, store, and compare Chinese tea with practical guides for beginners and enthusiasts.</p>
+            </div>
+            <a class="home-link" href="/guide/">All guides</a>
+        </div>
+        <div class="home-grid">
+            {% for guide in featured_guides %}
+            <a class="home-card" href="/guide/{{ guide.id }}/">
+                <h3>{{ guide.title }}</h3>
+                <p>{{ guide.description | truncate(130) }}</p>
+                <span class="meta">Guide</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
 </div>
 {% endblock %}
 

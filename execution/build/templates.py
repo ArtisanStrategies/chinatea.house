@@ -486,6 +486,9 @@ def create_home_context(
     for tea in teas:
         teas_by_category.setdefault(tea.category_id, []).append(tea)
 
+    guides = load_guides()
+    featured_guides = guides[:6]
+
     return {
         "categories": categories,
         "regions": regions,
@@ -493,6 +496,7 @@ def create_home_context(
         "featured_regions": featured_regions,
         "featured_teas": featured_teas,
         "occasions": occasions or [],
+        "featured_guides": featured_guides,
         "tea_count": len(teas),
         "category_count": len(categories),
         "region_count": len(regions),
@@ -712,5 +716,18 @@ def create_guide_context(guide: dict) -> dict[str, Any]:
         "breadcrumbs": [
             {"label": "Guides", "url": "/guide/"},
             {"label": guide["title"], "url": None},
+        ],
+    }
+
+
+def create_guide_index_context(guides: list[dict]) -> dict[str, Any]:
+    """Create template context for the guide index page."""
+    return {
+        "guides": guides,
+        "page_title": "Chinese Tea Guides | Brewing, Buying & Tasting",
+        "meta_description": "Explore our Chinese tea guides. Learn how to brew, store, and choose tea, plus comparisons of caffeine, flavor, and health benefits.",
+        "canonical_url": "https://chinatea.house/guide/",
+        "breadcrumbs": [
+            {"label": "Guides", "url": None},
         ],
     }
