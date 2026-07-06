@@ -9,6 +9,7 @@ These off-site signals were created without needing social media, directory, or 
 - Added repository topics: chinese-tea, dataset, tea, caffeine, oolong, pu-erh, green-tea, black-tea, tea-guide, data-visualization, education, guide
 - Set repo homepage to https://chinatea.house
 - Created `CITATION.cff` so the repo has a "Cite this repository" button
+- Added `CONTRIBUTING.md` and `CHANGELOG.md` with links back to the site
 - Enabled and published GitHub Pages docs site: https://artisanstrategies.github.io/chinatea.house/
 - Created GitHub releases with downloadable assets:
   - [Chinese Tea Dataset v1.0](https://github.com/ArtisanStrategies/chinatea.house/releases/tag/dataset-v1.0)
