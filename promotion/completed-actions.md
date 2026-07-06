@@ -10,6 +10,8 @@ These off-site signals were created without needing social media, directory, or 
 - Set repo homepage to https://chinatea.house
 - Created `CITATION.cff` so the repo has a "Cite this repository" button
 - Added `CONTRIBUTING.md` and `CHANGELOG.md` with links back to the site
+- Created a dedicated `awesome-chinese-tea` list repo with a backlink:
+  - https://github.com/ArtisanStrategies/awesome-chinese-tea
 - Enabled and published GitHub Pages docs site: https://artisanstrategies.github.io/chinatea.house/
 - Created GitHub releases with downloadable assets:
   - [Chinese Tea Dataset v1.0](https://github.com/ArtisanStrategies/chinatea.house/releases/tag/dataset-v1.0)
