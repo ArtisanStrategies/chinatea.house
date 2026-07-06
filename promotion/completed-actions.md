@@ -15,6 +15,8 @@ These off-site signals were created without needing social media, directory, or 
   - [Chinese Tea Caffeine Chart v1.0](https://github.com/ArtisanStrategies/chinatea.house/releases/tag/caffeine-chart-v1.0)
   - [Chinese Tea Categories Chart v1.0](https://github.com/ArtisanStrategies/chinatea.house/releases/tag/categories-chart-v1.0)
 - Created Issue #1 with project overview and links
+- Opened a pull request to add the dataset to **awesomedata/awesome-public-datasets**:
+  - https://github.com/awesomedata/apd-core/pull/462
 
 ## Search-Engine Notifications
 
