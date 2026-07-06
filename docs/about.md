@@ -21,6 +21,10 @@ China Tea House is a free reference for Chinese tea: types, origins, caffeine, b
 
 <https://github.com/ArtisanStrategies/chinatea.house>
 
+## Related resources
+
+- [Awesome Chinese Tea](https://github.com/ArtisanStrategies/awesome-chinese-tea) — a curated list of Chinese tea resources
+
 ## Stay updated
 
 - RSS feed: <https://chinatea.house/feed.xml>
