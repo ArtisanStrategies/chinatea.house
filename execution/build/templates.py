@@ -66,14 +66,34 @@ class TemplateEngine:
         template = self.env.get_template(template_name)
         return template.render(**context)
 
+    # Templates that every page inherits from or includes. A change to any of
+    # these must invalidate the hash of every template, otherwise incremental
+    # builds silently skip pages that inherit the change (e.g. a <head> edit in
+    # base.html would not propagate to child templates).
+    SHARED_TEMPLATES = ("base.html",)
+
+    def _shared_template_salt(self) -> str:
+        """Combined hash of shared base/partial templates."""
+        parts = []
+        for name in self.SHARED_TEMPLATES:
+            path = self.templates_dir / name
+            if path.exists():
+                parts.append(path.read_text())
+        return xxhash.xxh64("".join(parts)).hexdigest()
+
     def get_template_hash(self, template_name: str) -> str:
         """Get hash of template file for change detection."""
         if template_name not in self._template_hashes:
             template_path = self.templates_dir / template_name
             if template_path.exists():
                 content = template_path.read_text()
-                # Also hash included templates
-                self._template_hashes[template_name] = xxhash.xxh64(content).hexdigest()
+                # Fold in shared base/partial templates so that edits to
+                # base.html invalidate every child template's hash.
+                if template_name in self.SHARED_TEMPLATES:
+                    combined = content
+                else:
+                    combined = content + self._shared_template_salt()
+                self._template_hashes[template_name] = xxhash.xxh64(combined).hexdigest()
             else:
                 self._template_hashes[template_name] = ""
         return self._template_hashes[template_name]
@@ -469,8 +489,8 @@ def create_category_context(
         "cross_links": cross_links,
         "parent_links": parent_links,
         "category_guide": _build_category_guide(category, teas, regions),
-        "page_title": f"{category.name_en} ({category.name_zh or '中国茶'}) | Complete Guide & Best Teas",
-        "meta_description": f"Explore {category.name_en} ({category.name_zh}): famous varieties, brewing guides, flavor profiles, and top-rated teas from China.",
+        "page_title": f"Chinese {category.name_en} ({category.name_zh or '中国茶'}) | Types, Brewing & Best Teas",
+        "meta_description": f"Chinese {category.name_en.lower()} explained: famous varieties, how to brew, flavor profiles, and the best {category.name_en.lower()}s from China's tea regions.",
         "canonical_url": f"https://chinatea.house/category/{category.id}/",
         "breadcrumbs": [
             {"label": "Categories", "url": "/category/"},

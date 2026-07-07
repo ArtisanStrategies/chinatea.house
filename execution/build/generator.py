@@ -465,6 +465,10 @@ class SiteGenerator:
             sorted_ids = sorted([tea_a.id, tea_b.id])
             url = f"/compare/{sorted_ids[0]}-vs-{sorted_ids[1]}/"
 
+            # Tea-vs-tea comparisons have near-zero search volume; keep them
+            # as on-site tools but out of Google's index (quality signal).
+            context["noindex"] = True
+
             pages.append({
                 "url": url,
                 "template": "satellites/comparison.html",
@@ -867,19 +871,10 @@ class SiteGenerator:
                     changefreq="monthly"
                 ))
 
-        # Comparison sitemap
-        comparisons = self.db.get_all_comparisons()
-        if comparisons:
-            urls = ["/compare/"]
-            for comp in comparisons:
-                sorted_ids = sorted([comp.tea_a_id, comp.tea_b_id])
-                urls.append(f"/compare/{sorted_ids[0]}-vs-{sorted_ids[1]}/")
-            sitemap_index.append(self._generate_sitemap(
-                "sitemap-comparisons.xml",
-                urls,
-                priority="0.6",
-                changefreq="monthly"
-            ))
+        # Comparison pages are noindexed (near-zero search demand per keyword
+        # research; 4,478 thin pages were suppressing sitewide quality) so they
+        # are deliberately excluded from sitemaps. Only the /compare/ hub with
+        # its featured comparisons stays out of the sitemap too.
 
         # Occasion sitemap
         occasions = self.db.get_all_occasions()
