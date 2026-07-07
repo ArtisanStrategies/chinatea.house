@@ -389,6 +389,38 @@ def _related_guides_for_tea(tea) -> list[dict]:
     return result[:4]
 
 
+def _related_guides_for_category(category_id: str) -> list[dict]:
+    """Return related evergreen guides for a category pillar page.
+
+    Wires each category to the guides that target its highest-value
+    keywords, giving those guides internal links from an authoritative
+    pillar page instead of only the /guide/ hub.
+    """
+    guides = load_guides()
+    guide_map = {g["id"]: g for g in guides}
+    related_ids = ["types-of-chinese-tea", "chinese-tea-benefits", "chinese-tea-sets"]
+
+    per_category = {
+        "green": ["best-green-tea-for-beginners", "oolong-vs-green-tea"],
+        "oolong": ["best-oolong-tea-for-beginners", "gongfu-tea-setup", "chinese-tea-ceremony"],
+        "black": ["best-black-tea-for-beginners", "puerh-vs-black-tea"],
+        "white": ["how-to-store-chinese-tea"],
+        "puerh": ["pu-erh-tea-benefits", "raw-vs-ripe-puerh", "yixing-teapot-guide"],
+        "dark": ["how-to-store-chinese-tea", "raw-vs-ripe-puerh"],
+        "scented": ["what-is-jasmine-tea"],
+        "yellow": ["chinese-tea-for-beginners"],
+    }
+    related_ids = per_category.get(category_id, []) + related_ids
+
+    seen = set()
+    result = []
+    for gid in related_ids:
+        if gid not in seen and gid in guide_map:
+            result.append({"id": gid, "title": guide_map[gid]["title"]})
+            seen.add(gid)
+    return result[:5]
+
+
 def create_tea_detail_context(
     tea,
     category,
@@ -489,6 +521,7 @@ def create_category_context(
         "cross_links": cross_links,
         "parent_links": parent_links,
         "category_guide": _build_category_guide(category, teas, regions),
+        "related_guides": _related_guides_for_category(category.id),
         "page_title": f"Chinese {category.name_en} ({category.name_zh or '中国茶'}) | Types, Brewing & Best Teas",
         "meta_description": f"Chinese {category.name_en.lower()} explained: famous varieties, how to brew, flavor profiles, and the best {category.name_en.lower()}s from China's tea regions.",
         "canonical_url": f"https://chinatea.house/category/{category.id}/",

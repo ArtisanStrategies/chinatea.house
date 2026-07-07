@@ -122,6 +122,20 @@
     </section>
     {% endif %}
 
+    {% if related_guides %}
+    <section class="category-guide-section">
+        <div class="section-header">
+            <p class="section-label">Related Guides</p>
+            <h2 class="section-title">Learn More About {{ category.name_en }}</h2>
+        </div>
+        <ul class="related-guides-list">
+            {% for g in related_guides %}
+            <li><a href="/guide/{{ g.id }}/">{{ g.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
     <!-- Must-Try Teas -->
     {% set tier1_teas = teas | selectattr('tier', 'equalto', 1) | list %}
     {% if tier1_teas %}
