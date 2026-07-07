@@ -20,8 +20,9 @@ These off-site signals were created without needing social media, directory, or 
 - Created Issue #1 with project overview and links
 - Opened a pull request to add the dataset to **awesomedata/awesome-public-datasets**:
   - https://github.com/awesomedata/apd-core/pull/462
-- Opened a pull request to add the dataset to **academic/awesome-datascience**:
+- Added the dataset to **academic/awesome-datascience** (merged):
   - https://github.com/academic/awesome-datascience/pull/649
+  - Live link: https://github.com/academic/awesome-datascience#datasets
 - Enabled GitHub Discussions and posted a "Show and tell" thread:
   - https://github.com/ArtisanStrategies/chinatea.house/discussions/2
 - Created a public GitHub Gist summarizing the dataset:
