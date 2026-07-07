@@ -39,6 +39,23 @@
         </div>
     </section>
     {% endfor %}
+
+    {% if guide.faqs %}
+    <section class="brewing-section" id="faq">
+        <div class="section-header">
+            <p class="section-label">FAQ</p>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+        </div>
+        <div class="brewing-methods">
+            {% for faq in guide.faqs %}
+            <div class="method">
+                <h3>{{ faq.q }}</h3>
+                <p>{{ faq.a | safe }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
 </article>
 {% endblock %}
 
@@ -47,9 +64,37 @@
 {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "{{ guide.title }}",
-    "description": "{{ guide.description }}",
+    "headline": {{ guide.title | tojson }},
+    "description": {{ guide.description | tojson }},
     "articleSection": "Tea Guide"
 }
 </script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://chinatea.house/"},
+        {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://chinatea.house/guide/"},
+        {"@type": "ListItem", "position": 3, "name": {{ guide.title | tojson }}}
+    ]
+}
+</script>
+{% if guide.faqs %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {% for faq in guide.faqs %}
+        {
+            "@type": "Question",
+            "name": {{ faq.q | tojson }},
+            "acceptedAnswer": {"@type": "Answer", "text": {{ faq.a | striptags | tojson }}}
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>
+{% endif %}
 {% endblock %}

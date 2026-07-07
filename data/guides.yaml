@@ -3,310 +3,313 @@
   title_zh: null
   description: A simple introduction to Chinese tea categories, flavors, and how to start brewing at home.
   sections:
-    - heading: Start with Familiar Flavors
-      body: If you are new to Chinese tea, begin with approachable styles. Green teas like <a href="/tea/xi-hu-longjing/">Longjing</a> are fresh and vegetal. White teas like <a href="/tea/bai-mudan/">Bai Mudan</a> are gentle and sweet. For something floral and creamy, try a light oolong such as <a href="/tea/tie-guan-yin/">Tie Guan Yin</a>.
-    - heading: Understand the Eight Categories
-      body: Chinese tea is traditionally grouped into green, white, yellow, oolong, black, dark, pu'er, and scented teas. Each category has distinct processing, oxidation, and flavor characteristics.
-    - heading: Keep Brewing Simple
-      body: Use water just off the boil for black and pu'er teas, and cooler water around 80°C for green and white teas. Start with 2 grams of leaf per 100 ml of water and steep for 2–3 minutes.
-    - heading: Taste Broadly
-      body: The best way to learn is to compare. Try teas from different regions and categories side by side to discover what you enjoy most.
-
+  - heading: Start with Familiar Flavors
+    body: If you are new to Chinese tea, begin with approachable styles. Green teas like <a href="/tea/xi-hu-longjing/">Longjing</a> are fresh and vegetal. White teas like <a href="/tea/bai-mudan/">Bai Mudan</a> are gentle and sweet. For something floral and creamy, try a light oolong such as <a href="/tea/tie-guan-yin/">Tie Guan Yin</a>.
+  - heading: Understand the Eight Categories
+    body: Chinese tea is traditionally grouped into green, white, yellow, oolong, black, dark, pu'er, and scented teas. Each category has distinct processing, oxidation, and flavor characteristics.
+  - heading: Keep Brewing Simple
+    body: Use water just off the boil for black and pu'er teas, and cooler water around 80°C for green and white teas. Start with 2 grams of leaf per 100 ml of water and steep for 2–3 minutes.
+  - heading: Taste Broadly
+    body: The best way to learn is to compare. Try teas from different regions and categories side by side to discover what you enjoy most.
 - id: caffeine-in-chinese-tea
   title: Caffeine in Chinese Tea
   title_zh: null
   description: How much caffeine is in green tea, oolong, black tea, and pu'er? A practical guide for every category.
   sections:
-    - heading: Caffeine Varies by Leaf, Not Just Category
-      body: Caffeine content depends on the cultivar, harvest time, leaf grade, and brewing method more than the category alone. Buds and young leaves generally contain more caffeine than mature leaves.
-    - heading: Green and White Tea
-      body: These are often lower in caffeine when brewed gently, but high-quality silver-tip whites can be surprisingly high because they are made almost entirely from buds.
-    - heading: Oolong and Black Tea
-      body: Oolong ranges widely depending on oxidation and roasting. Black tea is typically moderate to high in caffeine, especially when brewed strong with boiling water.
-    - heading: Pu'er and Dark Tea
-      body: Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a> can be high in caffeine. Ripe <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> is often lower due to microbial fermentation, making it a popular evening choice.
-    - heading: Controlling Your Brew
-      body: Use less leaf, cooler water, and shorter steep times to reduce caffeine. For more caffeine, use more leaf, hotter water, and longer steeps.
-
+  - heading: Caffeine Varies by Leaf, Not Just Category
+    body: Caffeine content depends on the cultivar, harvest time, leaf grade, and brewing method more than the category alone. Buds and young leaves generally contain more caffeine than mature leaves.
+  - heading: Green and White Tea
+    body: These are often lower in caffeine when brewed gently, but high-quality silver-tip whites can be surprisingly high because they are made almost entirely from buds.
+  - heading: Oolong and Black Tea
+    body: Oolong ranges widely depending on oxidation and roasting. Black tea is typically moderate to high in caffeine, especially when brewed strong with boiling water.
+  - heading: Pu'er and Dark Tea
+    body: Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a> can be high in caffeine. Ripe <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> is often lower due to microbial fermentation, making it a popular evening choice.
+  - heading: Controlling Your Brew
+    body: Use less leaf, cooler water, and shorter steep times to reduce caffeine. For more caffeine, use more leaf, hotter water, and longer steeps.
 - id: oolong-vs-green-tea
   title: Oolong vs Green Tea
   title_zh: null
   description: Oolong and green tea are both famous Chinese teas, but they differ in oxidation, flavor, caffeine, and brewing. Learn which one suits you.
   sections:
-    - heading: Oxidation Is the Main Difference
-      body: Green tea is unoxidized, giving it a fresh, grassy, and sometimes nutty profile. Oolong is partially oxidized, ranging from light and floral to dark and roasted.
-    - heading: Flavor Profiles
-      body: Green tea tends to be brisk, vegetal, and clean. Oolong offers more complexity, with notes of orchid, cream, fruit, toast, or minerals depending on the style.
-    - heading: Caffeine and Body
-      body: Oolong generally has a fuller body and can be higher in caffeine than most green teas, especially darker roasts. Green tea is usually lighter and more refreshing.
-    - heading: Brewing Approach
-      body: Green tea likes cooler water around 75–85°C. Oolong can handle hotter water, often 90–100°C, and rewards gongfu brewing with many short infusions.
-
+  - heading: Oxidation Is the Main Difference
+    body: Green tea is unoxidized, giving it a fresh, grassy, and sometimes nutty profile. Oolong is partially oxidized, ranging from light and floral to dark and roasted.
+  - heading: Flavor Profiles
+    body: Green tea tends to be brisk, vegetal, and clean. Oolong offers more complexity, with notes of orchid, cream, fruit, toast, or minerals depending on the style.
+  - heading: Caffeine and Body
+    body: Oolong generally has a fuller body and can be higher in caffeine than most green teas, especially darker roasts. Green tea is usually lighter and more refreshing.
+  - heading: Brewing Approach
+    body: Green tea likes cooler water around 75–85°C. Oolong can handle hotter water, often 90–100°C, and rewards gongfu brewing with many short infusions.
 - id: puerh-vs-black-tea
   title: Pu'er vs Black Tea
   title_zh: null
   description: Pu'er and Chinese black tea are both dark and warming, but they differ in processing, flavor, aging, and brewing. Here's how to choose.
   sections:
-    - heading: Processing Sets Them Apart
-      body: Black tea is fully oxidized and then dried. Pu'er goes through additional microbial fermentation or is pressed and aged as raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a>.
-    - heading: Flavor Differences
-      body: Black tea is typically malty, fruity, and sweet. Ripe <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> is earthy, smooth, and sometimes cocoa-like. Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a> is more floral, bitter-sweet, and evolves over time.
-    - heading: Aging Potential
-      body: High-quality pu'er, especially sheng, is prized for aging. Black tea is best enjoyed within one to two years while it is fresh and aromatic.
-    - heading: Brewing Notes
-      body: Both can use boiling water. Ripe pu'er benefits from a quick rinse. Black tea is more forgiving and works well in a teapot or mug.
-
+  - heading: Processing Sets Them Apart
+    body: Black tea is fully oxidized and then dried. Pu'er goes through additional microbial fermentation or is pressed and aged as raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a>.
+  - heading: Flavor Differences
+    body: Black tea is typically malty, fruity, and sweet. Ripe <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> is earthy, smooth, and sometimes cocoa-like. Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a> is more floral, bitter-sweet, and evolves over time.
+  - heading: Aging Potential
+    body: High-quality pu'er, especially sheng, is prized for aging. Black tea is best enjoyed within one to two years while it is fresh and aromatic.
+  - heading: Brewing Notes
+    body: Both can use boiling water. Ripe pu'er benefits from a quick rinse. Black tea is more forgiving and works well in a teapot or mug.
 - id: how-to-store-chinese-tea
   title: How to Store Chinese Tea
   title_zh: null
   description: Keep your Chinese tea fresh and flavorful with proper storage. Learn about air, light, moisture, and temperature for every tea type.
   sections:
-    - heading: Keep It Airtight
-      body: Oxygen is the enemy of fresh tea. Store tea in airtight containers such as tins, sealed bags, or dedicated tea caddies. Avoid clear glass jars unless kept in a dark cupboard.
-    - heading: Avoid Light and Heat
-      body: Light and heat degrade tea quickly. Keep your tea in a cool, dark place away from stoves, windows, and radiators. A pantry or drawer works well.
-    - heading: Control Humidity
-      body: Moisture causes mold and off-flavors. Do not store tea in the refrigerator unless it is vacuum-sealed. Use desiccant packets in humid climates.
-    - heading: Separate Strong Odors
-      body: Tea absorbs odors easily. Keep it away from spices, coffee, and strong-smelling foods. Pu'er and dark teas can be stored together, but keep them separate from green and white teas.
-    - heading: Pu'er Is Different
-      body: Ripe and raw pu'er can improve with age when stored with controlled airflow and moderate humidity. This is not true for green, white, or lightly oxidized oolongs.
-
+  - heading: Keep It Airtight
+    body: Oxygen is the enemy of fresh tea. Store tea in airtight containers such as tins, sealed bags, or dedicated tea caddies. Avoid clear glass jars unless kept in a dark cupboard.
+  - heading: Avoid Light and Heat
+    body: Light and heat degrade tea quickly. Keep your tea in a cool, dark place away from stoves, windows, and radiators. A pantry or drawer works well.
+  - heading: Control Humidity
+    body: Moisture causes mold and off-flavors. Do not store tea in the refrigerator unless it is vacuum-sealed. Use desiccant packets in humid climates.
+  - heading: Separate Strong Odors
+    body: Tea absorbs odors easily. Keep it away from spices, coffee, and strong-smelling foods. Pu'er and dark teas can be stored together, but keep them separate from green and white teas.
+  - heading: Pu'er Is Different
+    body: Ripe and raw pu'er can improve with age when stored with controlled airflow and moderate humidity. This is not true for green, white, or lightly oxidized oolongs.
 - id: gongfu-tea-setup
   title: Gongfu Tea Setup for Beginners
   title_zh: null
   description: Build a simple gongfu tea setup at home. Learn which teaware you need, how to use it, and how to brew small cups with big flavor.
   sections:
-    - heading: Start with a Gaiwan
-      body: A gaiwan is the most versatile gongfu vessel. It is affordable, easy to clean, and works for every tea category. A 100–150 ml size is ideal for beginners.
-    - heading: Add a Fairness Pitcher
-      body: A fairness pitcher ensures each cup has the same strength. It also makes pouring easier and helps cool the liquor slightly before drinking.
-    - heading: Choose Small Cups
-      body: Gongfu tea is served in small cups, often 30–60 ml. Small cups let you taste the tea's evolution across many infusions.
-    - heading: Use a Tea Tray or Boat
-      body: Gongfu brewing involves rinsing and pouring water over the vessel. A small tea tray or tea boat catches spills and keeps your table clean.
-    - heading: Basic Gongfu Steps
-      body: Rinse the leaves with a quick splash of hot water if needed. Steep briefly, pour into the fairness pitcher, then serve. Repeat for multiple infusions.
-
+  - heading: Start with a Gaiwan
+    body: A gaiwan is the most versatile gongfu vessel. It is affordable, easy to clean, and works for every tea category. A 100–150 ml size is ideal for beginners.
+  - heading: Add a Fairness Pitcher
+    body: A fairness pitcher ensures each cup has the same strength. It also makes pouring easier and helps cool the liquor slightly before drinking.
+  - heading: Choose Small Cups
+    body: Gongfu tea is served in small cups, often 30–60 ml. Small cups let you taste the tea's evolution across many infusions.
+  - heading: Use a Tea Tray or Boat
+    body: Gongfu brewing involves rinsing and pouring water over the vessel. A small tea tray or tea boat catches spills and keeps your table clean.
+  - heading: Basic Gongfu Steps
+    body: Rinse the leaves with a quick splash of hot water if needed. Steep briefly, pour into the fairness pitcher, then serve. Repeat for multiple infusions.
 - id: raw-vs-ripe-puerh
   title: Raw vs Ripe Pu'er
   title_zh: null
   description: Sheng and <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> look similar but taste very different. Learn the difference between raw and ripe pu'er tea.
   sections:
-    - heading: Sheng Pu'er Is Raw
-      body: Sheng pu'er is made from sun-withered leaves that are steamed and pressed. It is greenish in color, often bitter-sweet, and evolves over decades.
-    - heading: Shou Pu'er Is Ripe
-      body: Shou pu'er undergoes accelerated fermentation to mimic aged sheng. It is dark, earthy, smooth, and ready to drink soon after production.
-    - heading: Flavor Differences
-      body: Sheng can be floral, fruity, astringent, and complex. Shou is typically earthy, woody, sweet, and mellow with notes of cocoa or wet forest.
-    - heading: Caffeine and Timing
-      body: Young sheng can be high in caffeine and stimulating. Shou is generally gentler on the stomach and lower in caffeine, making it suitable for evening.
-    - heading: Aging
-      body: High-quality sheng is prized for aging. Shou is designed to be consumed relatively young, though it can smooth out over a few years.
-
+  - heading: Sheng Pu'er Is Raw
+    body: Sheng pu'er is made from sun-withered leaves that are steamed and pressed. It is greenish in color, often bitter-sweet, and evolves over decades.
+  - heading: Shou Pu'er Is Ripe
+    body: Shou pu'er undergoes accelerated fermentation to mimic aged sheng. It is dark, earthy, smooth, and ready to drink soon after production.
+  - heading: Flavor Differences
+    body: Sheng can be floral, fruity, astringent, and complex. Shou is typically earthy, woody, sweet, and mellow with notes of cocoa or wet forest.
+  - heading: Caffeine and Timing
+    body: Young sheng can be high in caffeine and stimulating. Shou is generally gentler on the stomach and lower in caffeine, making it suitable for evening.
+  - heading: Aging
+    body: High-quality sheng is prized for aging. Shou is designed to be consumed relatively young, though it can smooth out over a few years.
 - id: loose-leaf-vs-tea-bags
   title: Loose Leaf vs Tea Bags
   title_zh: null
   description: Why loose leaf Chinese tea usually tastes better than tea bags. Learn about leaf quality, space to expand, and flavor extraction.
   sections:
-    - heading: Whole Leaves Brew Better
-      body: Loose leaf tea usually contains larger, whole leaves that release flavor gradually. Tea bags often contain dust and fannings that steep quickly and can taste flat.
-    - heading: Room to Expand
-      body: Whole leaves need space to unfurl. Loose leaf in a gaiwan or teapot allows this. Tea bags constrain the leaves and limit extraction.
-    - heading: Better Quality Sourcing
-      body: Premium Chinese teas are rarely sold in bags. Loose leaf lets you see the leaf shape, color, and quality before you buy.
-    - heading: More Control
-      body: With loose leaf, you control the amount of leaf, water temperature, and steep time. This flexibility is key to brewing great Chinese tea.
-
+  - heading: Whole Leaves Brew Better
+    body: Loose leaf tea usually contains larger, whole leaves that release flavor gradually. Tea bags often contain dust and fannings that steep quickly and can taste flat.
+  - heading: Room to Expand
+    body: Whole leaves need space to unfurl. Loose leaf in a gaiwan or teapot allows this. Tea bags constrain the leaves and limit extraction.
+  - heading: Better Quality Sourcing
+    body: Premium Chinese teas are rarely sold in bags. Loose leaf lets you see the leaf shape, color, and quality before you buy.
+  - heading: More Control
+    body: With loose leaf, you control the amount of leaf, water temperature, and steep time. This flexibility is key to brewing great Chinese tea.
 - id: best-chinese-tea-for-energy
   title: Best Chinese Tea for Energy
   title_zh: null
   description: Need a natural boost? Discover the Chinese teas with the most caffeine and energizing flavor profiles for mornings and focus.
   sections:
-    - heading: Black Tea for a Strong Start
-      body: Chinese black teas like <a href="/tea/dianhong-gongfu/">Dianhong</a> and <a href="/tea/qimen-hongcha/">Keemun</a> are fully oxidized and typically higher in caffeine. They deliver a bold, malty cup that wakes you up.
-    - heading: Raw Pu'er for Focus
-      body: Young sheng pu'er can be stimulating and mentally clarifying. Its bitterness and sweetness create an alert, focused state.
-    - heading: High-Mountain Oolong
-      body: Taiwanese-style high-mountain oolongs like Alishan or Da Yu Ling are smooth, aromatic, and moderately caffeinated. They offer energy without jitters.
-    - heading: Brew for More Caffeine
-      body: Use more leaf, hotter water, and longer steep times to extract more caffeine. First flushes and bud-heavy teas also tend to contain more caffeine.
-
+  - heading: Black Tea for a Strong Start
+    body: Chinese black teas like <a href="/tea/dianhong-gongfu/">Dianhong</a> and <a href="/tea/qimen-hongcha/">Keemun</a> are fully oxidized and typically higher in caffeine. They deliver a bold, malty cup that wakes you up.
+  - heading: Raw Pu'er for Focus
+    body: Young sheng pu'er can be stimulating and mentally clarifying. Its bitterness and sweetness create an alert, focused state.
+  - heading: High-Mountain Oolong
+    body: Taiwanese-style high-mountain oolongs like Alishan or Da Yu Ling are smooth, aromatic, and moderately caffeinated. They offer energy without jitters.
+  - heading: Brew for More Caffeine
+    body: Use more leaf, hotter water, and longer steep times to extract more caffeine. First flushes and bud-heavy teas also tend to contain more caffeine.
 - id: best-chinese-tea-for-relaxation
   title: Best Chinese Tea for Relaxation
   title_zh: null
   description: Looking to unwind? These low-caffeine Chinese teas are calming, soothing, and perfect for evening or stress relief.
   sections:
-    - heading: White Tea for Gentle Calm
-      body: White teas like <a href="/tea/bai-mudan/">Bai Mudan</a> and Shou Mei are low in caffeine and naturally sweet. They offer a gentle, calming cup any time of day.
-    - heading: Ripe Pu'er for Evening
-      body: Shou pu'er is fermented, smooth, and low in caffeine. Its earthy warmth is comforting after dinner or before bed.
-    - heading: Chrysanthemum and Scented Teas
-      body: Chrysanthemum pu'er and jasmine teas are traditionally enjoyed for relaxation. The floral aromas are soothing and the caffeine is moderate to low.
-    - heading: Brew Gently for Less Caffeine
-      body: Use fewer leaves, cooler water, and shorter steep times to reduce caffeine. This makes almost any tea more suitable for evening sipping.
-
+  - heading: White Tea for Gentle Calm
+    body: White teas like <a href="/tea/bai-mudan/">Bai Mudan</a> and Shou Mei are low in caffeine and naturally sweet. They offer a gentle, calming cup any time of day.
+  - heading: Ripe Pu'er for Evening
+    body: Shou pu'er is fermented, smooth, and low in caffeine. Its earthy warmth is comforting after dinner or before bed.
+  - heading: Chrysanthemum and Scented Teas
+    body: Chrysanthemum pu'er and jasmine teas are traditionally enjoyed for relaxation. The floral aromas are soothing and the caffeine is moderate to low.
+  - heading: Brew Gently for Less Caffeine
+    body: Use fewer leaves, cooler water, and shorter steep times to reduce caffeine. This makes almost any tea more suitable for evening sipping.
 - id: chinese-tea-gifts
   title: Chinese Tea Gifts
   title_zh: null
   description: How to choose Chinese tea as a gift. Tips for beginners, tea lovers, and special occasions by budget and taste.
   sections:
-    - heading: Know the Recipient
-      body: Beginners appreciate gentle teas like <a href="/tea/bai-mudan/">Bai Mudan</a>, <a href="/tea/xi-hu-longjing/">Longjing</a>, or <a href="/tea/jasmine-dragon-pearl/">Jasmine Pearls</a>. Experienced drinkers may prefer rare oolongs, aged pu'er, or Wuyi yancha.
-    - heading: Match the Occasion
-      body: For holidays and formal occasions, choose elegant teas in beautiful packaging. For casual gifts, a curated sampler of three to five teas is thoughtful and easy to enjoy.
-    - heading: Budget-Friendly Options
-      body: Good quality green teas, jasmine teas, and ripe pu'er are affordable and widely appreciated. Look for fresh harvest dates and whole leaves rather than dust.
-    - heading: Splurge-Worthy Teas
-      body: For a premium gift, consider West Lake <a href="/tea/xi-hu-longjing/">Longjing</a>, <a href="/tea/tie-guan-yin/">Tie Guan Yin</a> from Anxi, aged sheng pu'er, or high-mountain Taiwanese oolong. These teas carry prestige and memorable flavor.
-    - heading: Presentation Matters
-      body: Tea gifts feel more special in a nice tin, gift box, or with a small gaiwan. Include brewing instructions so the recipient gets the best experience.
-
+  - heading: Know the Recipient
+    body: Beginners appreciate gentle teas like <a href="/tea/bai-mudan/">Bai Mudan</a>, <a href="/tea/xi-hu-longjing/">Longjing</a>, or <a href="/tea/jasmine-dragon-pearl/">Jasmine Pearls</a>. Experienced drinkers may prefer rare oolongs, aged pu'er, or Wuyi yancha.
+  - heading: Match the Occasion
+    body: For holidays and formal occasions, choose elegant teas in beautiful packaging. For casual gifts, a curated sampler of three to five teas is thoughtful and easy to enjoy.
+  - heading: Budget-Friendly Options
+    body: Good quality green teas, jasmine teas, and ripe pu'er are affordable and widely appreciated. Look for fresh harvest dates and whole leaves rather than dust.
+  - heading: Splurge-Worthy Teas
+    body: For a premium gift, consider West Lake <a href="/tea/xi-hu-longjing/">Longjing</a>, <a href="/tea/tie-guan-yin/">Tie Guan Yin</a> from Anxi, aged sheng pu'er, or high-mountain Taiwanese oolong. These teas carry prestige and memorable flavor.
+  - heading: Presentation Matters
+    body: Tea gifts feel more special in a nice tin, gift box, or with a small gaiwan. Include brewing instructions so the recipient gets the best experience.
 - id: how-to-taste-tea
   title: How to Taste Tea Like a Pro
   title_zh: null
   description: Learn the basics of tea tasting. Discover how to evaluate aroma, flavor, body, finish, and mouthfeel in every cup.
   sections:
-    - heading: Start with the Aroma
-      body: Smell the dry leaves first, then the wet leaves after the initial rinse or steep. Aroma gives clues about freshness, roast level, and processing style.
-    - heading: Sip Mindfully
-      body: Take a small sip and let the liquor coat your tongue. Notice sweetness, bitterness, astringency, and umami. Good tea should have a clean, pleasant finish.
-    - heading: Feel the Body
-      body: Body refers to the weight and texture of the tea. Is it light and refreshing, or thick and coating? Terms like silky, brisk, creamy, and full describe this sensation.
-    - heading: Notice the Finish
-      body: The aftertaste, or finish, is a sign of quality. Great teas leave a lingering sweetness, cooling sensation, or returning aroma minutes after the sip.
-    - heading: Take Notes
-      body: Keep a simple tasting journal. Record the tea name, origin, brewing parameters, and your impressions. Over time you will recognize patterns and preferences.
-
+  - heading: Start with the Aroma
+    body: Smell the dry leaves first, then the wet leaves after the initial rinse or steep. Aroma gives clues about freshness, roast level, and processing style.
+  - heading: Sip Mindfully
+    body: Take a small sip and let the liquor coat your tongue. Notice sweetness, bitterness, astringency, and umami. Good tea should have a clean, pleasant finish.
+  - heading: Feel the Body
+    body: Body refers to the weight and texture of the tea. Is it light and refreshing, or thick and coating? Terms like silky, brisk, creamy, and full describe this sensation.
+  - heading: Notice the Finish
+    body: The aftertaste, or finish, is a sign of quality. Great teas leave a lingering sweetness, cooling sensation, or returning aroma minutes after the sip.
+  - heading: Take Notes
+    body: Keep a simple tasting journal. Record the tea name, origin, brewing parameters, and your impressions. Over time you will recognize patterns and preferences.
 - id: yixing-teapot-guide
   title: Yixing Teapot Guide
   title_zh: null
   description: What is a Yixing teapot, how to season it, and which teas brew best in unglazed clay.
   sections:
-    - heading: What Is Yixing Clay
-      body: Yixing teapots come from Yixing in Jiangsu province, China. The unglazed clay absorbs tea oils over time, seasoning the pot and enhancing flavor.
-    - heading: Seasoning Your Teapot
-      body: Rinse the new pot with hot water, then brew a strong batch of the tea you plan to dedicate to it. Repeat two or three times. Some people also boil the pot briefly in the same tea.
-    - heading: One Tea per Pot
-      body: Most collectors dedicate one Yixing pot to one category of tea, often ripe pu'er, sheng pu'er, or darker oolongs. This prevents flavor cross-contamination and builds seasoning.
-    - heading: Best Teas for Yixing
-      body: Ripe pu'er, sheng pu'er, Wuyi yancha, and roasted oolongs are classic choices. The clay softens astringency and deepens the body of these teas.
-    - heading: Care and Cleaning
-      body: Rinse with hot water after use and let the pot air dry with the lid off. Avoid soap or detergent, as the clay will absorb it and ruin future brews.
-
+  - heading: What Is Yixing Clay
+    body: Yixing teapots come from Yixing in Jiangsu province, China. The unglazed clay absorbs tea oils over time, seasoning the pot and enhancing flavor.
+  - heading: Seasoning Your Teapot
+    body: Rinse the new pot with hot water, then brew a strong batch of the tea you plan to dedicate to it. Repeat two or three times. Some people also boil the pot briefly in the same tea.
+  - heading: One Tea per Pot
+    body: Most collectors dedicate one Yixing pot to one category of tea, often ripe pu'er, sheng pu'er, or darker oolongs. This prevents flavor cross-contamination and builds seasoning.
+  - heading: Best Teas for Yixing
+    body: Ripe pu'er, sheng pu'er, Wuyi yancha, and roasted oolongs are classic choices. The clay softens astringency and deepens the body of these teas.
+  - heading: Care and Cleaning
+    body: Rinse with hot water after use and let the pot air dry with the lid off. Avoid soap or detergent, as the clay will absorb it and ruin future brews.
 - id: best-green-tea-for-beginners
   title: Best Green Tea for Beginners
   title_zh: null
   description: New to green tea? These approachable Chinese green teas are fresh, forgiving, and perfect for beginners.
   sections:
-    - heading: Longjing (Dragon Well)
-      body: <a href="/tea/xi-hu-longjing/">Longjing</a> is China\'s most famous green tea. It is nutty, sweet, and smooth with no bitterness when brewed correctly. Look for Hangzhou or West Lake origin for authenticity.
-    - heading: Biluochun
-      body: <a href="/tea/biluochun/">Biluochun</a> is rolled into tight spirals and has a fruity, floral aroma. It is slightly more intense than Longjing but still very approachable for newcomers.
-    - heading: Huangshan Maofeng
-      body: <a href="/tea/huangshan-maofeng/">Huangshan Maofeng</a> has a light, orchid-like fragrance and a clean, refreshing taste. It is a great choice if you prefer delicate teas.
-    - heading: Anji Baicha
-      body: <a href="/tea/anji-bai-cha/">Anji Baicha</a> is unusually pale and rich in amino acids. It tastes mild, sweet, and slightly creamy, making it one of the easiest green teas to love.
-    - heading: Brewing Tip for Beginners
-      body: Use water around 80°C, not boiling. Steep for 2 minutes. Boiling water will make green tea bitter.
-
+  - heading: Longjing (Dragon Well)
+    body: <a href="/tea/xi-hu-longjing/">Longjing</a> is China\'s most famous green tea. It is nutty, sweet, and smooth with no bitterness when brewed correctly. Look for Hangzhou or West Lake origin for authenticity.
+  - heading: Biluochun
+    body: <a href="/tea/biluochun/">Biluochun</a> is rolled into tight spirals and has a fruity, floral aroma. It is slightly more intense than Longjing but still very approachable for newcomers.
+  - heading: Huangshan Maofeng
+    body: <a href="/tea/huangshan-maofeng/">Huangshan Maofeng</a> has a light, orchid-like fragrance and a clean, refreshing taste. It is a great choice if you prefer delicate teas.
+  - heading: Anji Baicha
+    body: <a href="/tea/anji-bai-cha/">Anji Baicha</a> is unusually pale and rich in amino acids. It tastes mild, sweet, and slightly creamy, making it one of the easiest green teas to love.
+  - heading: Brewing Tip for Beginners
+    body: Use water around 80°C, not boiling. Steep for 2 minutes. Boiling water will make green tea bitter.
 - id: best-oolong-tea-for-beginners
   title: Best Oolong Tea for Beginners
   title_zh: null
   description: Start your oolong journey with these beginner-friendly Chinese oolongs. Floral, creamy, and easy to brew.
   sections:
-    - heading: Tie Guan Yin
-      body: <a href="/tea/tie-guan-yin/">Tie Guan Yin</a> from Anxi is the classic starter oolong. It is lightly oxidized, floral, creamy, and very forgiving. It works well brewed both Western and gongfu style.
-    - heading: Da Hong Pao
-      body: <a href="/tea/da-hong-pao/">Da Hong Pao</a> is a roasted Wuyi yancha with notes of stone fruit, toast, and mineral. It is fuller-bodied and a good introduction to darker oolongs.
-    - heading: Ali Shan Oolong
-      body: <a href="/tea/alishan-oolong/">Ali Shan</a> from Taiwan is silky, floral, and naturally sweet. High-mountain oolongs are prized for their clean, elegant flavor.
-    - heading: Milk Oolong
-      body: <a href="/tea/jin-xuan/">Jin Xuan</a> or milk oolong has a naturally creamy, buttery texture. It is a crowd-pleaser and one of the easiest oolongs to enjoy right away.
-    - heading: Brewing Tip for Beginners
-      body: Start with 90°C water and a 3-minute steep. As you gain confidence, try gongfu brewing with shorter infusions to experience the tea's evolution.
-
+  - heading: Tie Guan Yin
+    body: <a href="/tea/tie-guan-yin/">Tie Guan Yin</a> from Anxi is the classic starter oolong. It is lightly oxidized, floral, creamy, and very forgiving. It works well brewed both Western and gongfu style.
+  - heading: Da Hong Pao
+    body: <a href="/tea/da-hong-pao/">Da Hong Pao</a> is a roasted Wuyi yancha with notes of stone fruit, toast, and mineral. It is fuller-bodied and a good introduction to darker oolongs.
+  - heading: Ali Shan Oolong
+    body: <a href="/tea/alishan-oolong/">Ali Shan</a> from Taiwan is silky, floral, and naturally sweet. High-mountain oolongs are prized for their clean, elegant flavor.
+  - heading: Milk Oolong
+    body: <a href="/tea/jin-xuan/">Jin Xuan</a> or milk oolong has a naturally creamy, buttery texture. It is a crowd-pleaser and one of the easiest oolongs to enjoy right away.
+  - heading: Brewing Tip for Beginners
+    body: Start with 90°C water and a 3-minute steep. As you gain confidence, try gongfu brewing with shorter infusions to experience the tea's evolution.
 - id: best-black-tea-for-beginners
   title: Best Black Tea for Beginners
   title_zh: null
   description: Discover the best Chinese black teas for beginners. These are sweet, smooth, and easy to brew with boiling water.
   sections:
-    - heading: Keemun
-      body: <a href="/tea/qimen-hongcha/">Keemun</a> from Anhui is often called the Burgundy of teas. It is fruity, floral, and wine-like with a naturally sweet finish.
-    - heading: Dianhong
-      body: Yunnan <a href="/tea/dianhong-gongfu/">Dianhong</a> is malty, honeyed, and bold. It is excellent with milk or on its own and very forgiving to brew.
-    - heading: Jin Jun Mei
-      body: <a href="/tea/jin-jun-mei/">Jin Jun Mei</a> is a premium Wuyi black tea made from tiny buds. It is sweet, floral, and smooth, though more expensive.
-    - heading: Lapsang Souchong
-      body: <a href="/tea/zhengshan-xiaozhong/">Lapsang Souchong</a> is smoked over pine wood. It is divisive but iconic. Try the non-smoked versions first if you prefer a milder introduction.
-    - heading: Brewing Tip for Beginners
-      body: Use boiling water and steep for 3–4 minutes. Chinese black tea rarely goes bitter, so it is one of the easiest categories for beginners.
-
+  - heading: Keemun
+    body: <a href="/tea/qimen-hongcha/">Keemun</a> from Anhui is often called the Burgundy of teas. It is fruity, floral, and wine-like with a naturally sweet finish.
+  - heading: Dianhong
+    body: Yunnan <a href="/tea/dianhong-gongfu/">Dianhong</a> is malty, honeyed, and bold. It is excellent with milk or on its own and very forgiving to brew.
+  - heading: Jin Jun Mei
+    body: <a href="/tea/jin-jun-mei/">Jin Jun Mei</a> is a premium Wuyi black tea made from tiny buds. It is sweet, floral, and smooth, though more expensive.
+  - heading: Lapsang Souchong
+    body: <a href="/tea/zhengshan-xiaozhong/">Lapsang Souchong</a> is smoked over pine wood. It is divisive but iconic. Try the non-smoked versions first if you prefer a milder introduction.
+  - heading: Brewing Tip for Beginners
+    body: Use boiling water and steep for 3–4 minutes. Chinese black tea rarely goes bitter, so it is one of the easiest categories for beginners.
 - id: chinese-tea-sets
-  title: "Chinese Tea Set Guide: Gaiwan, Yixing, Cups & How to Choose"
+  title: 'Chinese Tea Set Guide: Gaiwan, Yixing, Cups & How to Choose'
   title_zh: null
-  description: "What belongs in a Chinese tea set? A practical guide to gaiwans, Yixing teapots, tea cups, gongfu trays, and how to choose your first set."
+  description: What belongs in a Chinese tea set? A practical guide to gaiwans, Yixing teapots, tea cups, gongfu trays, and how to choose your first set.
   sections:
-    - heading: What Counts as a Chinese Tea Set
-      body: A Chinese tea set is built around small vessels and repeated short infusions rather than one large pot. A typical gongfu set includes a brewing vessel (a gaiwan or small teapot), a fairness pitcher (gong dao bei) for even pouring, small tasting cups, and often a tea tray to catch spills. Unlike Western sets, the teapot is usually 100–200 ml and the cups hold only a few sips, because the same leaves are steeped many times.
-    - heading: The Gaiwan Is the Best First Piece
-      body: If you buy only one item, make it a porcelain gaiwan — a lidded bowl of roughly 100–150 ml. Porcelain is neutral, so one gaiwan brews every category well, from delicate <a href="/category/green/">green tea</a> to roasted <a href="/category/oolong/">oolong</a>. The lid doubles as a strainer and lets you smell the aroma between infusions. A good starter gaiwan costs far less than a full set and teaches you more about the tea. See our <a href="/guide/gongfu-tea-setup/">gongfu setup guide</a> for how to use it step by step.
-    - heading: Yixing Clay Teapots
-      body: Yixing teapots are made from unglazed zisha clay that absorbs the character of the tea brewed in them, which is why one pot is traditionally dedicated to a single tea type — usually <a href="/category/oolong/">oolong</a>, <a href="/category/puerh/">pu'er</a>, or <a href="/category/black/">black tea</a>. They reward experience but are a poor first purchase, since the clay mutes delicate teas and a mis-seasoned pot is hard to reset. Our <a href="/guide/yixing-teapot-guide/">Yixing teapot guide</a> covers clay types, seasoning, and care.
-    - heading: Chinese Tea Cups and Why They Have No Handles
-      body: Traditional Chinese tea cups are small — often 30–60 ml — and handleless. The size keeps tea at drinking temperature and lets you follow how the flavor changes across infusions, while the thin walls and wide rim direct aroma toward your nose. Porcelain and glazed ceramic are the most common materials; glass shows off the liquor color, and unglazed clay softens texture. Taller, narrow aroma cups (wen xiang bei) appear in some oolong services purely for smelling.
-    - heading: Porcelain, Glass, or Clay
-      body: Porcelain is the all-rounder — neutral, easy to clean, and traditional for gaiwans and cups. Glass is prized for watching leaves unfurl, especially needle-shaped greens like <a href="/tea/xi-hu-longjing/">Longjing</a>, and it works well for <a href="/category/scented/">scented teas</a>. Unglazed clay (Yixing zisha or Chaozhou clay) is for dedicated brewing of darker teas. Avoid metal infusers and thick stoneware mugs for gongfu brewing; they hold heat unevenly and cramp the leaves.
-    - heading: Choosing Your First Chinese Tea Set
-      body: "Start small and functional: a 120 ml porcelain gaiwan, a fairness pitcher, two or three small cups, and a simple strainer. That covers every tea on this site and costs a fraction of an ornate tray set. Add a Yixing pot once you know which tea you drink most, and a bamboo or ceramic tray if you brew boiling-hot oolongs and want room to pour freely. If you are buying a set as a present, our <a href='/guide/chinese-tea-gifts/'>Chinese tea gift guide</a> pairs sets with teas worth gifting."
-    - heading: Caring for Your Set
-      body: Rinse porcelain and glass with hot water and let them air dry — no soap is needed for daily use, and soap should never touch unglazed clay. Remove tea stains from porcelain with a paste of baking soda. Store Yixing pots open and dry, away from kitchen smells, because the porous clay absorbs odors as readily as tea.
-
+  - heading: What Counts as a Chinese Tea Set
+    body: A Chinese tea set is built around small vessels and repeated short infusions rather than one large pot. A typical gongfu set includes a brewing vessel (a gaiwan or small teapot), a fairness pitcher (gong dao bei) for even pouring, small tasting cups, and often a tea tray to catch spills. Unlike Western sets, the teapot is usually 100–200 ml and the cups hold only a few sips, because the same leaves are steeped many times.
+  - heading: The Gaiwan Is the Best First Piece
+    body: If you buy only one item, make it a porcelain gaiwan — a lidded bowl of roughly 100–150 ml. Porcelain is neutral, so one gaiwan brews every category well, from delicate <a href="/category/green/">green tea</a> to roasted <a href="/category/oolong/">oolong</a>. The lid doubles as a strainer and lets you smell the aroma between infusions. A good starter gaiwan costs far less than a full set and teaches you more about the tea. See our <a href="/guide/gongfu-tea-setup/">gongfu setup guide</a> for how to use it step by step.
+  - heading: Yixing Clay Teapots
+    body: Yixing teapots are made from unglazed zisha clay that absorbs the character of the tea brewed in them, which is why one pot is traditionally dedicated to a single tea type — usually <a href="/category/oolong/">oolong</a>, <a href="/category/puerh/">pu'er</a>, or <a href="/category/black/">black tea</a>. They reward experience but are a poor first purchase, since the clay mutes delicate teas and a mis-seasoned pot is hard to reset. Our <a href="/guide/yixing-teapot-guide/">Yixing teapot guide</a> covers clay types, seasoning, and care.
+  - heading: Chinese Tea Cups and Why They Have No Handles
+    body: Traditional Chinese tea cups are small — often 30–60 ml — and handleless. The size keeps tea at drinking temperature and lets you follow how the flavor changes across infusions, while the thin walls and wide rim direct aroma toward your nose. Porcelain and glazed ceramic are the most common materials; glass shows off the liquor color, and unglazed clay softens texture. Taller, narrow aroma cups (wen xiang bei) appear in some oolong services purely for smelling.
+  - heading: Porcelain, Glass, or Clay
+    body: Porcelain is the all-rounder — neutral, easy to clean, and traditional for gaiwans and cups. Glass is prized for watching leaves unfurl, especially needle-shaped greens like <a href="/tea/xi-hu-longjing/">Longjing</a>, and it works well for <a href="/category/scented/">scented teas</a>. Unglazed clay (Yixing zisha or Chaozhou clay) is for dedicated brewing of darker teas. Avoid metal infusers and thick stoneware mugs for gongfu brewing; they hold heat unevenly and cramp the leaves.
+  - heading: Choosing Your First Chinese Tea Set
+    body: 'Start small and functional: a 120 ml porcelain gaiwan, a fairness pitcher, two or three small cups, and a simple strainer. That covers every tea on this site and costs a fraction of an ornate tray set. Add a Yixing pot once you know which tea you drink most, and a bamboo or ceramic tray if you brew boiling-hot oolongs and want room to pour freely. If you are buying a set as a present, our <a href=''/guide/chinese-tea-gifts/''>Chinese tea gift guide</a> pairs sets with teas worth gifting.'
+  - heading: Caring for Your Set
+    body: Rinse porcelain and glass with hot water and let them air dry — no soap is needed for daily use, and soap should never touch unglazed clay. Remove tea stains from porcelain with a paste of baking soda. Store Yixing pots open and dry, away from kitchen smells, because the porous clay absorbs odors as readily as tea.
+  faqs:
+  - q: What do you need in a Chinese tea set?
+    a: A basic gongfu set needs a small brewing vessel (a gaiwan or 100-200 ml teapot), a fairness pitcher to pour into so cups are evenly strong, small handleless cups, and a tray or bowl to catch water. A porcelain gaiwan alone is enough to start.
+  - q: What is the best Chinese tea set for beginners?
+    a: A 120 ml porcelain gaiwan with a fairness pitcher and two or three small cups. Porcelain is neutral, so one gaiwan brews every tea type well, and the set costs far less than an ornate tray set.
+  - q: Why are Chinese tea cups so small and handleless?
+    a: Small cups (30-60 ml) keep tea at drinking temperature and let you follow how the flavor changes across many infusions. Thin, handleless walls direct aroma toward your nose, which is central to gongfu tasting.
+  - q: What is the difference between a gaiwan and a Yixing teapot?
+    a: A porcelain gaiwan is neutral and brews any tea, making it the best all-rounder and first purchase. A Yixing clay teapot absorbs the character of the tea and is dedicated to one type, usually oolong or pu-erh, so it suits experienced drinkers.
 - id: types-of-chinese-tea
-  title: "Types of Chinese Tea: The 6 Traditional Categories Explained"
+  title: 'Types of Chinese Tea: The 6 Traditional Categories Explained'
   title_zh: null
-  description: "Chinese tea is grouped into six traditional types — green, white, yellow, oolong, black, and dark — plus scented teas. Learn what defines each and where to start."
+  description: Chinese tea is grouped into six traditional types — green, white, yellow, oolong, black, and dark — plus scented teas. Learn what defines each and where to start.
   sections:
-    - heading: The Six Traditional Categories
-      body: "Chinese tea scholarship groups all tea into six categories by processing method, not by plant: green, white, yellow, oolong, black, and dark tea. All six come from the same species, Camellia sinensis. What separates them is oxidation — how much the leaf's enzymes are allowed to transform it — plus steps like withering, rolling, roasting, and fermentation. A seventh group, scented tea, is any of these re-scented with flowers, most famously jasmine."
-    - heading: Green Tea (Lü Cha)
-      body: <a href="/category/green/">Green tea</a> is unoxidized. The leaf is heated soon after picking to lock in a fresh, vegetal, sometimes nutty character. It is China's most-produced category and includes famous names like <a href="/tea/xi-hu-longjing/">Longjing</a> and <a href="/tea/biluochun/">Biluochun</a>. Brew it with cooler water, around 75–85°C.
-    - heading: White Tea (Bai Cha)
-      body: <a href="/category/white/">White tea</a> is the least processed — simply withered and dried, with only the slight oxidation that happens naturally. Bud-only <a href="/tea/bai-hao-yinzhen/">Silver Needle</a> is delicate and honeyed, while leafier <a href="/tea/bai-mudan/">Bai Mudan</a> and <a href="/tea/shoumei/">Shou Mei</a> are fuller and age remarkably well into darker, dried-fruit flavors.
-    - heading: Yellow Tea (Huang Cha)
-      body: <a href="/category/yellow/">Yellow tea</a> is the rarest category. It starts like green tea but adds a slow "sealed yellowing" step that mellows the grassy edge into something rounder and sweeter. <a href="/tea/junshan-yinzhen/">Junshan Yinzhen</a> and <a href="/tea/huoshan-huangya/">Huoshan Huangya</a> are the classic examples.
-    - heading: Oolong Tea (Wulong Cha)
-      body: <a href="/category/oolong/">Oolong</a> is partially oxidized — anywhere from lightly floral, like <a href="/tea/tie-guan-yin/">Tie Guan Yin</a>, to dark and roasted, like <a href="/tea/da-hong-pao/">Da Hong Pao</a>. It is the most varied category and the one most associated with gongfu brewing. If you are unsure where it sits, read <a href="/guide/oolong-vs-green-tea/">oolong vs green tea</a>.
-    - heading: Black Tea (Hong Cha)
-      body: What English speakers call black tea is "red tea" (hong cha) in Chinese. The leaf is fully oxidized, giving malty, honeyed, sometimes wine-like flavors with no bitterness when brewed properly. <a href="/tea/qimen-hongcha/">Keemun</a>, Yunnan <a href="/tea/dianhong-gongfu/">Dianhong</a>, and smoky <a href="/tea/zhengshan-xiaozhong/">Lapsang Souchong</a> are the benchmarks.
-    - heading: Dark Tea and Pu'er (Hei Cha)
-      body: <a href="/category/dark/">Dark tea</a> is post-fermented — aged with the help of microbes after processing. The most famous member is <a href="/category/puerh/">pu'er</a> from Yunnan, which comes in two styles explained in <a href="/guide/raw-vs-ripe-puerh/">raw vs ripe pu'er</a>. Other dark teas include <a href="/tea/liu-bao/">Liu Bao</a>. Expect earthy, smooth, deeply mellow flavors that improve for decades.
-    - heading: Scented Teas
-      body: <a href="/category/scented/">Scented teas</a> layer a finished tea with fresh flowers over repeated nights. Jasmine tea — traditionally a green tea base, as in <a href="/tea/jasmine-yin-hao/">Jasmine Yin Hao</a> — is the global favorite, but osmanthus and rose teas follow the same craft.
-    - heading: Which Type Should You Start With
-      body: If you drink coffee, start with black tea or roasted oolong. If you prefer lighter drinks, start with green or white tea. Our <a href="/guide/chinese-tea-for-beginners/">beginner's guide</a> and the <a href="/find-your-tea/">Tea Finder</a> match you to specific teas by flavor, caffeine, and brewing effort.
-
+  - heading: The Six Traditional Categories
+    body: 'Chinese tea scholarship groups all tea into six categories by processing method, not by plant: green, white, yellow, oolong, black, and dark tea. All six come from the same species, Camellia sinensis. What separates them is oxidation — how much the leaf''s enzymes are allowed to transform it — plus steps like withering, rolling, roasting, and fermentation. A seventh group, scented tea, is any of these re-scented with flowers, most famously jasmine.'
+  - heading: Green Tea (Lü Cha)
+    body: <a href="/category/green/">Green tea</a> is unoxidized. The leaf is heated soon after picking to lock in a fresh, vegetal, sometimes nutty character. It is China's most-produced category and includes famous names like <a href="/tea/xi-hu-longjing/">Longjing</a> and <a href="/tea/biluochun/">Biluochun</a>. Brew it with cooler water, around 75–85°C.
+  - heading: White Tea (Bai Cha)
+    body: <a href="/category/white/">White tea</a> is the least processed — simply withered and dried, with only the slight oxidation that happens naturally. Bud-only <a href="/tea/bai-hao-yinzhen/">Silver Needle</a> is delicate and honeyed, while leafier <a href="/tea/bai-mudan/">Bai Mudan</a> and <a href="/tea/shoumei/">Shou Mei</a> are fuller and age remarkably well into darker, dried-fruit flavors.
+  - heading: Yellow Tea (Huang Cha)
+    body: <a href="/category/yellow/">Yellow tea</a> is the rarest category. It starts like green tea but adds a slow "sealed yellowing" step that mellows the grassy edge into something rounder and sweeter. <a href="/tea/junshan-yinzhen/">Junshan Yinzhen</a> and <a href="/tea/huoshan-huangya/">Huoshan Huangya</a> are the classic examples.
+  - heading: Oolong Tea (Wulong Cha)
+    body: <a href="/category/oolong/">Oolong</a> is partially oxidized — anywhere from lightly floral, like <a href="/tea/tie-guan-yin/">Tie Guan Yin</a>, to dark and roasted, like <a href="/tea/da-hong-pao/">Da Hong Pao</a>. It is the most varied category and the one most associated with gongfu brewing. If you are unsure where it sits, read <a href="/guide/oolong-vs-green-tea/">oolong vs green tea</a>.
+  - heading: Black Tea (Hong Cha)
+    body: What English speakers call black tea is "red tea" (hong cha) in Chinese. The leaf is fully oxidized, giving malty, honeyed, sometimes wine-like flavors with no bitterness when brewed properly. <a href="/tea/qimen-hongcha/">Keemun</a>, Yunnan <a href="/tea/dianhong-gongfu/">Dianhong</a>, and smoky <a href="/tea/zhengshan-xiaozhong/">Lapsang Souchong</a> are the benchmarks.
+  - heading: Dark Tea and Pu'er (Hei Cha)
+    body: <a href="/category/dark/">Dark tea</a> is post-fermented — aged with the help of microbes after processing. The most famous member is <a href="/category/puerh/">pu'er</a> from Yunnan, which comes in two styles explained in <a href="/guide/raw-vs-ripe-puerh/">raw vs ripe pu'er</a>. Other dark teas include <a href="/tea/liu-bao/">Liu Bao</a>. Expect earthy, smooth, deeply mellow flavors that improve for decades.
+  - heading: Scented Teas
+    body: <a href="/category/scented/">Scented teas</a> layer a finished tea with fresh flowers over repeated nights. Jasmine tea — traditionally a green tea base, as in <a href="/tea/jasmine-yin-hao/">Jasmine Yin Hao</a> — is the global favorite, but osmanthus and rose teas follow the same craft.
+  - heading: Which Type Should You Start With
+    body: If you drink coffee, start with black tea or roasted oolong. If you prefer lighter drinks, start with green or white tea. Our <a href="/guide/chinese-tea-for-beginners/">beginner's guide</a> and the <a href="/find-your-tea/">Tea Finder</a> match you to specific teas by flavor, caffeine, and brewing effort.
+  faqs:
+  - q: How many types of Chinese tea are there?
+    a: 'Chinese tea is grouped into six traditional categories by processing method: green, white, yellow, oolong, black, and dark tea. A seventh group, scented tea such as jasmine, is any of these re-scented with flowers.'
+  - q: What is the difference between the tea types?
+    a: All come from the same plant, Camellia sinensis. What separates them is oxidation, how much the leaf is allowed to transform, plus steps like withering, roasting, and fermentation. Green tea is unoxidized; black tea is fully oxidized; dark tea is post-fermented.
+  - q: Which type of Chinese tea should a beginner start with?
+    a: If you drink coffee, start with black tea or roasted oolong. If you prefer lighter drinks, start with green or white tea. Jasmine (scented) tea is an easy, welcoming introduction for most people.
 - id: chinese-tea-benefits
-  title: "Chinese Tea Benefits: What Each Type Is Traditionally Used For"
+  title: 'Chinese Tea Benefits: What Each Type Is Traditionally Used For'
   title_zh: null
-  description: "From green tea's antioxidants to ripe pu'er after heavy meals — what the main types of Chinese tea are traditionally used for, and what to actually expect."
+  description: From green tea's antioxidants to ripe pu'er after heavy meals — what the main types of Chinese tea are traditionally used for, and what to actually expect.
   sections:
-    - heading: A Realistic Starting Point
-      body: Tea is not medicine, and no cup will transform your health on its own. What tea reliably offers is a low-calorie, hydrating drink with moderate caffeine, the calming amino acid L-theanine, and polyphenol antioxidants such as catechins in green tea and theaflavins in black tea. The traditions below are centuries old; where modern research exists, it is generally early or mixed, so treat specific claims with healthy skepticism.
-    - heading: Green and White Tea
-      body: <a href="/category/green/">Green tea</a> keeps the most catechins (including EGCG, the most studied tea compound) because it is unoxidized, which is why it anchors most research on tea and general wellness. <a href="/category/white/">White tea</a> is similar in chemistry, gentler in flavor, and often lower in caffeine when brewed cool — see our <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> for the details behind that.
-    - heading: Oolong and Black Tea
-      body: <a href="/category/oolong/">Oolong</a> sits between green and black tea in both oxidation and chemistry, and features in traditional after-meal drinking in Fujian and Guangdong. Fully oxidized <a href="/category/black/">black tea</a> is the gentlest on an empty stomach for most drinkers and carries steady, coffee-lighter caffeine that pairs well with mornings.
-    - heading: Pu'er After Heavy Meals
-      body: Ripe <a href="/tea/menghai-shou-puerh/">shou pu'er</a> is the classic Chinese digestive tea — the default pot at dim sum and after rich, oily meals. Its microbial fermentation produces an earthy, smooth cup that is famously easy on the stomach and usually modest in caffeine, which also makes it a common evening choice. Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu'er</a> is brisker and closer to green tea in effect.
-    - heading: Calm Focus from L-Theanine
-      body: The "alert but calm" feeling tea drinkers describe comes from caffeine working alongside L-theanine, an amino acid abundant in shaded and bud-heavy teas. If that is what you are after, see <a href="/guide/best-chinese-tea-for-energy/">best teas for energy</a> and <a href="/guide/best-chinese-tea-for-relaxation/">best teas for relaxation</a> for picks at each end of the spectrum.
-    - heading: What About Weight Loss and Detox Teas
-      body: Be wary of anything marketed as a slimming or detox tea. Ordinary unsweetened tea can replace caloric drinks, and that substitution is the honest mechanism behind most "tea helped me lose weight" stories. Laxative-laced detox blends are a different product entirely and have nothing to do with traditional Chinese tea.
-    - heading: How to Get the Most from Any Tea
-      body: Brew loose leaf rather than dust-grade bags (<a href="/guide/loose-leaf-vs-tea-bags/">why it matters</a>), drink it plain, and match the tea to the moment — lighter teas earlier, roasted or ripe teas after meals. If a health condition or pregnancy makes caffeine a concern, talk to your doctor rather than relying on category averages.
-
-
+  - heading: A Realistic Starting Point
+    body: Tea is not medicine, and no cup will transform your health on its own. What tea reliably offers is a low-calorie, hydrating drink with moderate caffeine, the calming amino acid L-theanine, and polyphenol antioxidants such as catechins in green tea and theaflavins in black tea. The traditions below are centuries old; where modern research exists, it is generally early or mixed, so treat specific claims with healthy skepticism.
+  - heading: Green and White Tea
+    body: <a href="/category/green/">Green tea</a> keeps the most catechins (including EGCG, the most studied tea compound) because it is unoxidized, which is why it anchors most research on tea and general wellness. <a href="/category/white/">White tea</a> is similar in chemistry, gentler in flavor, and often lower in caffeine when brewed cool — see our <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> for the details behind that.
+  - heading: Oolong and Black Tea
+    body: <a href="/category/oolong/">Oolong</a> sits between green and black tea in both oxidation and chemistry, and features in traditional after-meal drinking in Fujian and Guangdong. Fully oxidized <a href="/category/black/">black tea</a> is the gentlest on an empty stomach for most drinkers and carries steady, coffee-lighter caffeine that pairs well with mornings.
+  - heading: Pu'er After Heavy Meals
+    body: Ripe <a href="/tea/menghai-shou-puerh/">shou pu'er</a> is the classic Chinese digestive tea — the default pot at dim sum and after rich, oily meals. Its microbial fermentation produces an earthy, smooth cup that is famously easy on the stomach and usually modest in caffeine, which also makes it a common evening choice. Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu'er</a> is brisker and closer to green tea in effect.
+  - heading: Calm Focus from L-Theanine
+    body: The "alert but calm" feeling tea drinkers describe comes from caffeine working alongside L-theanine, an amino acid abundant in shaded and bud-heavy teas. If that is what you are after, see <a href="/guide/best-chinese-tea-for-energy/">best teas for energy</a> and <a href="/guide/best-chinese-tea-for-relaxation/">best teas for relaxation</a> for picks at each end of the spectrum.
+  - heading: What About Weight Loss and Detox Teas
+    body: Be wary of anything marketed as a slimming or detox tea. Ordinary unsweetened tea can replace caloric drinks, and that substitution is the honest mechanism behind most "tea helped me lose weight" stories. Laxative-laced detox blends are a different product entirely and have nothing to do with traditional Chinese tea.
+  - heading: How to Get the Most from Any Tea
+    body: Brew loose leaf rather than dust-grade bags (<a href="/guide/loose-leaf-vs-tea-bags/">why it matters</a>), drink it plain, and match the tea to the moment — lighter teas earlier, roasted or ripe teas after meals. If a health condition or pregnancy makes caffeine a concern, talk to your doctor rather than relying on category averages.
+  faqs:
+  - q: What are the health benefits of Chinese tea?
+    a: Tea is a low-calorie, hydrating drink with moderate caffeine, the calming amino acid L-theanine, and polyphenol antioxidants like catechins in green tea. Specific traditional uses vary by type, but tea is best seen as a healthy drink, not medicine.
+  - q: Which Chinese tea is best for digestion?
+    a: Ripe shou pu-erh is the classic Chinese digestive tea, traditionally drunk after rich, oily meals and at dim sum. Its microbial fermentation produces an earthy, smooth cup that is famously easy on the stomach.
+  - q: Which Chinese tea has the most antioxidants?
+    a: Green tea keeps the most catechins, including EGCG, because it is unoxidized. White tea is similar in chemistry and gentler in flavor. Both anchor most research on tea and general wellness.
 - id: pu-erh-tea-benefits
   title: 'Pu-erh Tea Benefits: What Raw and Ripe Pu''er Are Used For'
   title_zh: null
@@ -326,6 +329,15 @@
     body: Rinse the leaves once with boiling water and discard that first quick infusion, which wakes up compressed pu-erh and rinses away storage dust. Then brew hot (95-100C) with short gongfu infusions, adding a few seconds each round. A good pu-erh gives ten or more steepings, and the flavor and body evolve the whole way through. A <a href="/guide/yixing-teapot-guide/">Yixing teapot</a> dedicated to pu-erh deepens the experience over time.
   - heading: Who Should Be Cautious
     body: Pu-erh still contains caffeine, so the usual cautions apply if you are pregnant, sensitive to stimulants, or drinking late at night. Favor ripe over raw and keep steeps short. As with any tea marketed for weight loss or "detox," ignore dramatic slimming claims. The honest benefit of unsweetened pu-erh is that it is a satisfying, calorie-free drink to replace sugary ones.
+  faqs:
+  - q: What is pu-erh tea good for?
+    a: Pu-erh is best known as an after-meal digestive, especially ripe (shou) pu-erh drunk after rich or oily food. It also offers polyphenol antioxidants and, uniquely, compounds formed during fermentation. Health claims beyond digestion are early and modest in evidence.
+  - q: Is raw or ripe pu-erh better for you?
+    a: They differ in effect. Ripe (shou) pu-erh is gentle, earthy, low in caffeine, and easy on the stomach after meals. Raw (sheng) pu-erh is brisker, closer to green tea, and often higher in caffeine, making it a better morning tea.
+  - q: Does pu-erh tea have caffeine?
+    a: Yes. Ripe pu-erh is often modest in caffeine because fermentation consumes some of it, so many people drink it in the evening. Raw pu-erh is usually higher in caffeine. The amount also depends on leaf quantity, water temperature, and steep time.
+  - q: Does pu-erh tea help you lose weight?
+    a: Unsweetened pu-erh is calorie-free and can replace sugary drinks, which is the honest mechanism behind most weight stories. Some small studies look at pu-erh and blood lipids, but evidence is early. Ignore dramatic slimming or detox marketing.
 - id: what-is-jasmine-tea
   title: What Is Jasmine Tea? How China's Favorite Scented Tea Is Made
   title_zh: null
@@ -345,6 +357,15 @@
     body: Look for loose-leaf jasmine tea that lists a real tea base and multiple scentings, not "jasmine flavor." Avoid dusty tea bags, which are usually low-grade and heavily perfumed. Whole rolled pearls and intact leaves are signs of quality. Stored airtight and away from light and kitchen smells, jasmine tea keeps its fragrance best when drunk within a year. It is prized fresh, unlike aged teas.
   - heading: Where Jasmine Tea Fits
     body: Jasmine tea is an easy, welcoming introduction to Chinese tea for anyone who finds plain green tea too austere. It pairs beautifully with light meals and is refreshing iced. If you enjoy it, explore other <a href="/category/scented/">scented teas</a> and the unscented <a href="/category/green/">green teas</a> that form its base, like <a href="/tea/xi-hu-longjing/">Longjing</a>.
+  faqs:
+  - q: What is jasmine tea made of?
+    a: Jasmine tea is a finished tea, almost always green tea, that has been layered with fresh jasmine blossoms so it absorbs their scent. The flowers are usually removed before sale, so the fragrance comes from the leaves, not petals in the water.
+  - q: Does jasmine tea have caffeine?
+    a: Yes. Because the base is real tea (Camellia sinensis), jasmine tea contains caffeine, usually in the low-to-moderate range typical of green tea. It is not a caffeine-free herbal tisane.
+  - q: What does jasmine tea taste like?
+    a: Good jasmine tea is fragrant and softly sweet, with a fresh green or chestnut tea base balancing the floral note. It should taste of living flowers, never soapy or artificial. If it tastes like perfume, the scenting was rushed or synthetic.
+  - q: How do you brew jasmine tea without bitterness?
+    a: Because most jasmine tea is green-tea based, use water around 80-85C, not boiling, and steep for 2-3 minutes. Boiling water scorches the leaf and turns the floral sweetness bitter. High-grade pearls reward several short infusions.
 - id: chinese-tea-ceremony
   title: 'Chinese Tea Ceremony: Gongfu Cha Explained for Beginners'
   title_zh: null
@@ -364,3 +385,12 @@
     body: You do not need a full tea set to start. Take a porcelain gaiwan or even a small heatproof glass, add a teaspoon or two of a forgiving tea like <a href="/tea/tie-guan-yin/">Tie Guan Yin</a> oolong, and brew a series of short infusions, tasting after each. Our <a href="/guide/gongfu-tea-setup/">gongfu setup guide</a> walks through the minimal kit. The goal is not performance but attention. The same leaves, revisited patiently, will teach you more than any single long steep.
   - heading: The Point of Slowing Down
     body: A Chinese tea ceremony is less about correct choreography than about giving one small thing your full attention. Done regularly it becomes a quiet ritual, a pause in the day organized around a pot of tea. Once the rhythm feels natural, explore how different teas reward it, from a bright <a href="/category/green/">green</a> in spring to an aged <a href="/category/puerh/">pu-erh</a> on a cold evening.
+  faqs:
+  - q: What is a Chinese tea ceremony?
+    a: The Chinese tea ceremony, gongfu cha, is a mindful way of brewing tea using a lot of leaf in a small vessel, steeped many times for short periods. You taste how the tea changes with each infusion rather than making one large cup.
+  - q: What do you need for a gongfu tea ceremony?
+    a: A small brewing vessel (a gaiwan or clay teapot of 100-150 ml), a fairness pitcher for even pouring, small tasting cups, and a tray or bowl for rinse water. A porcelain gaiwan and a couple of cups are enough to begin.
+  - q: How do you perform a Chinese tea ceremony step by step?
+    a: Warm the vessels with hot water and discard it. Add about 5-7 grams of leaf per 100 ml. Rinse compressed or rolled teas once, then brew short infusions of 10-30 seconds, pouring into a fairness pitcher and then cups. Serve guests first and re-steep, adding time each round.
+  - q: What tea is best for a Chinese tea ceremony?
+    a: Forgiving, aromatic teas like Tie Guan Yin oolong or an aged pu-erh are ideal for beginners because they reward many infusions and are hard to ruin. Brew oolong and pu-erh hot; brew green and white teas cooler.
