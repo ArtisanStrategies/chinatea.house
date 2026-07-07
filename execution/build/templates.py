@@ -417,7 +417,7 @@ def create_tea_detail_context(
         "related_guides": _related_guides_for_tea(tea),
         "cross_links": cross_links,
         "parent_links": parent_links,
-        "page_title": f"{tea.name_en} ({tea.name_zh or 'Chinese Tea'}) | Taste, Brew & Buying Guide",
+        "page_title": f"{tea.name_en}{'' if 'tea' in tea.name_en.lower() else ' Tea'} ({tea.name_zh or 'Chinese Tea'}) | Taste, Brewing & Buying Guide",
         "meta_description": f"Discover {tea.name_en}, a {category.name_en.lower()} from {region.name_en if region else 'China'}. {tea.description_brief[:120]}",
         "canonical_url": f"https://chinatea.house/tea/{tea.id}/",
         "breadcrumbs": [
