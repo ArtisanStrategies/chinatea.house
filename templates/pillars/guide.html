@@ -56,6 +56,16 @@
         </div>
     </section>
     {% endif %}
+
+    <section class="brewing-section">
+        <div class="section-header">
+            <p class="section-label">Editorial note</p>
+            <h2 class="section-title">Scope and Corrections</h2>
+        </div>
+        <div class="brewing-methods"><div class="method">
+            <p>This guide provides general education, not medical advice or a guarantee about a particular harvest or product. Tea chemistry and brewing results vary. Please <a href="/contact/">contact us</a> with corrections or primary sources.</p>
+        </div></div>
+    </section>
 </article>
 {% endblock %}
 
@@ -66,7 +76,10 @@
     "@type": "Article",
     "headline": {{ guide.title | tojson }},
     "description": {{ guide.description | tojson }},
-    "articleSection": "Tea Guide"
+    "articleSection": "Tea Guide",
+    "mainEntityOfPage": {{ canonical_url | tojson }},
+    "author": {"@type": "Organization", "name": "China Tea House", "url": "https://chinatea.house/about/"},
+    "publisher": {"@type": "Organization", "name": "China Tea House", "url": "https://chinatea.house/"}
 }
 </script>
 <script type="application/ld+json">

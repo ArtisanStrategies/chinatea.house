@@ -1,11 +1,12 @@
 """
 Static site generator for chinatea.house.
 
-Generates 50,000+ pages with parallel processing and incremental builds.
+Generates the explicit public page set with incremental build support.
 """
 
 import csv
 import json
+import shutil
 import time
 from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -33,10 +34,13 @@ from .templates import (
     create_tea_finder_context,
     create_dataset_context,
     create_brewing_calculator_context,
+    create_collection_index_context,
     load_guides,
 )
+from .contracts import comparison_url
 from .links import InternalLinkBuilder
 from .manifest import PageManifestManager, count_words, count_internal_links
+from .publication import PUBLIC_COMPARISON_IDS, select_public_comparisons
 
 
 class SiteGenerator:
@@ -68,6 +72,13 @@ class SiteGenerator:
             "errors": [],
             "duration_seconds": 0,
         }
+
+        # A full site build is a snapshot, not an overlay. Removing the old
+        # output prevents retired generated routes from surviving deployment.
+        if not incremental and template_filter is None and limit is None:
+            if self.output_dir.exists():
+                shutil.rmtree(self.output_dir)
+            self.output_dir.mkdir(parents=True, exist_ok=True)
 
         # Get template hashes for change detection
         template_hashes = self.template_engine.get_all_template_hashes()
@@ -101,10 +112,12 @@ class SiteGenerator:
         # Occasion pages
         if not template_filter or template_filter == "occasion":
             pages_to_generate.extend(self._collect_occasion_pages())
+            pages_to_generate.extend(self._collect_occasion_index_page())
 
         # Brewing guide pages
         if not template_filter or template_filter == "brewing":
             pages_to_generate.extend(self._collect_brewing_pages())
+            pages_to_generate.extend(self._collect_brewing_index_page())
 
         # Evergreen guide pages
         if not template_filter or template_filter == "guide":
@@ -137,6 +150,7 @@ class SiteGenerator:
 
         # Filter to only stale pages if incremental
         if incremental:
+            collected_count = len(pages_to_generate)
             pages_to_generate = [
                 p for p in pages_to_generate
                 if self.manifest_manager.is_page_stale(
@@ -145,7 +159,7 @@ class SiteGenerator:
                     template_hashes.get(p["template"], "")
                 )
             ]
-            result["pages_skipped"] = len(pages_to_generate) if not limit else 0
+            result["pages_skipped"] = collected_count - len(pages_to_generate)
 
         # Generate pages (single-threaded for now, can parallelize later)
         for page_info in pages_to_generate:
@@ -156,7 +170,7 @@ class SiteGenerator:
                 result["errors"].append(f"{page_info['url']}: {str(e)}")
 
         # Export downloadable datasets (only on full builds or when explicitly requested)
-        if not template_filter or template_filter == "dataset":
+        if not incremental or template_filter == "dataset":
             try:
                 self._export_tea_datasets()
                 self._generate_shareable_assets()
@@ -172,7 +186,9 @@ class SiteGenerator:
         categories = self.db.get_all_categories()
         regions = self.db.get_all_regions()
         teas = self.db.get_all_teas()
-        comparisons = self.db.get_all_comparisons(valid_only=True)
+        comparisons = select_public_comparisons(
+            self.db.get_all_comparisons(valid_only=True)
+        )
         occasions = self.db.get_all_occasions()
 
         data = {
@@ -363,7 +379,10 @@ class SiteGenerator:
                 province = regions.get(region.parent_id)
 
             links = self.link_builder.get_tea_links(tea)
-            comparisons_raw = self.db.get_comparisons_for_tea(tea.id)
+            comparisons_raw = [
+                comp for comp in self.db.get_comparisons_for_tea(tea.id)
+                if comp.id in PUBLIC_COMPARISON_IDS
+            ]
             # Populate tea_a and tea_b objects for each comparison
             comparisons = []
             for comp in comparisons_raw:
@@ -405,7 +424,9 @@ class SiteGenerator:
     def _collect_comparison_index_page(self) -> list[dict]:
         """Collect the comparison index page to generate."""
         categories = self.db.get_all_categories()
-        comparisons = self.db.get_all_comparisons(valid_only=True)
+        comparisons = select_public_comparisons(
+            self.db.get_all_comparisons(valid_only=True)
+        )
         teas = self.db.get_all_teas()
         context = create_comparison_index_context(
             categories=categories,
@@ -423,7 +444,9 @@ class SiteGenerator:
     def _collect_comparison_pages(self) -> list[dict]:
         """Collect all comparison pages to generate."""
         pages = []
-        comparisons = self.db.get_all_comparisons(valid_only=True)
+        comparisons = select_public_comparisons(
+            self.db.get_all_comparisons(valid_only=True)
+        )
         teas = {t.id: t for t in self.db.get_all_teas()}
         categories = {c.id: c for c in self.db.get_all_categories()}
         regions = {r.id: r for r in self.db.get_all_regions()}
@@ -456,14 +479,15 @@ class SiteGenerator:
                 region_a=region_a,
                 region_b=region_b,
                 comparison=comparison,
-                related_comparisons=links["related_comparisons"],
+                related_comparisons=[
+                    item for item in links["related_comparisons"]
+                    if item["comparison"].id in PUBLIC_COMPARISON_IDS
+                ],
                 cross_links=links["cross_links"],
                 parent_links=links["parent_links"],
             )
 
-            # Canonical URL uses alphabetically sorted tea IDs
-            sorted_ids = sorted([tea_a.id, tea_b.id])
-            url = f"/compare/{sorted_ids[0]}-vs-{sorted_ids[1]}/"
+            url = comparison_url(tea_a.id, tea_b.id)
 
             # Tea-vs-tea comparisons have near-zero search volume; keep them
             # as on-site tools but out of Google's index (quality signal).
@@ -477,6 +501,29 @@ class SiteGenerator:
             })
 
         return pages
+
+    def _collect_occasion_index_page(self) -> list[dict]:
+        """Collect the best-tea-for navigation hub."""
+        occasions = self.db.get_all_occasions()
+        items = [
+            {
+                "title": occasion.name,
+                "description": occasion.description,
+                "url": f"/best-tea-for/{occasion.id}/",
+            }
+            for occasion in occasions
+        ]
+        return [{
+            "url": "/best-tea-for/",
+            "template": "pillars/collection-index.html",
+            "data": {"occasion_ids": [occasion.id for occasion in occasions]},
+            "context": create_collection_index_context(
+                heading="Best Chinese Tea For Every Occasion",
+                introduction="Browse practical recommendations by mood, time of day, and occasion.",
+                items=items,
+                canonical_path="/best-tea-for/",
+            ),
+        }]
 
     def _collect_occasion_pages(self) -> list[dict]:
         """Collect all best-tea-for occasion pages to generate."""
@@ -500,6 +547,29 @@ class SiteGenerator:
             })
 
         return pages
+
+    def _collect_brewing_index_page(self) -> list[dict]:
+        """Collect the brewing guide navigation hub."""
+        categories = self.db.get_all_categories()
+        items = [
+            {
+                "title": f"How to Brew {category.name_en}",
+                "description": category.description,
+                "url": f"/brewing/{category.id}/",
+            }
+            for category in categories
+        ]
+        return [{
+            "url": "/brewing/",
+            "template": "pillars/collection-index.html",
+            "data": {"category_ids": [category.id for category in categories]},
+            "context": create_collection_index_context(
+                heading="Chinese Tea Brewing Guides",
+                introduction="Start with the tea family, then adjust temperature, leaf ratio, and time to suit the individual tea.",
+                items=items,
+                canonical_path="/brewing/",
+            ),
+        }]
 
     def _collect_brewing_pages(self) -> list[dict]:
         """Collect all brewing guide pages to generate."""
@@ -595,6 +665,17 @@ class SiteGenerator:
                 "template": "pillars/contact.html",
                 "data": {"page": "contact"},
                 "context": create_contact_context(),
+            },
+            {
+                "url": "/404.html",
+                "template": "404.html",
+                "data": {"page": "404"},
+                "context": {
+                    "page_title": "Page Not Found",
+                    "meta_description": "The requested page could not be found.",
+                    "canonical_url": None,
+                    "noindex": True,
+                },
             },
         ]
         return pages
@@ -910,7 +991,7 @@ class SiteGenerator:
         # Static utility sitemap
         sitemap_index.append(self._generate_sitemap(
             "sitemap-static.xml",
-            ["/about/", "/contact/", "/find-your-tea/", "/dataset/", "/brewing-calculator/"],
+            ["/about/", "/contact/", "/find-your-tea/", "/dataset/", "/brewing-calculator/", "/brewing/", "/best-tea-for/"],
             priority="0.5",
             changefreq="yearly"
         ))
@@ -983,3 +1064,25 @@ Allow: /
 Sitemap: https://chinatea.house/sitemap.xml
 """
         (self.output_dir / "robots.txt").write_text(content)
+
+    def generate_platform_files(self) -> None:
+        """Write Cloudflare Pages routing, headers, and static identity files."""
+        # Cloudflare Pages only supports path redirects in this file. The
+        # hostname redirect is a zone-level Bulk Redirect (see docs/operations.md).
+        redirects = """/tea/ /category/ 301
+"""
+        headers = """/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+"""
+        favicon = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#1a1a18"/>
+  <text x="32" y="45" text-anchor="middle" font-size="42" fill="#b8956c" font-family="serif">茶</text>
+</svg>
+"""
+        (self.output_dir / "_redirects").write_text(redirects, encoding="utf-8")
+        (self.output_dir / "_headers").write_text(headers, encoding="utf-8")
+        (self.output_dir / "favicon.svg").write_text(favicon, encoding="utf-8")

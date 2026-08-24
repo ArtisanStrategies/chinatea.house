@@ -2,7 +2,7 @@
 
 {% block title %}Tea Comparisons | Side-by-Side Chinese Tea Guides{% endblock %}
 
-{% block description %}Compare Chinese teas side-by-side. Explore {{ comparison_count }} tea comparisons across green, oolong, black, pu'er, white, yellow, dark, and scented teas.{% endblock %}
+{% block description %}Compare a curated selection of Chinese teas side-by-side across flavor, brewing, caffeine, body, and origin.{% endblock %}
 
 {% block og_type %}website{% endblock %}
 
@@ -35,7 +35,7 @@
         </div>
         <div class="tea-cards-grid">
             {% for comp in featured_comparisons %}
-            <a href="/compare/{{ comp.tea_a_id }}-vs-{{ comp.tea_b_id }}/" class="tea-card">
+            <a href="{{ comp.tea_a_id | comparison_url(comp.tea_b_id) }}" class="tea-card">
                 <div class="tea-card-inner">
                     <h3>{{ comp.tea_a_name }} vs {{ comp.tea_b_name }}</h3>
                     <p>{{ comp.tea_a_name }} ({{ comp.category_a | replace('-', ' ') | title }}) versus {{ comp.tea_b_name }} ({{ comp.category_b | replace('-', ' ') | title }}).</p>

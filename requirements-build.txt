@@ -1,0 +1,12 @@
+# Exact versions used by CI to make production builds reproducible.
+jinja2==3.1.6
+pydantic==2.13.4
+click==8.4.2
+rich==15.0.0
+xxhash==4.0.1
+Pillow==12.3.0
+minify-html==0.18.1
+PyYAML==6.0.3
+requests==2.34.2
+matplotlib==3.11.1
+pytest==9.1.1

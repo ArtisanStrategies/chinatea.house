@@ -538,7 +538,7 @@
     <a href="/category/{{ tea.category_id }}/">{{ category.name_en }}</a>
     {% if subcategory %}
     <span>/</span>
-    <a href="/category/{{ tea.category_id }}/{{ subcategory.id }}/">{{ subcategory.name_en }}</a>
+    <span>{{ subcategory.name_en }}</span>
     {% endif %}
     <span>/</span>
     <span>{{ tea.name_en }}</span>
@@ -841,7 +841,7 @@
             <div class="comparisons-list">
                 {% for comparison in comparisons %}
                 {% set other_tea = comparison.tea_b if comparison.tea_a_id == tea.id else comparison.tea_a %}
-                <a href="/compare/{{ tea.id }}-vs-{{ other_tea.id }}/" class="comparison-link">
+                <a href="{{ tea.id | comparison_url(other_tea.id) }}" class="comparison-link">
                     <span>{{ tea.name_en }} <span class="vs">vs</span> {{ other_tea.name_en }}</span>
                     <span class="arrow">→</span>
                 </a>
@@ -866,6 +866,12 @@
         </section>
         {% endif %}
 
+        <section class="tea-section editorial-note">
+            <h2>How to Use This Profile</h2>
+            <p>Flavor, caffeine, price, and brewing results vary with harvest, storage, leaf grade, water, and preparation. The values here are comparative starting points, not laboratory measurements or seller-specific offers.</p>
+            <p>This profile is maintained as part of the <a href="/dataset/">China Tea House open dataset</a>. If you spot an error or have a primary source we should review, please <a href="/contact/">send a correction</a>.</p>
+        </section>
+
         {% include "components/internal-links.html" %}
     </div>
 </article>
@@ -875,87 +881,21 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "{{ tea.name_en }}",
-    "description": "{{ tea.description_brief | e }}",
-    "category": "{{ category.name_en }}",
-    {% if tea.price_mid %}
-    "offers": {
-        "@type": "AggregateOffer",
-        "lowPrice": "{{ tea.price_budget.min_usd_per_50g if tea.price_budget else tea.price_mid.min_usd_per_50g }}",
-        "highPrice": "{{ tea.price_premium.max_usd_per_50g if tea.price_premium else tea.price_mid.max_usd_per_50g }}",
-        "priceCurrency": "USD",
-        "offerCount": {{ 3 if tea.price_budget and tea.price_mid and tea.price_premium else 2 if (tea.price_budget or tea.price_premium) and tea.price_mid else 1 }}
+    "@type": "Article",
+    "headline": {{ tea.name_en | tojson }},
+    "description": {{ tea.description_brief | tojson }},
+    "mainEntityOfPage": {{ canonical_url | tojson }},
+    "articleSection": {{ category.name_en | tojson }},
+    "author": {
+        "@type": "Organization",
+        "name": "China Tea House",
+        "url": "https://chinatea.house/about/"
     },
-    {% endif %}
-    "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "{{ 4.8 if tea.tier == 1 else 4.5 if tea.tier == 2 else 4.2 }}",
-        "reviewCount": "{{ 24 if tea.tier == 1 else 16 if tea.tier == 2 else 10 }}"
-    },
-    "review": {
-        "@type": "Review",
-        "author": {
-            "@type": "Organization",
-            "name": "China Tea House"
-        },
-        "datePublished": "2026-06-21",
-        "reviewBody": "A {{ 'premium' if tea.tier == 1 else 'well-regarded' if tea.tier == 2 else 'solid' }} {{ category.name_en | lower }} with {{ tea.flavor_primary | join(', ') }} notes and a {{ tea.body | lower }} body.",
-        "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "{{ 4.8 if tea.tier == 1 else 4.5 if tea.tier == 2 else 4.2 }}",
-            "bestRating": "5"
-        }
-    },
-    "brand": {
-        "@type": "Brand",
-        "name": "Chinese Tea"
-    },
-    "countryOfOrigin": {
-        "@type": "Country",
-        "name": "China"
+    "publisher": {
+        "@type": "Organization",
+        "name": "China Tea House",
+        "url": "https://chinatea.house/"
     }
-}
-</script>
-
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-        {
-            "@type": "Question",
-            "name": "What does {{ tea.name_en }} taste like?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "{{ tea.name_en }} is a {{ category.name_en | lower }} from {{ region.name_en }}. It has {{ tea.flavor_primary | join(', ') }} notes with a {{ tea.body | lower }} body."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "How do you brew {{ tea.name_en }}?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "{% if tea.brewing_gongfu %}For gongfu style, use about {{ tea.brewing_gongfu.leaf_ratio_g_per_100ml }}g of leaf per 100ml of water at {{ tea.brewing_gongfu.water_temp_c }}°C. Steep for {{ tea.brewing_gongfu.first_steep_seconds }} seconds, then increase slightly with each infusion. {% endif %}{% if tea.brewing_western %}For Western style, use 2g per 100ml and steep for about {{ tea.brewing_western.first_steep_seconds // 60 }} minutes.{% endif %}"
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "How much caffeine is in {{ tea.name_en }}?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "{{ tea.name_en }} has a {{ tea.caffeine_level.value if tea.caffeine_level else 'moderate' }} caffeine level compared to other Chinese teas. Exact caffeine depends on leaf grade, harvest time, and brewing strength."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "Where is {{ tea.name_en }} from?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "{{ tea.name_en }} comes from {{ region.name_en }} in China. {{ region.terroir_notes[:200] if region.terroir_notes else 'This region is known for producing distinctive Chinese teas.' }}"
-            }
-        }
-    ]
 }
 </script>
 {% endblock %}

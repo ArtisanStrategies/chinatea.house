@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block og_type %}website{% endblock %}
+
+{% block content %}
+<article class="content-wrapper collection-index">
+    <header>
+        <h1>{{ heading }}</h1>
+        <p>{{ introduction }}</p>
+    </header>
+    <section aria-labelledby="collection-heading">
+        <h2 id="collection-heading">Explore the guides</h2>
+        <div class="card-grid">
+            {% for item in items %}
+            <a class="card" href="{{ item.url }}">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.description }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</article>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    .collection-index { padding-top: 3rem; }
+    .collection-index .card { text-decoration: none; }
+    .collection-index .card h3 { margin-top: 0; }
+</style>
+{% endblock %}

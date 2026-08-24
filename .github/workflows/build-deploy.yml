@@ -4,20 +4,16 @@ on:
   push:
     branches: [main]
   schedule:
-    # Run daily at 6am UTC for drip publishing
-    - cron: '0 6 * * *'
+    # A weekly rebuild verifies data drift without producing daily no-op deploys.
+    - cron: '0 6 * * 0'
   workflow_dispatch:
-    inputs:
-      full_rebuild:
-        description: 'Force full rebuild (not incremental)'
-        required: false
-        default: 'false'
-        type: boolean
-      publish_all:
-        description: 'Publish all pages (not drip)'
-        required: false
-        default: 'false'
-        type: boolean
+
+concurrency:
+  group: chinatea-house-production
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   build-deploy:
@@ -32,132 +28,56 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
+          cache: pip
+          cache-dependency-path: requirements-build.txt
 
-      - name: Install dependencies
+      - name: Install deterministic build dependencies
+        run: python -m pip install --requirement requirements-build.txt
+
+      - name: Create canonical data snapshot
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m execution.cli init
+          python -m execution.cli seed
+          python -m execution.cli comparisons
+          python -m execution.cli validate
 
-      - name: Restore database cache
-        uses: actions/cache@v4
-        with:
-          path: data/canonical/tea.db
-          key: tea-db-${{ hashFiles('execution/data/schema.sql') }}-${{ hashFiles('execution/data/seed.py') }}-${{ hashFiles('execution/data/tea_data.py') }}-${{ hashFiles('execution/data/comparisons.py') }}-${{ hashFiles('data/canonical/exports/*.json') }}
+      - name: Run regression tests
+        run: python -m pytest -q
 
-      - name: Restore output cache
-        uses: actions/cache@v4
-        with:
-          path: output
-          key: output-${{ github.sha }}
-          restore-keys: |
-            output-
+      - name: Build clean publication snapshot
+        run: python -m execution.cli build --full
 
-      - name: Initialize database (if needed)
-        run: |
-          if [ ! -f data/canonical/tea.db ]; then
-            python -m execution.cli init
-            python -m execution.cli seed
-          fi
-
-      - name: Generate comparison pairs
-        run: python -m execution.cli comparisons
-
-      - name: Validate data
-        run: python -m execution.cli validate
-
-      - name: Build site
-        run: |
-          if [ "${{ inputs.full_rebuild }}" = "true" ]; then
-            python -m execution.cli build --full
-          else
-            python -m execution.cli build --incremental
-          fi
-
-      - name: Show build stats
-        run: python -m execution.cli stats
-
-      - name: Publish pages
-        run: |
-          if [ "${{ inputs.publish_all }}" = "true" ]; then
-            python -m execution.cli publish --all
-          else
-            python -m execution.cli publish --drip
-          fi
-
-      - name: Verify crawl files
-        run: |
-          test -f output/index.html
-          test -f output/robots.txt
-          test -f output/sitemap.xml
+      - name: Verify generated site contract
+        run: python scripts/verify_build.py output
 
       - name: Create IndexNow key file
         run: python execution/promotion/indexnow.py --create-key output
-
-      - name: Setup Node.js for Wrangler
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Wrangler
-        run: npm install -g wrangler
 
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          wrangler pages deploy output/ \
-            --project-name=chinatea-house \
-            --branch=main
+        run: >-
+          npx --yes wrangler@4.33.1 pages deploy output/
+          --project-name=chinatea-house
+          --branch=main
 
       - name: Submit sitemap to IndexNow
         run: python execution/promotion/indexnow.py --submit output/sitemap.xml
         continue-on-error: true
 
-      - name: Save database cache
-        uses: actions/cache/save@v4
-        if: always()
-        with:
-          path: data/canonical/tea.db
-          key: tea-db-${{ hashFiles('execution/data/schema.sql') }}-${{ hashFiles('execution/data/seed.py') }}-${{ hashFiles('execution/data/tea_data.py') }}-${{ hashFiles('execution/data/comparisons.py') }}-${{ hashFiles('data/canonical/exports/*.json') }}
-
-      - name: Upload build artifacts
+      - name: Upload failed build snapshot
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: build-logs
-          path: |
-            logs/
-            output/*.log
+          name: failed-build-${{ github.run_id }}
+          path: output/
           retention-days: 7
 
-  # Notify on failure
   notify:
     runs-on: ubuntu-latest
     needs: build-deploy
     if: failure()
     steps:
-      - name: Send failure notification
-        run: |
-          echo "Build failed! Check the workflow logs."
-          # Add webhook notification here if needed
-
-  # Weekly full rebuild to catch any drift
-  weekly-full-rebuild:
-    runs-on: ubuntu-latest
-    if: github.event.schedule == '0 6 * * 0'  # Sundays only
-    steps:
-      - name: Trigger full rebuild
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'build-deploy.yml',
-              ref: 'main',
-              inputs: {
-                full_rebuild: 'true'
-              }
-            })
+      - name: Summarize failure
+        run: echo "Build or deployment failed; inspect the first failing contract above."

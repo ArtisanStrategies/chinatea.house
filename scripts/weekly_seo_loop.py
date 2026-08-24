@@ -22,17 +22,21 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from dotenv import load_dotenv
-
-load_dotenv("/Users/josephw/MoneyGenerating/agswebsite/scripts/search-console/.env")
-os.environ["GSC_SITE_URL"] = "sc-domain:chinatea.house"
-os.environ["GSC_CREDENTIAL_TYPE"] = "oauth"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if env_path := os.getenv("GSC_ENV_FILE"):
+    try:
+        from dotenv import load_dotenv
+    except ImportError as exc:
+        raise RuntimeError("Install python-dotenv to use GSC_ENV_FILE") from exc
+    load_dotenv(env_path)
+os.environ.setdefault("GSC_SITE_URL", "sc-domain:chinatea.house")
+os.environ.setdefault("GSC_CREDENTIAL_TYPE", "oauth")
 
 from execution.data.db import Database
 from execution.monitor.gsc import GoogleSearchConsole
 from execution.cli import cli
 
-DB_PATH = Path("/Users/josephw/MoneyGenerating/chinateahouse/data/canonical/tea.db")
+DB_PATH = Path(os.getenv("TEA_DB_PATH", PROJECT_ROOT / "data/canonical/tea.db"))
 
 
 def fetch_gsc_data(db: Database) -> None:
@@ -75,7 +79,7 @@ def generate_report(db: Database) -> dict:
                    ROUND(CAST(SUM(clicks) AS REAL) / NULLIF(SUM(impressions), 0), 4) AS ctr
             FROM page_performance_snapshots
             WHERE snapshot_date BETWEEN ? AND ?
-              AND query IS NOT NULL
+              AND query != ''
             GROUP BY query
             ORDER BY impressions DESC
             LIMIT 20
@@ -130,7 +134,7 @@ def print_report(report: dict) -> None:
     print("\n[SEO LOOP] Suggested actions:")
     print("  1. Review CTR rewrite candidates and improve their titles/meta descriptions.")
     print("  2. Add more content targeting top queries with 0 clicks.")
-    print("  3. Build more comparison pages around teas related to rising queries.")
+    print("  3. Improve reviewed pages that already match rising queries.")
     print("  4. Ensure new pages are linked from the homepage and category pages.")
 
 

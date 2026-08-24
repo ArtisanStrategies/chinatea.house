@@ -153,12 +153,16 @@ class SearchAnalyticsRow:
     impressions: int
     ctr: float
     position: float
+    device: Optional[str] = None
+    country: Optional[str] = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "url": self.url,
             "query": self.query,
             "date": self.date,
+            "device": self.device,
+            "country": self.country,
             "clicks": self.clicks,
             "impressions": self.impressions,
             "ctr": self.ctr,
@@ -172,11 +176,11 @@ class GoogleSearchConsole:
     def __init__(self, config: Optional[GSCConfig] = None):
         self.config = config or load_gsc_config()
         self._service: Any = None
+        self._inspection_service: Any = None
 
-    def _build_service(self) -> Any:
-        """Build the authenticated webmasters service."""
+    def _build_credentials(self) -> Any:
+        """Build credentials once for either supported authentication mode."""
         try:
-            from googleapiclient.discovery import build
             from google.oauth2 import service_account
             from google.oauth2.credentials import Credentials as OAuthCredentials
         except ImportError as exc:
@@ -223,13 +227,35 @@ class GoogleSearchConsole:
         else:
             raise ValueError(f"Unsupported credential_type: {self.config.credential_type}")
 
-        return build("webmasters", "v3", credentials=credentials, cache_discovery=False)
+        return credentials
+
+    def _build_service(self, api_name: str = "webmasters", version: str = "v3") -> Any:
+        """Build an authenticated Google API service."""
+        try:
+            from googleapiclient.discovery import build
+        except ImportError as exc:
+            raise RuntimeError(
+                "google-api-python-client is required for GSC API access."
+            ) from exc
+        return build(
+            api_name,
+            version,
+            credentials=self._build_credentials(),
+            cache_discovery=False,
+        )
 
     @property
     def service(self) -> Any:
         if self._service is None:
             self._service = self._build_service()
         return self._service
+
+    @property
+    def inspection_service(self) -> Any:
+        """URL Inspection is exposed by searchconsole v1, not webmasters v3."""
+        if self._inspection_service is None:
+            self._inspection_service = self._build_service("searchconsole", "v1")
+        return self._inspection_service
 
     def test_connection(self) -> dict[str, Any]:
         """Test that the API credentials work and the site is accessible."""
@@ -298,11 +324,15 @@ class GoogleSearchConsole:
             url = dim_map.get("page", "")
             query = dim_map.get("query")
             date = dim_map.get("date")
+            device = dim_map.get("device")
+            country = dim_map.get("country")
             results.append(
                 SearchAnalyticsRow(
                     url=url,
                     query=query,
                     date=date,
+                    device=device,
+                    country=country,
                     clicks=int(row.get("clicks", 0)),
                     impressions=int(row.get("impressions", 0)),
                     ctr=float(row.get("ctr", 0.0)),
@@ -365,7 +395,7 @@ class GoogleSearchConsole:
         """
         try:
             result = (
-                self.service.urlInspection().index().inspect(
+                self.inspection_service.urlInspection().index().inspect(
                     body={"inspectionUrl": url, "siteUrl": self.config.site_url}
                 ).execute()
             )

@@ -8,10 +8,10 @@ from pathlib import Path
 from typing import Any
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-import xxhash
 import yaml
 
 from execution.monitor.gsc import get_verification_meta
+from .contracts import comparison_url, hash_text
 
 
 class TemplateEngine:
@@ -35,6 +35,7 @@ class TemplateEngine:
         env.filters["json_dumps"] = lambda x: json.dumps(x, default=str)
         env.filters["slugify"] = self._slugify
         env.filters["format_price"] = self._format_price
+        env.filters["comparison_url"] = comparison_url
 
         # Add global variables
         env.globals["current_year"] = datetime.now().year
@@ -79,7 +80,7 @@ class TemplateEngine:
             path = self.templates_dir / name
             if path.exists():
                 parts.append(path.read_text())
-        return xxhash.xxh64("".join(parts)).hexdigest()
+        return hash_text("".join(parts))
 
     def get_template_hash(self, template_name: str) -> str:
         """Get hash of template file for change detection."""
@@ -93,7 +94,7 @@ class TemplateEngine:
                     combined = content
                 else:
                     combined = content + self._shared_template_salt()
-                self._template_hashes[template_name] = xxhash.xxh64(combined).hexdigest()
+                self._template_hashes[template_name] = hash_text(combined)
             else:
                 self._template_hashes[template_name] = ""
         return self._template_hashes[template_name]
@@ -488,7 +489,7 @@ def create_comparison_context(
         "parent_links": parent_links,
         "page_title": f"{tea_a.name_en} vs {tea_b.name_en}: Which Chinese Tea Wins?",
         "meta_description": f"{tea_a.name_en} or {tea_b.name_en}? Compare flavor, brewing, caffeine, body, and price to choose the right Chinese tea for you.",
-        "canonical_url": f"https://chinatea.house/compare/{tea_a.id}-vs-{tea_b.id}/",
+        "canonical_url": f"https://chinatea.house{comparison_url(tea_a.id, tea_b.id)}",
         "breadcrumbs": [
             {"label": "Comparisons", "url": "/compare/"},
             {"label": f"{tea_a.name_en} vs {tea_b.name_en}", "url": None},
@@ -862,38 +863,49 @@ def create_comparison_index_context(categories, comparisons, teas) -> dict[str, 
     tea_map = {t.id: t for t in teas}
     featured = []
 
-    # Pick a diverse set of high-relevance comparisons
-    seen_pairs = set()
+    # The generator has already applied the explicit publication policy.
     for comp in comparisons:
         tea_a = tea_map.get(comp.tea_a_id)
         tea_b = tea_map.get(comp.tea_b_id)
         if not tea_a or not tea_b:
             continue
-        if tea_a.tier <= 2 and tea_b.tier <= 2:
-            pair_key = tuple(sorted([tea_a.category_id, tea_b.category_id]))
-            if pair_key not in seen_pairs:
-                featured.append({
-                    "tea_a_id": tea_a.id,
-                    "tea_b_id": tea_b.id,
-                    "tea_a_name": tea_a.name_en,
-                    "tea_b_name": tea_b.name_en,
-                    "category_a": tea_a.category_id,
-                    "category_b": tea_b.category_id,
-                })
-                seen_pairs.add(pair_key)
-        if len(featured) >= 12:
-            break
+        featured.append({
+            "tea_a_id": tea_a.id,
+            "tea_b_id": tea_b.id,
+            "tea_a_name": tea_a.name_en,
+            "tea_b_name": tea_b.name_en,
+            "category_a": tea_a.category_id,
+            "category_b": tea_b.category_id,
+        })
 
     return {
         "categories": categories,
         "comparison_count": len(comparisons),
         "featured_comparisons": featured,
         "page_title": "Tea Comparisons | Side-by-Side Chinese Tea Guides",
-        "meta_description": "Compare Chinese teas side-by-side. Explore hundreds of tea comparisons across green, oolong, black, pu'er, white, yellow, dark, and scented teas.",
+        "meta_description": "Compare a curated selection of Chinese teas side-by-side across flavor, brewing, caffeine, body, and origin.",
         "canonical_url": "https://chinatea.house/compare/",
         "breadcrumbs": [
             {"label": "Comparisons", "url": None},
         ],
+    }
+
+
+def create_collection_index_context(
+    heading: str,
+    introduction: str,
+    items: list[dict[str, str]],
+    canonical_path: str,
+) -> dict[str, Any]:
+    """Create context for a small, indexable navigation hub."""
+    return {
+        "heading": heading,
+        "introduction": introduction,
+        "items": items,
+        "page_title": heading,
+        "meta_description": introduction,
+        "canonical_url": f"https://chinatea.house{canonical_path}",
+        "breadcrumbs": [{"label": heading, "url": None}],
     }
 
 

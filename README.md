@@ -7,7 +7,7 @@ A free, open guide to Chinese tea.
 ## What's Inside
 
 - **130+ Chinese tea profiles** across 8 categories: green, oolong, black, pu'er, white, yellow, dark, and scented
-- **4,500+ side-by-side tea comparisons**
+- **8 curated side-by-side comparison tools** (kept out of search pending editorial review)
 - **Brewing guides** for every major category
 - **Interactive tools**: [Tea Finder](https://chinatea.house/find-your-tea/) and [Brewing Calculator](https://chinatea.house/brewing-calculator/)
 - **Reference charts**: [Caffeine Chart](https://chinatea.house/chinese-tea-caffeine-chart/)
@@ -39,7 +39,7 @@ Found an error or want to suggest a tea? Contact hello@chinatea.house or open an
 ## Related Links
 
 - [Chinese Tea Caffeine Chart](https://chinatea.house/chinese-tea-caffeine-chart/)
-- [Tea Finder](https://chinatea.house/finder/)
+- [Tea Finder](https://chinatea.house/find-your-tea/)
 - [Brewing Calculator](https://chinatea.house/brewing-calculator/)
 - [Dataset](https://chinatea.house/dataset/)
 - [RSS Feed](https://chinatea.house/feed.xml)

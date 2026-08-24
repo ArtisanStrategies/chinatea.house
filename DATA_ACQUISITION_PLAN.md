@@ -1,5 +1,7 @@
 # Data Acquisition Plan: chinatea.house
 
+> Historical planning document. Page-volume recommendations here are superseded by `docs/seo-publication-policy.md`.
+
 ## Overview
 
 We need structured data to power 50,000+ pages. This plan outlines how we'll acquire, structure, and maintain that data.

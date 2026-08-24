@@ -1,8 +1,7 @@
-"""
-Drip publishing for controlled page rollout.
+"""Legacy manifest labeling retained for compatibility.
 
-Controls the pace of publishing to avoid overwhelming search engines
-and to allow monitoring of indexing and ranking.
+These labels do not control generated files or Cloudflare deployment. Public
+eligibility lives in :mod:`execution.build.publication`.
 """
 
 from datetime import datetime, timedelta
@@ -13,7 +12,7 @@ if TYPE_CHECKING:
 
 
 class DripPublisher:
-    """Manages gradual publishing of pages."""
+    """Updates manifest status labels without changing deployed files."""
 
     # Default drip schedule (pages per day by week)
     DEFAULT_SCHEDULE = {

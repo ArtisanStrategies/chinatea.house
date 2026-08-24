@@ -1,5 +1,7 @@
 # Success Metrics: chinatea.house
 
+> Historical planning document. Page-volume recommendations here are superseded by `docs/seo-publication-policy.md`.
+
 ## North Star Metric
 
 **Monthly Organic Sessions**

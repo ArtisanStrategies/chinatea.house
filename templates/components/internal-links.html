@@ -21,9 +21,6 @@
         <ul>
             <li><a href="/category/{{ category.id }}/">All {{ category.name_en }}</a></li>
             <li><a href="/brewing/{{ category.id }}/">{{ category.name_en }} Brewing Guide</a></li>
-            {% if subcategory %}
-            <li><a href="/category/{{ category.id }}/{{ subcategory.id }}/">{{ subcategory.name_en }}</a></li>
-            {% endif %}
         </ul>
     </div>
     {% endif %}
@@ -53,23 +50,11 @@
     </div>
     {% endif %}
 
-    {# Teaware recommendations #}
-    {% if recommended_teaware %}
-    <div class="link-section">
-        <h4>Recommended Teaware</h4>
-        <ul>
-            {% for item in recommended_teaware[:3] %}
-            <li><a href="/teaware/{{ item.id }}/">{{ item.name_en }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
-
     {# Quick navigation #}
     <div class="link-section link-section-browse">
         <h4>Browse</h4>
         <ul>
-            <li><a href="/tea/">All Teas A-Z</a></li>
+            <li><a href="/category/">All Tea Categories</a></li>
             <li><a href="/category/">Tea Categories</a></li>
             <li><a href="/region/">Tea Regions</a></li>
             <li><a href="/compare/">Tea Comparisons</a></li>

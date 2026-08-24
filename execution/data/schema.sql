@@ -372,13 +372,13 @@ CREATE TABLE IF NOT EXISTS page_performance_snapshots (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     url TEXT NOT NULL,
     snapshot_date TEXT NOT NULL,
-    query TEXT,
+    query TEXT NOT NULL DEFAULT '',
     clicks INTEGER NOT NULL DEFAULT 0,
     impressions INTEGER NOT NULL DEFAULT 0,
     ctr REAL NOT NULL DEFAULT 0.0,
     avg_position REAL NOT NULL DEFAULT 0.0,
-    device TEXT,
-    country TEXT,
+    device TEXT NOT NULL DEFAULT '',
+    country TEXT NOT NULL DEFAULT '',
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
     UNIQUE(url, snapshot_date, query, device, country)
 );

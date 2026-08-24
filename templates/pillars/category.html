@@ -184,7 +184,7 @@
             {% endfor %}
         </div>
         {% if teas | length > 18 %}
-        <p class="view-all-link"><a href="/category/{{ category.id }}/all/">View all {{ teas | length }} varieties →</a></p>
+        <p class="view-all-link">{{ teas | length }} varieties documented in this category</p>
         {% endif %}
     </section>
     {% endif %}
@@ -198,7 +198,7 @@
         </div>
         <div class="subcategory-grid">
             {% for sub in subcategories %}
-            <a href="/category/{{ category.id }}/{{ sub.id }}/" class="subcategory-card">
+            <div class="subcategory-card">
                 <h3>{{ sub.name_en }}</h3>
                 {% if sub.name_zh %}
                 <span class="sub-chinese">{{ sub.name_zh }}</span>
@@ -207,7 +207,7 @@
                 <p>{{ sub.description | truncate(100) }}</p>
                 {% endif %}
                 <span class="tea-count">{{ teas_by_subcategory.get(sub.id, []) | length }} teas</span>
-            </a>
+            </div>
             {% endfor %}
         </div>
     </section>

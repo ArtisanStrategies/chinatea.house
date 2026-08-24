@@ -33,6 +33,32 @@ class Database:
             schema = f.read()
         with self.connection() as conn:
             conn.executescript(schema)
+            # Older databases allowed NULL dimension values. SQLite considers
+            # NULLs distinct in a UNIQUE constraint, so repeated GSC imports
+            # accumulated duplicate rows. Collapse those rows before
+            # normalizing the dimensions to their explicit aggregate value.
+            conn.execute("""
+                DELETE FROM page_performance_snapshots
+                WHERE id NOT IN (
+                    SELECT MAX(id)
+                    FROM page_performance_snapshots
+                    GROUP BY url, snapshot_date, COALESCE(query, ''),
+                             COALESCE(device, ''), COALESCE(country, '')
+                )
+            """)
+            conn.execute("""
+                UPDATE page_performance_snapshots
+                SET query = COALESCE(query, ''),
+                    device = COALESCE(device, ''),
+                    country = COALESCE(country, '')
+                WHERE query IS NULL OR device IS NULL OR country IS NULL
+            """)
+            conn.execute("""
+                CREATE UNIQUE INDEX IF NOT EXISTS idx_page_performance_grain
+                ON page_performance_snapshots(
+                    url, snapshot_date, query, device, country
+                )
+            """)
 
     @contextmanager
     def connection(self):
@@ -665,8 +691,8 @@ class Database:
                     avg_position = excluded.avg_position,
                     created_at = datetime('now')
             """, (
-                url, snapshot_date, query, clicks, impressions, ctr,
-                avg_position, device, country
+                url, snapshot_date, query or "", clicks, impressions, ctr,
+                avg_position, device or "", country or ""
             ))
 
     def insert_performance_snapshots(

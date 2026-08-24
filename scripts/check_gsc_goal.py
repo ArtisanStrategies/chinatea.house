@@ -7,16 +7,20 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-# Load agswebsite .env
-from dotenv import load_dotenv
-load_dotenv("/Users/josephw/MoneyGenerating/agswebsite/scripts/search-console/.env")
-os.environ["GSC_SITE_URL"] = "sc-domain:chinatea.house"
-os.environ["GSC_CREDENTIAL_TYPE"] = "oauth"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if env_path := os.getenv("GSC_ENV_FILE"):
+    try:
+        from dotenv import load_dotenv
+    except ImportError as exc:
+        raise RuntimeError("Install python-dotenv to use GSC_ENV_FILE") from exc
+    load_dotenv(env_path)
+os.environ.setdefault("GSC_SITE_URL", "sc-domain:chinatea.house")
+os.environ.setdefault("GSC_CREDENTIAL_TYPE", "oauth")
 
 from execution.data.db import Database
 from execution.monitor.gsc import GoogleSearchConsole
 
-DB_PATH = Path("/Users/josephw/MoneyGenerating/chinateahouse/data/canonical/tea.db")
+DB_PATH = Path(os.getenv("TEA_DB_PATH", PROJECT_ROOT / "data/canonical/tea.db"))
 
 
 def main():

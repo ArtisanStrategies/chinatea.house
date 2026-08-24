@@ -9,7 +9,7 @@ Commands:
     validate    Validate data integrity
     stats       Show database statistics
     build       Generate static pages
-    publish     Publish pages according to drip schedule
+    publish     Update legacy manifest labels (does not deploy files)
     export      Export data to JSON
     import      Import data from JSON
 """
@@ -108,6 +108,8 @@ def validate(ctx):
     console.print(f"\n[blue]Validation complete:[/blue]")
     console.print(f"  Entities checked: {results['entities_checked']}")
     console.print(f"  Relationships verified: {results['relationships_verified']}")
+    if results["errors"]:
+        raise click.ClickException("Data validation failed")
 
 
 @cli.command()
@@ -227,8 +229,10 @@ def build(ctx, incremental, limit, template, output):
 
         generator.generate_sitemaps()
         generator.generate_robots_txt()
+        generator.generate_platform_files()
         console.print("  Sitemaps: generated")
         console.print("  Robots: generated")
+        console.print("  Platform routing and headers: generated")
 
     except ImportError as e:
         console.print(f"[yellow]Build module not yet implemented: {e}[/yellow]")
@@ -241,14 +245,15 @@ def build(ctx, incremental, limit, template, output):
 @click.option("--count", default=100, help="Number of pages to publish in drip mode")
 @click.pass_context
 def publish(ctx, drip, dry_run, count):
-    """Publish pages according to drip schedule."""
+    """Update legacy page-manifest labels; this does not deploy files."""
     db_path = ctx.obj["db_path"]
 
     if not db_path.exists():
         console.print("[red]Database not found.[/red]")
         raise click.Abort()
 
-    console.print(f"[blue]Publishing pages...[/blue]")
+    console.print("[yellow]Manifest-only operation: public files and deployment are unchanged.[/yellow]")
+    console.print(f"[blue]Updating manifest labels...[/blue]")
     console.print(f"  Mode: {'Drip' if drip else 'All'}")
     if drip:
         console.print(f"  Count: {count}")

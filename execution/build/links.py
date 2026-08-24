@@ -10,6 +10,9 @@ Builds contextual links for SEO and navigation following these rules:
 
 from typing import TYPE_CHECKING
 
+from .contracts import comparison_url
+from .publication import PUBLIC_COMPARISON_IDS
+
 if TYPE_CHECKING:
     from execution.data.db import Database
 
@@ -146,7 +149,6 @@ class InternalLinkBuilder:
         cross_links = [
             {"url": "/brewing/", "label": "Brewing Guides"},
             {"url": "/best-tea-for/", "label": "Best Tea For..."},
-            {"url": "/teaware/", "label": "Essential Teaware"},
         ]
 
         # Recommended occasions
@@ -286,12 +288,16 @@ class InternalLinkBuilder:
                 })
 
         # Comparison links
-        similar = self.db.get_similar_teas(tea.id, limit=2)
-        for sim in similar:
-            links.append({
-                "url": f"/compare/{tea.id}-vs-{sim.id}/",
-                "label": f"{tea.name_en} vs {sim.name_en}"
-            })
+        for comp in self.comparisons_by_tea.get(tea.id, []):
+            if comp.id not in PUBLIC_COMPARISON_IDS:
+                continue
+            other_id = comp.tea_b_id if comp.tea_a_id == tea.id else comp.tea_a_id
+            other = self.teas.get(other_id)
+            if other:
+                links.append({
+                    "url": comparison_url(tea.id, other.id),
+                    "label": f"{tea.name_en} vs {other.name_en}",
+                })
 
         return links[:6]
 

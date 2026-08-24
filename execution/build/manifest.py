@@ -5,11 +5,10 @@ Tracks page generation state to enable efficient rebuilds when only
 data or templates have changed.
 """
 
-import json
 from datetime import datetime
 from typing import TYPE_CHECKING, Optional
 
-import xxhash
+from .contracts import hash_data
 
 if TYPE_CHECKING:
     from execution.data.db import Database
@@ -21,12 +20,15 @@ class PageManifestManager:
 
     def __init__(self, db: "Database"):
         self.db = db
+        self._pages_by_url = {
+            page.url: page
+            for status in ("draft", "published")
+            for page in self.db.get_pages_by_status(status)
+        }
 
     def compute_data_hash(self, data: dict) -> str:
         """Compute hash of page data for change detection."""
-        # Serialize to JSON with sorted keys for deterministic hashing
-        json_str = json.dumps(data, sort_keys=True, default=str)
-        return xxhash.xxh64(json_str).hexdigest()
+        return hash_data(data)
 
     def is_page_stale(
         self,
@@ -35,20 +37,10 @@ class PageManifestManager:
         template_hash: str
     ) -> bool:
         """Check if a page needs regeneration."""
-        # Query existing manifest entry
-        pages = self.db.get_pages_by_status("draft")
-        pages.extend(self.db.get_pages_by_status("published"))
-
-        for page in pages:
-            if page.url == url:
-                # Page exists, check if hashes match
-                return (
-                    page.data_hash != data_hash or
-                    page.template_hash != template_hash
-                )
-
-        # Page doesn't exist, needs generation
-        return True
+        page = self._pages_by_url.get(url)
+        if page is None:
+            return True
+        return page.data_hash != data_hash or page.template_hash != template_hash
 
     def update_manifest(
         self,
@@ -76,6 +68,7 @@ class PageManifestManager:
         )
 
         self.db.upsert_page_manifest(manifest)
+        self._pages_by_url[url] = manifest
 
     def get_pages_to_rebuild(
         self,

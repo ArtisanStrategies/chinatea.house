@@ -1,5 +1,7 @@
 # Niche Brief: chinatea.house
 
+> Historical planning document. Page-volume recommendations here are superseded by `docs/seo-publication-policy.md`.
+
 ## The Opportunity
 
 **Domain:** Chinese tea (including Taiwanese tea traditions)

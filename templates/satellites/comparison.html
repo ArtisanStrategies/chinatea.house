@@ -342,7 +342,7 @@
         <ul class="comparison-list">
             {% for comp in related_comparisons %}
             <li>
-                <a href="/compare/{{ comp.tea_a.id }}-vs-{{ comp.tea_b.id }}/">
+                <a href="{{ comp.tea_a.id | comparison_url(comp.tea_b.id) }}">
                     {{ comp.tea_a.name_en }} vs {{ comp.tea_b.name_en }}
                 </a>
             </li>

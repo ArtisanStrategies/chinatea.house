@@ -1,5 +1,7 @@
 # Competitive Gap Analysis: chinatea.house
 
+> Historical planning document. Page-volume recommendations here are superseded by `docs/seo-publication-policy.md`.
+
 ## Executive Summary
 
 The Chinese tea content space in English is **fragmented and underserved**. No single authoritative resource exists. Current players are either:
