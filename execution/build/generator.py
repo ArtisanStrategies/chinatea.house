@@ -688,7 +688,7 @@ class SiteGenerator:
         return [{
             "url": "/find-your-tea/",
             "template": "pillars/tea-finder.html",
-            "data": {"page": "tea-finder"},
+            "data": {"page": "tea-finder", "teas": [tea.model_dump(mode="json") for tea in teas]},
             "context": context,
         }]
 
@@ -743,7 +743,7 @@ class SiteGenerator:
             })
         # Add key pages
         items.extend([
-            {"title": "Chinese Tea Caffeine Chart", "link": "https://chinatea.house/chinese-tea-caffeine-chart/", "description": "Compare caffeine levels across 136 Chinese teas."},
+            {"title": "Chinese Tea Caffeine Reference", "link": "https://chinatea.house/chinese-tea-caffeine-chart/", "description": "Dataset labels, their limitations, and evidence about caffeine in tea."},
             {"title": "Find Your Chinese Tea", "link": "https://chinatea.house/find-your-tea/", "description": "Interactive tea recommendation tool."},
             {"title": "Chinese Tea Dataset", "link": "https://chinatea.house/dataset/", "description": "Free JSON and CSV dataset of Chinese teas."},
         ])
@@ -754,7 +754,7 @@ class SiteGenerator:
                 '      <title>' + escape(item["title"]) + '</title>',
                 '      <link>' + escape(item["link"]) + '</link>',
                 '      <description>' + escape(item["description"]) + '</description>',
-                '      <pubDate>' + today + '</pubDate>',
+                '      <guid isPermaLink="true">' + escape(item["link"]) + '</guid>',
                 '    </item>',
             ])
 
@@ -778,8 +778,8 @@ class SiteGenerator:
 
         # Prepare category caffeine counts
         cat_order = ['green', 'oolong', 'black', 'puerh', 'white', 'yellow', 'dark', 'scented']
-        caffeine_order = ['low', 'moderate', 'high']
-        color_map = {'low': '#7a9e7a', 'moderate': '#b8956c', 'high': '#a65d4e'}
+        caffeine_order = ['very-low', 'low', 'moderate', 'high', 'very-high']
+        color_map = {'very-low': '#c9c4b8', 'low': '#7a9e7a', 'moderate': '#b8956c', 'high': '#a65d4e', 'very-high': '#5c4a3d'}
 
         counts = {cat: defaultdict(int) for cat in cat_order}
         for tea in teas:
@@ -803,8 +803,8 @@ class SiteGenerator:
             bottom = [b + v for b, v in zip(bottom, values)]
 
         ax.set_ylabel('Number of Teas', fontsize=12)
-        ax.set_title('Chinese Tea Caffeine Levels by Category\n136 teas from chinatea.house', fontsize=16, pad=20)
-        ax.legend(title='Caffeine Level', loc='upper right')
+        ax.set_title(f'Unverified Caffeine Labels in the Dataset\n{len(teas)} tea records; counts are not caffeine measurements', fontsize=16, pad=20)
+        ax.legend(title='Reference label', loc='upper right')
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
         plt.tight_layout()
@@ -824,7 +824,7 @@ class SiteGenerator:
         fig2, ax2 = plt.subplots(figsize=(12, 7))
         bars = ax2.barh(short_labels[::-1], values[::-1], color=colors_cat[::-1])
         ax2.set_xlabel('Number of Teas', fontsize=12)
-        ax2.set_title('The 8 Types of Chinese Tea\n136 teas from chinatea.house', fontsize=16, pad=20)
+        ax2.set_title(f'Chinese Tea Browsing Categories\n{len(teas)} records from chinatea.house', fontsize=16, pad=20)
         ax2.spines['top'].set_visible(False)
         ax2.spines['right'].set_visible(False)
         for bar in bars:
@@ -1019,7 +1019,6 @@ class SiteGenerator:
             xml_lines.extend([
                 '  <url>',
                 f'    <loc>{base_url}{url}</loc>',
-                f'    <lastmod>{today}</lastmod>',
                 f'    <changefreq>{changefreq}</changefreq>',
                 f'    <priority>{priority}</priority>',
                 '  </url>',
@@ -1046,7 +1045,6 @@ class SiteGenerator:
             xml_lines.extend([
                 '  <sitemap>',
                 f'    <loc>{base_url}/{filename}</loc>',
-                f'    <lastmod>{today}</lastmod>',
                 '  </sitemap>',
             ])
 

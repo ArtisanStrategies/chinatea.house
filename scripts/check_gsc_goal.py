@@ -19,21 +19,21 @@ os.environ.setdefault("GSC_CREDENTIAL_TYPE", "oauth")
 
 from execution.data.db import Database
 from execution.monitor.gsc import GoogleSearchConsole
+from execution.monitor.periods import search_window
 
 DB_PATH = Path(os.getenv("TEA_DB_PATH", PROJECT_ROOT / "data/canonical/tea.db"))
 
 
 def main():
     db = Database(DB_PATH)
-    end = (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
-    start = (datetime.now() - timedelta(days=33)).strftime("%Y-%m-%d")
+    start, end = search_window(30)
 
     client = GoogleSearchConsole()
     rows = client.fetch_all_search_analytics(start_date=start, end_date=end, dimensions=["date"])
     snapshots = [row.to_dict() for row in rows]
-    db.insert_performance_snapshots(snapshots, default_snapshot_date=end)
+    db.replace_daily_performance_window(snapshots, start, end, "site")
 
-    summary = db.get_performance_summary(start_date=start, end_date=end)
+    summary = db.get_performance_summary(start_date=start, end_date=end, url_only=False)
     clicks = summary["total_clicks"]
     impressions = summary["total_impressions"]
     ctr = summary["avg_ctr"]

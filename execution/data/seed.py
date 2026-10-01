@@ -83,7 +83,7 @@ def _seed_categories(db: "Database") -> int:
             id="dark",
             name_en="Dark Tea",
             name_zh="黑茶",
-            description="Dark tea (黑茶/heicha) undergoes post-fermentation through microbial activity, developing earthy, smooth, and complex flavors. Unlike pu'er which has its own category, heicha includes regional specialties like Liu Bao from Guangxi with its distinctive betel nut aroma, Fu Zhuan from Hunan with its golden flower fungus (金花), and other brick and compressed teas from Sichuan, Hubei, and Shaanxi. These teas are prized for their digestive benefits and improve with age.",
+            description="Dark tea (黑茶/heicha) undergoes post-fermentation through microbial activity, developing earthy, smooth, and complex flavors. Unlike pu'er which has its own category, heicha includes regional specialties like Liu Bao from Guangxi with its distinctive betel nut aroma, Fu Zhuan from Hunan with its golden flower fungus (金花), and other brick and compressed teas from Sichuan, Hubei, and Shaanxi. These teas offer earthy flavors; storage conditions and the individual product affect how they age.",
             oxidation_range_min=0.0,
             oxidation_range_max=1.0,
             color_hex="#3D2914"
@@ -348,39 +348,39 @@ def _seed_occasions(db: "Database") -> int:
         Occasion(
             id="morning-energy",
             name="Morning Energy",
-            description="Teas to start the day with sustained energy and mental clarity.",
+            description="Fuller-flavored teas for a morning tea routine. Caffeine response depends on the product and preparation.",
             preferred_categories=["black", "oolong", "puerh"],
-            preferred_attributes={"caffeine_level": ["moderate", "high"]},
+            preferred_attributes={"body": ["medium", "medium-full", "full"]},
             time_of_day="morning"
         ),
         Occasion(
             id="afternoon-focus",
             name="Afternoon Focus",
-            description="Teas for maintaining concentration during work or study.",
+            description="Fresh and fragrant teas for a work or study break.",
             preferred_categories=["green", "oolong"],
-            preferred_attributes={"caffeine_level": ["moderate"]},
+            preferred_attributes={},
             time_of_day="afternoon"
         ),
         Occasion(
             id="evening-relaxation",
             name="Evening Relaxation",
-            description="Calming teas for winding down without disrupting sleep.",
+            description="Mellow-tasting teas for a quiet tea ritual. All of these are caffeinated; none is verified as suitable for bedtime.",
             preferred_categories=["white", "puerh", "dark"],
-            preferred_attributes={"caffeine_level": ["low", "very-low"]},
+            preferred_attributes={},
             time_of_day="evening"
         ),
         Occasion(
             id="meditation",
             name="Meditation & Mindfulness",
-            description="Teas that promote calm, focused awareness.",
+            description="Light-bodied teas for a mindful brewing ritual.",
             preferred_categories=["white", "green", "oolong"],
             preferred_attributes={"body": ["light", "light-medium"]},
             time_of_day=None
         ),
         Occasion(
             id="digestion",
-            name="After Meal Digestion",
-            description="Teas traditionally enjoyed after heavy meals to aid digestion.",
+            name="After a Meal",
+            description="Earthy and roasted flavors to enjoy after a meal; these suggestions are not digestive treatments.",
             preferred_categories=["puerh", "dark", "oolong"],
             preferred_attributes={},
             time_of_day=None
@@ -390,7 +390,7 @@ def _seed_occasions(db: "Database") -> int:
             name="Hosting Guests",
             description="Impressive teas for sharing with visitors.",
             preferred_categories=["oolong", "white", "green"],
-            preferred_attributes={"tier": [1, 2]},
+            preferred_attributes={},
             time_of_day=None
         ),
         Occasion(
@@ -412,17 +412,17 @@ def _seed_occasions(db: "Database") -> int:
         Occasion(
             id="daily-drinking",
             name="Daily Drinking",
-            description="Reliable, affordable teas for everyday enjoyment.",
+            description="Familiar flavor profiles to explore for everyday drinking; compare current seller prices.",
             preferred_categories=["green", "black", "oolong"],
-            preferred_attributes={"tier": [2, 3]},
+            preferred_attributes={},
             time_of_day=None
         ),
         Occasion(
             id="special-occasion",
             name="Special Occasions",
-            description="Premium teas for celebrations and important moments.",
+            description="Distinctive tea styles to explore for celebrations and important moments.",
             preferred_categories=["oolong", "white", "puerh"],
-            preferred_attributes={"tier": [1]},
+            preferred_attributes={},
             time_of_day=None
         ),
     ]

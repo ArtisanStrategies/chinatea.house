@@ -8,6 +8,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+from xml.etree import ElementTree
 
 
 class DocumentParser(HTMLParser):
@@ -17,9 +18,28 @@ class DocumentParser(HTMLParser):
         self.json_ld: list[str] = []
         self._in_json_ld = False
         self._json_parts: list[str] = []
+        self.h1_count = 0
+        self.title_parts: list[str] = []
+        self._in_title = False
+        self.canonicals: list[str] = []
+        self.descriptions: list[str] = []
+        self.noindex = False
+        self.ids: set[str] = set()
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attributes = dict(attrs)
+        if attributes.get("id"):
+            self.ids.add(attributes["id"])
+        if tag == "h1":
+            self.h1_count += 1
+        if tag == "title":
+            self._in_title = True
+        if tag == "link" and attributes.get("rel") == "canonical":
+            self.canonicals.append(attributes.get("href", ""))
+        if tag == "meta" and attributes.get("name") == "description":
+            self.descriptions.append(attributes.get("content", ""))
+        if tag == "meta" and attributes.get("name") == "robots":
+            self.noindex = "noindex" in attributes.get("content", "").lower()
         for name in ("href", "src"):
             value = attributes.get(name)
             if value:
@@ -29,10 +49,14 @@ class DocumentParser(HTMLParser):
             self._json_parts = []
 
     def handle_data(self, data: str) -> None:
+        if self._in_title:
+            self.title_parts.append(data)
         if self._in_json_ld:
             self._json_parts.append(data)
 
     def handle_endtag(self, tag: str) -> None:
+        if tag == "title":
+            self._in_title = False
         if tag == "script" and self._in_json_ld:
             self.json_ld.append("".join(self._json_parts).strip())
             self._in_json_ld = False
@@ -64,9 +88,31 @@ def verify(output: Path) -> list[str]:
         errors.append(f"comparison publication exceeds policy: {len(comparison_pages)} pages")
 
     broken: dict[str, list[str]] = {}
+    documents: dict[Path, DocumentParser] = {}
+    titles: dict[str, Path] = {}
     for html_path in output.rglob("*.html"):
         parser = DocumentParser()
         parser.feed(html_path.read_text(encoding="utf-8"))
+        documents[html_path] = parser
+        relative = html_path.relative_to(output)
+        route = "/" + str(relative).removesuffix("index.html")
+        expected = "https://chinatea.house" + route
+        if relative == Path("404.html"):
+            if not parser.noindex:
+                errors.append("404 must be noindexed")
+        elif parser.canonicals != [expected]:
+            errors.append(f"canonical mismatch: {relative}: {parser.canonicals}")
+        if parser.h1_count != 1:
+            errors.append(f"expected one h1: {relative}: {parser.h1_count}")
+        if len(parser.descriptions) != 1 or not parser.descriptions[0].strip() or "<" in parser.descriptions[0]:
+            errors.append(f"missing or malformed description: {relative}")
+        title = "".join(parser.title_parts).strip()
+        if not title:
+            errors.append(f"empty title: {relative}")
+        elif not parser.noindex and title in titles:
+            errors.append(f"duplicate title: {relative} and {titles[title]}")
+        elif not parser.noindex:
+            titles[title] = relative
         for index, payload in enumerate(parser.json_ld, 1):
             if not payload:
                 errors.append(f"empty JSON-LD: {html_path.relative_to(output)} block {index}")
@@ -76,9 +122,15 @@ def verify(output: Path) -> list[str]:
             except json.JSONDecodeError as exc:
                 errors.append(f"invalid JSON-LD: {html_path.relative_to(output)} block {index}: {exc}")
                 continue
-            if html_path.match("*/tea/*/index.html") and schema.get("@type") in {
-                "Product", "AggregateRating", "Review"
-            }:
+            def unsupported(value):
+                if isinstance(value, list):
+                    return any(unsupported(item) for item in value)
+                if isinstance(value, dict):
+                    types = value.get("@type", [])
+                    types = [types] if isinstance(types, str) else types
+                    return bool(set(types) & {"Product", "AggregateRating", "Review", "Offer"}) or any(unsupported(item) for item in value.values())
+                return False
+            if html_path.match("*/tea/*/index.html") and unsupported(schema):
                 errors.append(f"unsupported commercial schema: {html_path.relative_to(output)}")
 
         for reference in parser.references:
@@ -89,6 +141,22 @@ def verify(output: Path) -> list[str]:
     for reference, sources in sorted(broken.items()):
         sample = ", ".join(sources[:3])
         errors.append(f"broken internal reference {reference!r} from {sample}")
+    for html_path, parser in documents.items():
+        for reference in parser.references:
+            split = urlsplit(reference)
+            if split.fragment and not split.scheme and not split.netloc:
+                target = html_path if not split.path else reference_path(output, reference)
+                if target in documents and unquote(split.fragment) not in documents[target].ids:
+                    errors.append(f"missing anchor {reference!r} from {html_path.relative_to(output)}")
+    for sitemap in output.glob("sitemap-*.xml"):
+        for loc in ElementTree.parse(sitemap).iter("{http://www.sitemaps.org/schemas/sitemap/0.9}loc"):
+            url = loc.text or ""
+            if not url.startswith("https://chinatea.house/"):
+                errors.append(f"noncanonical sitemap URL: {url}")
+                continue
+            target = reference_path(output, urlsplit(url).path)
+            if target not in documents or documents[target].noindex:
+                errors.append(f"sitemap URL missing or noindexed: {url}")
     return errors
 
 

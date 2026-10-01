@@ -22,3 +22,16 @@ def test_publication_policy_is_explicit_and_sorted():
     records = [Comparison("not-public"), Comparison(max(PUBLIC_COMPARISON_IDS)), Comparison(min(PUBLIC_COMPARISON_IDS))]
     selected = select_public_comparisons(records)
     assert [item.id for item in selected] == sorted([min(PUBLIC_COMPARISON_IDS), max(PUBLIC_COMPARISON_IDS)])
+
+
+def test_shared_component_change_invalidates_child_template(tmp_path):
+    from execution.build.templates import TemplateEngine
+    (tmp_path / 'components').mkdir()
+    (tmp_path / 'base.html').write_text('base')
+    (tmp_path / 'page.html').write_text('page')
+    partial = tmp_path / 'components/facts.html'
+    partial.write_text('old facts')
+    before = TemplateEngine(tmp_path).get_template_hash('page.html')
+    partial.write_text('corrected facts')
+    after = TemplateEngine(tmp_path).get_template_hash('page.html')
+    assert before != after

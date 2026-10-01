@@ -1,33 +1,7 @@
----
-layout: default
-title: Chinese Tea Dataset
----
-
 # Chinese Tea Dataset
 
-A curated, open dataset of Chinese teas covering type, origin, caffeine level, flavor notes, processing method, and brewing parameters.
+[Download JSON or CSV](https://chinatea.house/dataset/). The live page documents fields, current count, limitations, and educational/non-commercial usage terms.
 
-## Download
+Both exports contain id, English and Chinese names, category, region, qualitative caffeine label, body, estimated oxidation fraction (0–1), comma-separated flavor notes, brief description, and completeness tier. JSON wraps records in metadata. Neither export contains measured caffeine doses or brewing parameters. Export time is not editorial review time.
 
-- JSON: <https://chinatea.house/data/chinese-tea-dataset.json>
-- CSV: <https://chinatea.house/data/chinese-tea-dataset.csv>
-- Live page: <https://chinatea.house/dataset/>
-- GitHub Release: <https://github.com/ArtisanStrategies/chinatea.house/releases/tag/dataset-v1.0>
-
-## What is included
-
-- 100+ Chinese teas
-- Caffeine estimates (mg per 8 oz cup)
-- Brewing temperature and time
-- Tea category, origin province, and processing style
-- Flavor and aroma tags
-
-## How to cite
-
-If you use this dataset in research, a blog post, or an app, please link back to <https://chinatea.house/dataset/> or cite the [GitHub release](https://github.com/ArtisanStrategies/chinatea.house/releases/tag/dataset-v1.0).
-
-## Related resources
-
-- [Caffeine Chart](./caffeine-chart)
-- [Brewing Guide](./brewing-guide)
-- [Tea Comparisons](./comparisons)
+Current records have no per-record citations. Verify claims against primary sources before using this descriptive data in research or public conclusions. Cite the live dataset page; release links are not presumed to exist.

@@ -14,8 +14,8 @@
         <dd><a href="/region/{{ region.id }}/">{{ region.name_en }}{% if region.name_zh %} ({{ region.name_zh }}){% endif %}</a></dd>
 
         {% if tea.oxidation_level is not none %}
-        <dt>Oxidation</dt>
-        <dd>{{ (tea.oxidation_level * 100) | int }}%</dd>
+        <dt>Processing estimate</dt>
+        <dd>{{ (tea.oxidation_level * 100) | int }}% oxidation on the dataset scale; not a laboratory measurement</dd>
         {% endif %}
 
         {% if tea.roast_level and tea.roast_level.value != 'none' %}
@@ -24,8 +24,8 @@
         {% endif %}
 
         {% if tea.caffeine_level %}
-        <dt>Caffeine</dt>
-        <dd>{{ tea.caffeine_level.value | replace('-', ' ') | title }}</dd>
+        <dt>Caffeine reference label</dt>
+        <dd>{{ tea.caffeine_level.value | replace('-', ' ') | title }} (unverified; <a href="/guide/caffeine-in-chinese-tea/">how to interpret it</a>)</dd>
         {% endif %}
 
         {% if tea.body %}

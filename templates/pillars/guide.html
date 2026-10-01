@@ -10,7 +10,7 @@
 <nav class="breadcrumbs" aria-label="Breadcrumb">
     <a href="/">Home</a>
     <span>/</span>
-    <span>Guides</span>
+    <a href="/guide/">Guides</a>
     <span>/</span>
     <span>{{ guide.title }}</span>
 </nav>
@@ -54,6 +54,31 @@
             </div>
             {% endfor %}
         </div>
+    </section>
+    {% endif %}
+
+    {% if guide.sources %}
+    <section class="brewing-section" id="sources">
+        <div class="section-header">
+            <p class="section-label">References</p>
+            <h2 class="section-title">Sources and Their Scope</h2>
+        </div>
+        <div class="brewing-methods"><div class="method">
+            <ul>
+                {% for source in guide.sources %}
+                <li><a href="{{ source.url }}">{{ source.title }}</a> — {{ source.scope }}</li>
+                {% endfor %}
+            </ul>
+        </div></div>
+    </section>
+    {% endif %}
+
+    {% if guide.next_steps %}
+    <section class="brewing-section">
+        <div class="section-header"><h2 class="section-title">Choose Your Next Step</h2></div>
+        <div class="brewing-methods"><div class="method"><ul>
+            {% for step in guide.next_steps %}<li><a href="{{ step.url }}">{{ step.label }}</a></li>{% endfor %}
+        </ul></div></div>
     </section>
     {% endif %}
 

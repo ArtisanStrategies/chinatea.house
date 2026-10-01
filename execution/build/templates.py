@@ -11,6 +11,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 import yaml
 
 from execution.monitor.gsc import get_verification_meta
+from .brewing import BREWING_STARTING_POINTS
 from .contracts import comparison_url, hash_text
 
 
@@ -76,10 +77,11 @@ class TemplateEngine:
     def _shared_template_salt(self) -> str:
         """Combined hash of shared base/partial templates."""
         parts = []
-        for name in self.SHARED_TEMPLATES:
+        for name in (*self.SHARED_TEMPLATES, *(str(path.relative_to(self.templates_dir)) for path in sorted((self.templates_dir / "components").glob("*.html")))):
             path = self.templates_dir / name
             if path.exists():
                 parts.append(path.read_text())
+        parts.extend(path.read_text() for path in sorted(Path(__file__).parent.glob("*.py")))
         return hash_text("".join(parts))
 
     def get_template_hash(self, template_name: str) -> str:
@@ -171,8 +173,8 @@ def _build_tea_analysis(tea, category, region, province) -> list[str]:
         ),
         (
             f"Processing is the other major clue: {category.name_en.lower()} is typically { _category_processing(tea.category_id) }. "
-            f"For {tea.name_en}, the oxidation level is "
-            f"{int(tea.oxidation_level * 100)}% when measured on a simple scale." if tea.oxidation_level is not None else
+            f"For {tea.name_en}, the dataset records an estimated oxidation level of "
+            f"{int(tea.oxidation_level * 100)}% on its reference scale, not a laboratory measurement." if tea.oxidation_level is not None else
             f"Processing is the other major clue: {category.name_en.lower()} is typically { _category_processing(tea.category_id) }."
         ),
     ]
@@ -197,7 +199,8 @@ def _build_tea_analysis(tea, category, region, province) -> list[str]:
     if tea.best_for:
         occasions = _list_text([item.replace("-", " ") for item in tea.best_for[:4]])
         paragraphs.append(
-            f"It is especially useful for {occasions}. With {caffeine} caffeine and a {body} body, it can fit different roles "
+            f"The dataset suggests exploring it for {occasions}. Its unverified caffeine reference label is {caffeine}; "
+            f"that label does not establish the caffeine in your cup or its suitability before sleep. With a {body} body, it can fit different roles "
             f"depending on steep strength: lighter infusions emphasize fragrance, while slightly longer infusions bring out texture and finish."
         )
 
@@ -656,10 +659,10 @@ def _tea_matches_occasion(tea, occasion) -> bool:
     # Preferred attributes
     for attr, values in occasion.preferred_attributes.items():
         if attr == "caffeine_level":
-            if tea.caffeine_level.value not in values:
+            if not tea.caffeine_level or tea.caffeine_level.value not in values:
                 return False
         elif attr == "body":
-            if tea.body.value not in values:
+            if not tea.body or tea.body.value not in values:
                 return False
         elif attr == "tier":
             if tea.tier not in values:
@@ -739,7 +742,12 @@ def _brewing_params(category_id: str) -> dict[str, str]:
             "water": "Soft, filtered water",
         },
     }
-    return params.get(category_id, params["green"])
+    text = params.get(category_id, params["green"]).copy()
+    recipe = BREWING_STARTING_POINTS.get(category_id, BREWING_STARTING_POINTS["green"])
+    western, gongfu = recipe["western"], recipe["gongfu"]
+    text["ratio"] = f"{western['leaf']} g per 100 ml (Western); {gongfu['leaf']} g per 100 ml (gongfu)"
+    text["first_steep"] = f"{western['steep']} (Western); {gongfu['steep']} (gongfu)"
+    return text
 
 
 def create_brewing_guide_context(
@@ -826,7 +834,7 @@ def create_guide_index_context(guides: list[dict]) -> dict[str, Any]:
     return {
         "guides": guides,
         "page_title": "Chinese Tea Guides | Brewing, Buying & Tasting",
-        "meta_description": "Explore our Chinese tea guides. Learn how to brew, store, and choose tea, plus comparisons of caffeine, flavor, and health benefits.",
+        "meta_description": "Choose your first Chinese tea, brew it at home, troubleshoot the cup, and explore guides to flavor, storage, teaware, and caffeine evidence.",
         "canonical_url": "https://chinatea.house/guide/",
         "breadcrumbs": [
             {"label": "Guides", "url": None},
@@ -836,20 +844,11 @@ def create_guide_index_context(guides: list[dict]) -> dict[str, Any]:
 
 def create_caffeine_chart_context(teas) -> dict[str, Any]:
     """Create template context for the caffeine chart page."""
-    sorted_teas = sorted(
-        teas,
-        key=lambda t: (
-            {"low": 0, "moderate": 1, "high": 2, "very high": 3}.get(
-                t.caffeine_level.value.lower() if t.caffeine_level else "moderate", 1
-            ),
-            t.category_id,
-            t.name_en,
-        ),
-    )
+    sorted_teas = sorted(teas, key=lambda tea: (tea.category_id, tea.name_en))
     return {
         "teas": sorted_teas,
-        "page_title": "Chinese Tea Caffeine Chart | Levels by Tea Type",
-        "meta_description": "Compare caffeine levels across Chinese teas. Our chart lists green, oolong, black, pu'er, white, yellow, dark, and scented teas with caffeine ratings and brewing notes.",
+        "page_title": "Chinese Tea Caffeine Chart | Reference Labels & Evidence",
+        "meta_description": "Read the limitations of Chinese tea caffeine labels, browse reference data, and learn why tea type alone cannot predict caffeine in your cup.",
         "canonical_url": "https://chinatea.house/chinese-tea-caffeine-chart/",
         "breadcrumbs": [
             {"label": "Guides", "url": "/guide/"},
@@ -937,8 +936,8 @@ def create_tea_finder_context(teas) -> dict[str, Any]:
     """Create template context for the interactive tea finder."""
     return {
         "teas": teas,
-        "page_title": "Find Your Chinese Tea | Personalized Tea Finder",
-        "meta_description": "Answer a few questions and find the best Chinese tea for your taste, mood, and caffeine preference.",
+        "page_title": "Find Your Chinese Tea | Choose by Flavor and Brewing Style",
+        "meta_description": "Find Chinese teas by flavor, body, and brewing style, with reasons for each suggestion.",
         "canonical_url": "https://chinatea.house/find-your-tea/",
         "breadcrumbs": [
             {"label": "Tea Finder", "url": None},
@@ -965,6 +964,7 @@ def create_brewing_calculator_context() -> dict[str, Any]:
         "page_title": "Chinese Tea Brewing Calculator | Leaf, Water & Temperature",
         "meta_description": "Calculate how much Chinese tea and water to use for gongfu or Western brewing. Get temperature and steeping guidance for any tea category.",
         "canonical_url": "https://chinatea.house/brewing-calculator/",
+        "brewing_starting_points": BREWING_STARTING_POINTS,
         "breadcrumbs": [
             {"label": "Brewing Calculator", "url": None},
         ],

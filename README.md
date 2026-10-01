@@ -16,7 +16,7 @@ A free, open guide to Chinese tea.
 
 ## Why This Exists
 
-Chinese tea can be overwhelming. Hundreds of teas, dozens of regions, and countless brewing traditions make it hard to know where to start. This project organizes Chinese tea into clear categories and lets you explore by flavor, origin, caffeine level, and brewing style.
+Chinese tea can be overwhelming. Hundreds of teas, dozens of regions, and countless brewing traditions make it hard to know where to start. This project organizes Chinese tea into clear categories and lets you explore by flavor, origin, and brewing style. Caffeine labels are unverified reference data, not measured doses.
 
 ## Data & License
 
@@ -44,5 +44,8 @@ Found an error or want to suggest a tea? Contact hello@chinatea.house or open an
 - [Dataset](https://chinatea.house/dataset/)
 - [RSS Feed](https://chinatea.house/feed.xml)
 - [GitHub Docs Site](https://artisanstrategies.github.io/chinatea.house/)
-- [Dataset Release v1.0](https://github.com/ArtisanStrategies/chinatea.house/releases/tag/dataset-v1.0)
 - [Cite this Repository](CITATION.cff)
+
+## SEO Work and Measurement
+
+[Success metrics](SUCCESS_METRICS.md) prioritize at least seven Google Search clicks per week. Search Console account data and audit records are kept outside the published repository.

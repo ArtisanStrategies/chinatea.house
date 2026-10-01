@@ -1,202 +1,70 @@
 {% extends "base.html" %}
-
-{% block title %}Find Your Chinese Tea | Personalized Tea Finder{% endblock %}
-
-{% block description %}Answer a few questions and find the best Chinese tea for your taste, mood, and caffeine preference.{% endblock %}
-
-{% block og_type %}website{% endblock %}
-
-{% block breadcrumbs %}
-<nav class="breadcrumbs" aria-label="Breadcrumb">
-    <a href="/">Home</a>
-    <span>/</span>
-    <span>Tea Finder</span>
-</nav>
-{% endblock %}
-
+{% block title %}Find Your Chinese Tea | Choose by Flavor and Brewing Style{% endblock %}
+{% block description %}Find Chinese teas by flavor, body, and brewing style. See why each tea matches and follow practical brewing guides.{% endblock %}
+{% block breadcrumbs %}<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span>Tea Finder</span></nav>{% endblock %}
 {% block content %}
 <article class="category-page">
-    <header class="category-hero">
-        <div class="hero-watermark">茶</div>
-        <div class="hero-content">
-            <h1>Find Your Chinese Tea</h1>
-            <p class="category-intro">
-                Answer a few quick questions and we'll recommend Chinese teas that match your taste,
-                mood, and caffeine preference.
-            </p>
-        </div>
-    </header>
-
-    <section class="brewing-section">
-        <div id="tea-finder">
-            <div class="finder-step" data-step="1">
-                <div class="section-header">
-                    <p class="section-label">Step 1 of 3</p>
-                    <h2 class="section-title">What time of day are you drinking?</h2>
-                </div>
-                <div class="home-grid">
-                    <button class="home-card" data-value="morning" data-key="time">
-                        <h3>Morning</h3>
-                        <p>I want something energizing to start the day.</p>
-                    </button>
-                    <button class="home-card" data-value="afternoon" data-key="time">
-                        <h3>Afternoon</h3>
-                        <p>I want a balanced tea for focus or refreshment.</p>
-                    </button>
-                    <button class="home-card" data-value="evening" data-key="time">
-                        <h3>Evening</h3>
-                        <p>I want something gentle and calming.</p>
-                    </button>
-                </div>
-            </div>
-
-            <div class="finder-step" data-step="2" style="display: none;">
-                <div class="section-header">
-                    <p class="section-label">Step 2 of 3</p>
-                    <h2 class="section-title">What flavors do you enjoy?</h2>
-                </div>
-                <div class="home-grid">
-                    <button class="home-card" data-value="fresh" data-key="flavor">
-                        <h3>Fresh & Vegetal</h3>
-                        <p>Grassy, crisp, clean.</p>
-                    </button>
-                    <button class="home-card" data-value="floral" data-key="flavor">
-                        <h3>Floral & Fragrant</h3>
-                        <p>Orchid, jasmine, honeysuckle.</p>
-                    </button>
-                    <button class="home-card" data-value="bold" data-key="flavor">
-                        <h3>Bold & Roasted</h3>
-                        <p>Malty, earthy, toasted, nutty.</p>
-                    </button>
-                </div>
-            </div>
-
-            <div class="finder-step" data-step="3" style="display: none;">
-                <div class="section-header">
-                    <p class="section-label">Step 3 of 3</p>
-                    <h2 class="section-title">How much caffeine do you want?</h2>
-                </div>
-                <div class="home-grid">
-                    <button class="home-card" data-value="low" data-key="caffeine">
-                        <h3>Low</h3>
-                        <p>Easy on the system.</p>
-                    </button>
-                    <button class="home-card" data-value="moderate" data-key="caffeine">
-                        <h3>Moderate</h3>
-                        <p>A gentle boost.</p>
-                    </button>
-                    <button class="home-card" data-value="high" data-key="caffeine">
-                        <h3>High</h3>
-                        <p>Full energy.</p>
-                    </button>
-                </div>
-            </div>
-
-            <div id="finder-results" style="display: none;">
-                <div class="section-header">
-                    <p class="section-label">Your Matches</p>
-                    <h2 class="section-title">Recommended Teas</h2>
-                </div>
-                <div id="results-list" class="tea-cards-grid"></div>
-                <div style="text-align: center; margin-top: 2rem;">
-                    <button id="finder-restart" class="home-link" style="border: none; background: none; cursor: pointer; font-family: inherit;">Start Over</button>
-                </div>
-            </div>
-        </div>
-    </section>
-</article>
-
-<script>
-const teaData = [
-{% for tea in teas %}
-    {
-        id: "{{ tea.id }}",
-        name: "{{ tea.name_en }}",
-        category: "{{ tea.category_id }}",
-        caffeine: "{{ tea.caffeine_level.value }}",
-        flavors: {{ tea.flavor_primary | tojson }},
-        best_for: {{ tea.best_for | tojson }},
-        description: "{{ tea.description_brief | truncate(120) | replace('"', '\\"') }}"
-    }{% if not loop.last %},{% endif %}
+<header class="category-hero"><h1>Find Your Chinese Tea</h1><p class="category-intro">Choose a flavor, a mouthfeel, and a brewing style. Get suggestions with an explanation of each match.</p></header>
+<p class="tool-note">These suggestions use descriptive reference data, which varies by producer and batch. They do not predict caffeine dose or sleep effects. <a href="/guide/caffeine-in-chinese-tea/">Understand caffeine in tea</a>.</p>
+<section class="brewing-section" id="tea-finder" hidden>
+{% set steps = [
+('flavor', 'What flavors do you enjoy?', [('fresh', 'Fresh & Vegetal', 'Grassy, crisp, green, or nutty.'), ('floral', 'Floral & Fragrant', 'Orchid, jasmine, honey, or flowers.'), ('bold', 'Bold & Roasted', 'Malt, earth, toast, smoke, or cocoa.')]),
+('body', 'What mouthfeel do you prefer?', [('light', 'Light', 'A delicate, lighter cup.'), ('full', 'Full', 'A fuller, more substantial cup.'), ('any', 'Either', 'Let flavor guide the choice.')]),
+('style', 'How will you brew?', [('western', 'Mug or Teapot', 'Fewer leaves and a longer infusion.'), ('gongfu', 'Gaiwan or Small Pot', 'More leaves and short infusions.'), ('either', 'Help Me Choose', 'Show both ways to get started.')])
+] %}
+{% for key, title, options in steps %}
+<div class="finder-step" data-step="{{ loop.index }}" {% if not loop.first %}hidden{% endif %}>
+<p class="section-label">Step {{ loop.index }} of 3</p><h2 tabindex="-1">{{ title }}</h2>
+<div class="home-grid">{% for value, name, description in options %}<button type="button" class="home-card" data-key="{{ key }}" data-value="{{ value }}"><h3>{{ name }}</h3><p>{{ description }}</p></button>{% endfor %}</div>
+{% if not loop.first %}<button type="button" class="finder-back tool-controls">Back</button>{% endif %}
+</div>
 {% endfor %}
-];
-
+<div id="finder-results" hidden><h2 id="results-heading" tabindex="-1">Your Tea Suggestions</h2><p id="results-note"></p><div id="results-list" class="tea-cards-grid"></div><button type="button" id="finder-restart" class="tool-controls">Start Over</button></div>
+</section>
+<p>Prefer to browse? <a href="/guide/chinese-tea-for-beginners/">Start with the beginner guide</a> or <a href="/category/oolong/">explore oolong teas</a>. For any suggestion, use the <a href="/brewing-calculator/">brewing calculator</a> to scale the leaf amount to your actual water volume.</p>
+<noscript><p>The interactive finder needs JavaScript. The guides and tea pages work without it.</p></noscript>
+</article>
+<script id="finder-data" type="application/json">[
+{% for tea in teas %}{"id": {{ tea.id | tojson }}, "name": {{ tea.name_en | tojson }}, "category": {{ tea.category_id | tojson }}, "body": {{ (tea.body.value if tea.body else '') | tojson }}, "flavors": {{ tea.flavor_primary | tojson }}, "description": {{ tea.description_brief | tojson }}}{% if not loop.last %},{% endif %}{% endfor %}
+]</script>
+<script>
+(() => {
+const teas = JSON.parse(document.getElementById('finder-data').textContent);
 const preferences = {};
-
-function scoreTea(tea) {
-    let score = 0;
-    if (preferences.time === 'morning') {
-        if (['high', 'moderate'].includes(tea.caffeine)) score += 2;
-        if (tea.best_for && tea.best_for.includes('morning-energy')) score += 2;
-    } else if (preferences.time === 'evening') {
-        if (tea.caffeine === 'low') score += 2;
-        if (tea.best_for && tea.best_for.includes('evening-relaxation')) score += 2;
-    } else {
-        score += 1;
-    }
-
-    const flavorMap = {
-        fresh: ['vegetal', 'grassy', 'nutty', 'sweet'],
-        floral: ['floral', 'orchid', 'jasmine', 'honey'],
-        bold: ['malty', 'roasted', 'earth', 'smoke', 'cocoa']
-    };
-    const preferredFlavors = flavorMap[preferences.flavor] || [];
-    for (const f of tea.flavors) {
-        if (preferredFlavors.includes(f)) score += 2;
-    }
-
-    const caffeineRank = { low: 0, moderate: 1, high: 2 };
-    const prefRank = { low: 0, moderate: 1, high: 2 };
-    const diff = Math.abs(caffeineRank[tea.caffeine] - prefRank[preferences.caffeine]);
-    score += (2 - diff);
-
-    return score;
+const steps = [...document.querySelectorAll('.finder-step')];
+const results = document.getElementById('finder-results');
+const flavorMap = {fresh: ['vegetal', 'grassy', 'nutty', 'fresh', 'green'], floral: ['floral', 'orchid', 'jasmine', 'honey', 'flower'], bold: ['malt', 'roast', 'earth', 'smok', 'cocoa', 'toast']};
+function match(tea) {
+ const flavors = tea.flavors.filter(f => flavorMap[preferences.flavor].some(word => f.toLowerCase().includes(word)));
+ const body = preferences.body !== 'any' && (preferences.body === 'light' ? ['light', 'light-medium'].includes(tea.body) : ['medium-full', 'full'].includes(tea.body));
+ return {tea, score: flavors.length * 3 + (body ? 2 : 0), flavors, body};
 }
-
-document.querySelectorAll('.finder-step .home-card').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const key = btn.dataset.key;
-        const value = btn.dataset.value;
-        preferences[key] = value;
-
-        const currentStep = btn.closest('.finder-step');
-        const nextStep = currentStep.nextElementSibling;
-
-        if (nextStep && nextStep.classList.contains('finder-step')) {
-            currentStep.style.display = 'none';
-            nextStep.style.display = 'block';
-        } else {
-            showResults();
-        }
-    });
-});
-
+function showStep(index) {
+ steps.forEach((step, i) => step.hidden = i !== index);
+ results.hidden = true;
+ steps[index].querySelector('h2').focus();
+}
 function showResults() {
-    document.querySelectorAll('.finder-step').forEach(s => s.style.display = 'none');
-    const results = teaData.map(tea => ({ tea, score: scoreTea(tea) }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 6);
-
-    const list = document.getElementById('results-list');
-    list.innerHTML = results.map(r => `
-        <a href="/tea/${r.tea.id}/" class="tea-card">
-            <div class="tea-card-inner">
-                <h3>${r.tea.name}</h3>
-                <p>${r.tea.description}</p>
-            </div>
-            <span class="tea-card-arrow">→</span>
-        </a>
-    `).join('');
-
-    document.getElementById('finder-results').style.display = 'block';
+ steps.forEach(step => step.hidden = true);
+ const ranked = teas.map(match).filter(item => item.score > 0).sort((a,b) => b.score - a.score || a.tea.name.localeCompare(b.tea.name)).slice(0,6);
+ const list = document.getElementById('results-list');
+ list.replaceChildren();
+ for (const item of ranked) {
+  const card = document.createElement('a'); card.className = 'tea-card'; card.href = '/tea/' + encodeURIComponent(item.tea.id) + '/';
+  const title = document.createElement('h3'); title.textContent = item.tea.name;
+  const reason = document.createElement('p'); reason.textContent = (item.flavors.length ? 'Flavor match: ' + item.flavors.join(', ') + '. ' : '') + (item.body ? 'Matches your preferred mouthfeel. ' : '') + 'Reference body: ' + (item.tea.body || 'not recorded') + '.';
+  const description = document.createElement('p'); description.textContent = item.tea.description;
+  card.append(title, reason, description); list.append(card);
+ }
+ document.getElementById('results-note').textContent = ranked.length ? 'Ranked by flavor and mouthfeel. ' + (preferences.style === 'western' ? 'Use the Western setting in the calculator for your mug or teapot.' : preferences.style === 'gongfu' ? 'Use the gongfu setting in the calculator for short infusions.' : 'Compare Western and gongfu starting recipes in the calculator.') : 'No close match in the reference data. Try another flavor or browse the beginner guide.';
+ results.hidden = false; document.getElementById('results-heading').focus();
 }
-
-document.getElementById('finder-restart').addEventListener('click', () => {
-    Object.keys(preferences).forEach(k => delete preferences[k]);
-    document.getElementById('finder-results').style.display = 'none';
-    document.querySelectorAll('.finder-step').forEach((s, i) => {
-        s.style.display = i === 0 ? 'block' : 'none';
-    });
+steps.forEach((step, index) => {
+ step.querySelectorAll('[data-key]').forEach(button => button.addEventListener('click', () => {preferences[button.dataset.key] = button.dataset.value; index < steps.length - 1 ? showStep(index + 1) : showResults();}));
+ const back = step.querySelector('.finder-back'); if (back) back.addEventListener('click', () => showStep(index - 1));
 });
+document.getElementById('finder-restart').addEventListener('click', () => {Object.keys(preferences).forEach(key => delete preferences[key]); showStep(0);});
+document.getElementById('tea-finder').hidden = false;
+})();
 </script>
 {% endblock %}

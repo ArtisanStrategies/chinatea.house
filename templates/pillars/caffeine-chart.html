@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Chinese Tea Caffeine Chart | Levels by Tea Type{% endblock %}
+{% block title %}Chinese Tea Caffeine Chart | Reference Labels & Evidence{% endblock %}
 
-{% block description %}Compare caffeine levels across Chinese teas. Our chart lists green, oolong, black, pu'er, white, yellow, dark, and scented teas with caffeine ratings and brewing notes.{% endblock %}
+{% block description %}Read the limitations of Chinese tea caffeine labels, browse reference data, and learn why tea type alone cannot predict caffeine in your cup.{% endblock %}
 
 {% block og_type %}article{% endblock %}
 {% block og_image %}https://chinatea.house/assets/chinese-tea-caffeine-chart.png{% endblock %}
@@ -24,37 +24,20 @@
         <div class="hero-content">
             <h1>Chinese Tea Caffeine Chart</h1>
             <p class="category-intro">
-                Compare caffeine levels across {{ teas | length }} Chinese teas.
-                Use this chart to choose a tea that matches your energy needs,
-                whether you want a morning boost or an evening wind-down.
+                Browse {{ teas | length }} tea records and understand the limits of their caffeine labels.
+                This dataset contains no product-specific caffeine measurements. Its labels cannot tell you the dose in a brewed cup or whether a tea will affect your sleep.
             </p>
         </div>
     </header>
 
-    <section class="brewing-section">
-        <div class="section-header">
-            <p class="section-label">Quick Reference</p>
-            <h2 class="section-title">Caffeine by Category</h2>
-        </div>
-        <div class="char-grid">
-            <div class="char-item"><h3>Green Tea</h3><p>Low to moderate</p></div>
-            <div class="char-item"><h3>White Tea</h3><p>Low to high (bud teas can be high)</p></div>
-            <div class="char-item"><h3>Yellow Tea</h3><p>Low to moderate</p></div>
-            <div class="char-item"><h3>Oolong</h3><p>Moderate to high</p></div>
-            <div class="char-item"><h3>Black Tea</h3><p>Moderate to high</p></div>
-            <div class="char-item"><h3>Pu'er</h3><p>Raw high; ripe moderate</p></div>
-            <div class="char-item"><h3>Dark Tea</h3><p>Low to moderate</p></div>
-            <div class="char-item"><h3>Scented Tea</h3><p>Depends on base tea</p></div>
-        </div>
-    </section>
-
+    <section class="brewing-section"><h2>What the Evidence Can Tell You</h2><p>Testing of commercial white, green, and black teas found overlapping caffeine levels. Tea color alone did not establish a reliable ranking. Product, leaf amount, water volume, temperature, and infusion time matter. That study does not measure the teas listed here or establish a ranking for oolong or pu'er.</p><p><a href="https://pubmed.ncbi.nlm.nih.gov/19007524/">Chin et al.: caffeine in commercial teas</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/11714326/">Astill et al.: product and preparation factors</a> · <a href="/guide/caffeine-in-chinese-tea/">Read the practical caffeine guide</a></p><p>If you need a particular caffeine limit, seek product-specific test information for a stated brewing method. Do not use these labels as a dose filter.</p></section>
     <section class="brewing-section">
         <div class="section-header">
             <p class="section-label">Visual Summary</p>
-            <h2 class="section-title">Caffeine Levels by Category</h2>
+            <h2 class="section-title">Counts of Unverified Labels by Category</h2>
         </div>
         <div style="text-align: center;">
-            <img src="/assets/chinese-tea-caffeine-chart.png" alt="Chinese tea caffeine levels by category" style="max-width: 100%; height: auto; border-radius: 8px;">
+            <img src="/assets/chinese-tea-caffeine-chart.png" alt="Counts of unverified dataset caffeine labels; not measured caffeine content" style="max-width: 100%; height: auto; border-radius: 8px;">
             <p style="margin-top: 1rem; color: var(--ink-faint);">Share this chart: <a href="/assets/chinese-tea-caffeine-chart.png" download>download PNG</a></p>
         </div>
     </section>
@@ -62,7 +45,7 @@
     <section class="featured-teas-section">
         <div class="section-header">
             <p class="section-label">Full Chart</p>
-            <h2 class="section-title">Caffeine Levels for Every Tea</h2>
+            <h2 class="section-title">Reference Labels for Every Tea</h2>
         </div>
         <div style="overflow-x: auto;">
             <table class="comparison-table" style="width: 100%; min-width: 600px;">
@@ -70,8 +53,8 @@
                     <tr>
                         <th>Tea</th>
                         <th>Category</th>
-                        <th>Caffeine</th>
-                        <th>Best Time</th>
+                        <th>Unverified label</th>
+                        <th>Measurement status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,13 +62,8 @@
                     <tr>
                         <td><a href="/tea/{{ tea.id }}/">{{ tea.name_en }}</a></td>
                         <td>{{ tea.category_id | replace('-', ' ') | title }}</td>
-                        <td>{{ tea.caffeine_level.value | title }}</td>
-                        <td>
-                            {% if tea.caffeine_level.value in ['high', 'very high'] %}Morning / Focus
-                            {% elif tea.caffeine_level.value == 'moderate' %}Anytime
-                            {% else %}Afternoon / Evening
-                            {% endif %}
-                        </td>
+                        <td>{{ (tea.caffeine_level.value if tea.caffeine_level else 'unknown') | replace('-', ' ') | title }}</td>
+                        <td>No product-specific measurement</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -101,8 +79,7 @@
         <div class="brewing-methods">
             <div class="method">
                 <p>
-                    Caffeine levels are approximate and depend on harvest time, leaf grade, and brewing strength.
-                    Bud-heavy teas and first flush teas usually contain more caffeine than older leaves.
+                    The labels are inherited reference descriptions without per-record supporting sources. The image counts records carrying each label; it does not compare caffeine concentrations. Products and brewing conditions can differ from those descriptions.
                 </p>
                 <p>
                     For a deeper explanation, read our

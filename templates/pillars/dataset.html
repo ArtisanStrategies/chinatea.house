@@ -12,7 +12,7 @@
   "@context": "https://schema.org",
   "@type": "Dataset",
   "name": "Chinese Tea Dataset",
-  "description": "A free, structured dataset of {{ tea_count }} Chinese teas covering category, region, caffeine, flavor, oxidation, and brewing parameters.",
+  "description": "A free, structured dataset of {{ tea_count }} Chinese teas covering category, region, unverified caffeine labels, descriptive flavor notes, and estimated oxidation.",
   "url": "https://chinatea.house/dataset/",
   "license": "https://chinatea.house/dataset/",
   "creator": {
@@ -61,6 +61,7 @@
         </div>
     </header>
 
+    <section class="brewing-section"><h2>Scope and Limitations</h2><p>This is a descriptive reference dataset, not a laboratory or product certification dataset. Caffeine and oxidation values are unverified estimates. Flavor and origin descriptions can vary by producer and batch. The current tea records have no per-record source citations. The tier field describes data completeness, not tea quality.</p><p>The export contains the fields listed below; it does not include measured caffeine doses or brewing parameters. Flavor notes are comma-separated text in both formats. The generated timestamp records export time, not editorial review.</p><p>For responsible use, <a href="/guide/caffeine-in-chinese-tea/">read the caffeine evidence</a> and check claims against primary sources before publishing conclusions. <a href="/contact/">Send a correction with its source</a>.</p></section>
     <section class="brewing-section">
         <div class="section-header">
             <p class="section-label">Download</p>
@@ -69,7 +70,7 @@
         <div class="home-grid">
             <a class="home-card" href="/data/chinese-tea-dataset.json" download>
                 <h3>JSON Format</h3>
-                <p>Structured data with nested objects, ideal for apps and APIs.</p>
+                <p>A metadata object containing a list of tea records.</p>
                 <span class="meta">Download .json</span>
             </a>
             <a class="home-card" href="/data/chinese-tea-dataset.csv" download>
@@ -93,9 +94,9 @@
                     <li><strong>name_zh</strong> — Chinese name</li>
                     <li><strong>category</strong> — Green, oolong, black, pu'er, white, yellow, dark, scented</li>
                     <li><strong>region</strong> — Production region</li>
-                    <li><strong>caffeine_level</strong> — Low, moderate, or high</li>
+                    <li><strong>caffeine_level</strong> — Unverified qualitative label; not a measured dose</li>
                     <li><strong>body</strong> — Light, medium, full, etc.</li>
-                    <li><strong>oxidation_level</strong> — Oxidation percentage</li>
+                    <li><strong>oxidation_level</strong> — Estimated fraction from 0 to 1; not a laboratory measurement</li>
                     <li><strong>flavor_primary</strong> — Primary flavor notes</li>
                     <li><strong>description_brief</strong> — Short description</li>
                     <li><strong>tier</strong> — Data completeness tier</li>

@@ -2,7 +2,7 @@
 
 {% block title %}Best Tea for {{ occasion.name }}{% endblock %}
 
-{% block description %}Find the best Chinese tea for {{ occasion.name | lower }}. Our curated picks include {{ recommended_teas | length }} teas matched by flavor, caffeine, body, and brewing style.{% endblock %}
+{% block description %}Explore {{ recommended_teas | length }} Chinese tea suggestions for {{ occasion.name | lower }}, grouped by category and descriptive flavor characteristics.{% endblock %}
 
 {% block og_type %}article{% endblock %}
 
@@ -32,7 +32,7 @@
                 {% if occasion.time_of_day %}
                 <div class="stat">
                     <span class="stat-number">{{ occasion.time_of_day | title }}</span>
-                    <span class="stat-label">Best Time</span>
+                    <span class="stat-label">Tea Routine</span>
                 </div>
                 {% endif %}
                 {% if occasion.season %}
@@ -80,7 +80,7 @@
         </div>
         <div class="tea-cards-grid">
             {% for tea in alternative_teas %}
-            <a href="/tea/{{ tea.id }}/" class="tea-card" style="background: var(--ink);">
+            <a href="/tea/{{ tea.id }}/" class="tea-card">
                 <div class="tea-card-inner">
                     <h3>{{ tea.name_en }}{% if tea.name_zh %} <span class="zh">{{ tea.name_zh }}</span>{% endif %}</h3>
                     <p>{{ tea.description_brief | truncate(120) }}</p>
@@ -107,13 +107,12 @@
         <div class="brewing-methods">
             <div class="method">
                 <p>
-                    We selected these teas for {{ occasion.name | lower }} based on their caffeine level,
-                    body, flavor intensity, and traditional use in China.
+                    These suggestions group teas by category and, where available, descriptive mouthfeel or roast. They are starting points for exploring flavor, not product tests or clinical recommendations.
                     {{ occasion.description }}
                 </p>
                 <p>
                     Prefer something different? Browse all
-                    <a href="/category/">Chinese tea categories</a> or compare teas side-by-side.
+                    <a href="/category/">Chinese tea categories</a> or <a href="/find-your-tea/">choose by flavor and mouthfeel</a>. All true teas contain caffeine; <a href="/guide/caffeine-in-chinese-tea/">reference labels cannot establish dose or bedtime suitability</a>.
                 </p>
             </div>
         </div>

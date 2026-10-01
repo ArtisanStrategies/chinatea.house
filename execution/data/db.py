@@ -735,6 +735,36 @@ class Database:
             ).fetchone()
             return row["latest"] if row else None
 
+    def replace_daily_performance_window(self, snapshots: list[dict], start_date: str, end_date: str, grain: str) -> int:
+        """Replace one successfully fetched grain, including rows now omitted.
+
+        Other grains and periods remain intact. Validate dates before removing
+        old data so a period aggregate cannot masquerade as a daily snapshot.
+        """
+        predicates = {
+            "site": "url = '' AND query = ''",
+            "page": "url != '' AND query = ''",
+            "page_query": "url != '' AND query != ''",
+        }
+        if grain not in predicates:
+            raise ValueError("unknown performance grain")
+        for snapshot in snapshots:
+            if not snapshot.get("date") or not start_date <= snapshot["date"] <= end_date:
+                raise ValueError("daily snapshot date must be within the fetched window")
+        with self.connection() as conn:
+            conn.execute(
+                f"DELETE FROM page_performance_snapshots WHERE snapshot_date BETWEEN ? AND ? AND device = '' AND country = '' AND {predicates[grain]}",
+                (start_date, end_date),
+            )
+            for snapshot in snapshots:
+                conn.execute("""
+                    INSERT INTO page_performance_snapshots
+                        (url, snapshot_date, query, clicks, impressions, ctr, avg_position, device, country)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, '', '')
+                """, (snapshot["url"], snapshot["date"], snapshot.get("query") or "", snapshot["clicks"],
+                      snapshot["impressions"], snapshot["ctr"], snapshot["position"]))
+        return len(snapshots)
+
     def get_performance_for_url(
         self,
         url: str,
@@ -761,24 +791,28 @@ class Database:
         end_date: Optional[str] = None,
         url_only: bool = True,
     ) -> dict:
-        """Aggregate performance summary.
+        """Summarize exactly one grain: page totals, or site/date totals.
 
-        Set url_only=False to include non-page dimension summaries (query-only,
-        date-only), but note that this can double-count if multiple grains are
-        stored for the same period.
+        Query, country and device breakdowns must never be added to totals.
+        No rows means unavailable data, not confirmed zero search traffic.
         """
         with self.connection() as conn:
             query = """
                 SELECT
                     COALESCE(SUM(clicks), 0) AS total_clicks,
                     COALESCE(SUM(impressions), 0) AS total_impressions,
-                    COUNT(DISTINCT url) AS url_count
+                    COUNT(DISTINCT NULLIF(url, '')) AS url_count,
+                    COUNT(*) AS row_count,
+                    COUNT(DISTINCT snapshot_date) AS days_with_data,
+                    MAX(snapshot_date) AS latest_date
                 FROM page_performance_snapshots
-                WHERE 1=1
+                WHERE query = '' AND device = '' AND country = ''
             """
             params: list[Any] = []
             if url_only:
                 query += " AND url IS NOT NULL AND url != ''"
+            else:
+                query += " AND url = ''"
             if start_date:
                 query += " AND snapshot_date >= ?"
                 params.append(start_date)
@@ -794,6 +828,9 @@ class Database:
                 "total_impressions": total_impressions,
                 "avg_ctr": round(avg_ctr, 4),
                 "url_count": row["url_count"],
+                "available": row["row_count"] > 0,
+                "days_with_data": row["days_with_data"],
+                "latest_date": row["latest_date"],
             }
 
     def get_underperforming_pages(
@@ -804,7 +841,7 @@ class Database:
         end_date: Optional[str] = None,
         limit: int = 50,
     ) -> list[dict]:
-        """Find pages with high impressions but low CTR (CTR rewrite candidates)."""
+        """Find low-CTR pages for diagnosis; position and intent determine action."""
         with self.connection() as conn:
             query = """
                 SELECT
@@ -815,6 +852,7 @@ class Database:
                     ROUND(SUM(avg_position * impressions) / NULLIF(SUM(impressions), 0), 2) AS avg_position
                 FROM page_performance_snapshots
                 WHERE url IS NOT NULL AND url != ''
+                  AND query = '' AND device = '' AND country = ''
             """
             params: list[Any] = []
             if start_date:

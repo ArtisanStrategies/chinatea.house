@@ -549,7 +549,7 @@ def gsc_test_connection(config_path):
 @gsc.command("fetch-performance")
 @click.option("--start-date", default=None, help="Start date (YYYY-MM-DD)")
 @click.option("--end-date", default=None, help="End date (YYYY-MM-DD)")
-@click.option("--dimensions", default="page,query", help="Comma-separated dimensions")
+@click.option("--dimensions", default="date,page,query", help="Comma-separated dimensions; include date when storing")
 @click.option("--dry-run", is_flag=True, help="Fetch but do not store")
 @click.option("--config", "config_path", default=None, help="Path to GSC config file")
 @click.pass_context
@@ -572,11 +572,14 @@ def gsc_fetch_performance(ctx, start_date, end_date, dimensions, dry_run, config
 
     dims = [d.strip() for d in dimensions.split(",") if d.strip()]
 
-    # Mirror the client's default date range so we can tag summary rows.
-    effective_end = end_date or (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
+    if "date" not in dims and not dry_run:
+        raise click.UsageError("Stored snapshots require the date dimension. Use --dry-run for period aggregates.")
+    from execution.monitor.periods import search_window
+    _, default_end = search_window(cfg.default_days)
+    effective_end = end_date or default_end
     effective_start = start_date or (
         datetime.strptime(effective_end, "%Y-%m-%d")
-        - timedelta(days=cfg.default_days)
+        - timedelta(days=cfg.default_days - 1)
     ).strftime("%Y-%m-%d")
 
     console.print(f"[blue]Fetching GSC performance data[/blue]")

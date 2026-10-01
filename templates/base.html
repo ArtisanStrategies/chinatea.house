@@ -24,14 +24,16 @@
     <meta property="og:type" content="{% block og_type %}article{% endblock %}">
     <meta property="og:url" content="{{ canonical_url }}">
     <meta property="og:site_name" content="China Tea House">
-    {% if og_image %}
-    <meta property="og:image" content="{{ og_image }}">
+    {% set social_image %}{% block og_image %}{{ og_image | default('') }}{% endblock %}{% endset %}
+    {% if social_image | trim %}
+    <meta property="og:image" content="{{ social_image | trim }}">
     {% endif %}
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ page_title }}">
     <meta name="twitter:description" content="{{ meta_description }}">
+    {% if social_image | trim %}<meta name="twitter:image" content="{{ social_image | trim }}">{% endif %}
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -291,6 +293,40 @@
             margin: 2rem 0;
         }
 
+        /* Shared layouts for guides, tools, and utility pages. */
+        .category-hero { padding: 2rem 0; }
+        .hero-watermark { display: none; }
+        .category-intro { max-width: 48rem; }
+        .brewing-section { margin: 3rem auto; max-width: 60rem; }
+        .brewing-methods { display: grid; gap: 1.5rem; }
+        .method { max-width: 48rem; margin: 0 auto; width: 100%; }
+        .method ul, .method ol { padding-left: 1.5rem; margin-bottom: 1rem; }
+        .method li { margin-bottom: 0.5rem; }
+        .tea-cards-grid, .home-grid, .char-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+            gap: 1rem;
+        }
+        .tea-card, .home-card, .char-item {
+            display: block;
+            padding: 1.5rem;
+            background: var(--paper);
+            border: 1px solid var(--silk);
+            text-decoration: none;
+            color: var(--ink);
+        }
+        button.home-card { cursor: pointer; text-align: left; font: inherit; }
+        .tea-card h3, .home-card h3, .char-item h3 { margin: 0 0 0.75rem; }
+        .tea-card p, .home-card p { margin-bottom: 0.75rem; }
+        .comparison-table { border-collapse: collapse; }
+        .comparison-table th, .comparison-table td { text-align: left; padding: 0.75rem; border-bottom: 1px solid var(--silk); }
+        .tool-note { max-width: 48rem; margin: 1.5rem auto; }
+        .tool-error { color: var(--red-deep); font-weight: 500; }
+        .tool-controls { display: flex; gap: 1rem; margin: 1.5rem 0; }
+        .tool-controls button { padding: 0.5rem 1rem; font: inherit; cursor: pointer; }
+        .home-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+        .home-actions a { color: var(--paper); padding: 0.5rem 0; }
+
         /* ===== TAGS ===== */
         .tag {
             display: inline-block;
@@ -360,7 +396,7 @@
             max-width: var(--max-width);
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 2fr repeat(3, 1fr);
+            grid-template-columns: 2fr repeat(4, 1fr);
             gap: 4rem;
         }
 
@@ -422,9 +458,12 @@
             .footer-brand { grid-column: span 2; }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1100px) {
             .main-nav { display: none; }
             .mobile-nav { display: block; }
+        }
+
+        @media (max-width: 768px) {
             .header-inner { padding: 1rem; }
             main { padding: 0 1rem; }
 
@@ -457,6 +496,7 @@
         <div class="header-inner">
             <a href="/" class="site-logo">China Tea House <span class="zh">茶</span></a>
             <nav class="main-nav">
+                <a href="/guide/">Guides</a>
                 <a href="/category/">Categories</a>
                 <a href="/region/">Regions</a>
                 <a href="/compare/">Compare</a>
@@ -467,6 +507,7 @@
             <details class="mobile-nav">
                 <summary>Menu</summary>
                 <nav class="mobile-nav-links" aria-label="Mobile navigation">
+                    <a href="/guide/">Guides</a>
                     <a href="/category/">Categories</a>
                     <a href="/region/">Regions</a>
                     <a href="/compare/">Compare</a>
@@ -504,7 +545,7 @@
                 <a href="/" class="site-logo">China Tea House <span class="zh">茶</span></a>
                 <p class="footer-tagline">
                     Your guide to authentic Chinese tea.
-                    Sourced knowledge, steeped in tradition.
+                    Practical guides, steeped in tradition.
                 </p>
             </div>
             <div class="footer-section">
@@ -539,7 +580,7 @@
         </div>
         <div class="footer-bottom">
             <span>&copy; {{ current_year }} China Tea House</span>
-            <span>Independent Chinese tea guides and open data</span>
+            <span>Independent Chinese tea guides and reference data</span>
         </div>
     </footer>
 

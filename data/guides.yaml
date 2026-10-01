@@ -1,45 +1,85 @@
 - id: chinese-tea-for-beginners
   title: Chinese Tea for Beginners
   title_zh: null
-  description: A simple introduction to Chinese tea categories, flavors, and how to start brewing at home.
+  description: Choose a first Chinese tea by flavor, brew it in a mug, and adjust a bitter or weak cup. Start with equipment you already have.
   sections:
-  - heading: Start with Familiar Flavors
-    body: If you are new to Chinese tea, begin with approachable styles. Green teas like <a href="/tea/xi-hu-longjing/">Longjing</a> are fresh and vegetal. White teas like <a href="/tea/bai-mudan/">Bai Mudan</a> are gentle and sweet. For something floral and creamy, try a light oolong such as <a href="/tea/tie-guan-yin/">Tie Guan Yin</a>.
-  - heading: Understand the Eight Categories
-    body: Chinese tea is traditionally grouped into green, white, yellow, oolong, black, dark, pu'er, and scented teas. Each category has distinct processing, oxidation, and flavor characteristics.
-  - heading: Keep Brewing Simple
-    body: Use water just off the boil for black and pu'er teas, and cooler water around 80°C for green and white teas. Start with 2 grams of leaf per 100 ml of water and steep for 2–3 minutes.
-  - heading: Taste Broadly
-    body: The best way to learn is to compare. Try teas from different regions and categories side by side to discover what you enjoy most.
+  - heading: Choose One Flavor Direction
+    body: Start with a flavor you already enjoy. For fresh or nutty notes, explore <a href="/tea/xi-hu-longjing/">Longjing green tea</a>. For floral aromas, compare <a href="/tea/tie-guan-yin/">Tie Guan Yin oolong</a> and <a href="/tea/jasmine-yin-hao/">jasmine tea</a>. For a fuller, malty direction, explore <a href="/tea/dianhong-gongfu/">Dianhong black tea</a>. These are starting choices from our reference descriptions, not a ranking of products we have tasted. Choose one small sample before buying a large collection.
+  - heading: Check the Product Before You Buy
+    body: A tea name describes a style; it does not guarantee the quality of every bag sold under that name. Look for a seller who identifies the tea, its origin, available harvest or production information, and preparation instructions. Ask for a sample size and read the total price including delivery. Favor clear information over an extravagant story. We do not sell tea or endorse a particular seller here.
+  - heading: Begin with a Mug and a Strainer
+    body: You can start with a mug, a roomy infuser or separate strainer, a kettle, and a timer. A small scale makes recipes easier to repeat, but you do not need a full ceremonial set. Give the leaves room to open and remove or strain them when the infusion is ready. Leaving leaves in the cup keeps extraction going and makes the result harder to control.
+  - heading: Make Your First Cup
+    body: Use the instructions on your particular tea when available. Otherwise, choose its category and Western style in the <a href="/brewing-calculator/">brewing calculator</a>, enter the amount of water you will actually pour, and use the result as a house starting recipe. Measure the water, add the suggested leaf, set a timer, and separate the liquid from the leaves at the end. Read the <a href="/brewing/">category brewing guide</a> for the limits of a general recipe.
+  - heading: Adjust One Thing at a Time
+    body: Taste before adding milk or sugar if you want to learn the tea itself. If the cup is unpleasantly bitter or drying, first shorten the next steep while keeping the leaf and water amounts the same. If it is weak, extend the steep a little before changing the leaf amount. For green tea, cooler water is another adjustment to explore. Change one variable, note the result, and repeat. Your own observation is more useful than chasing a universal perfect cup.
+  - heading: Try Another Infusion
+    body: If the leaves still have useful flavor, pour fresh water over them and try again. Later infusions may need a different steep time. Stop when the result is no longer enjoyable; a promised number of steeps is not a requirement. You can learn how a tea changes without investing in extra teaware.
+  - heading: Learn the Categories When They Help
+    body: The six traditional processing families are green, white, yellow, oolong, black, and dark tea. This site uses eight browsing sections by listing pu'er separately and adding scented tea. That navigation choice explains why you see both six and eight in tea guides. Use the <a href="/guide/types-of-chinese-tea/">types guide</a> when you want to understand processing, rather than memorizing every region before making a cup.
+  - heading: Keep Flavor and Caffeine Separate
+    body: A gentle flavor does not establish a low-caffeine drink. Our tea dataset has reference labels, not laboratory measurements of your product or cup. If caffeine matters to your choice, read the <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> and seek product-specific information. The Tea Finder helps you explore flavors; it cannot determine a caffeine dose.
+  - heading: Move to Gongfu Brewing When You Want More Control
+    body: Gongfu brewing uses a smaller vessel and shorter repeated infusions. Try it when you want to follow changes across a session, not because a mug is an incorrect way to drink tea. The <a href="/guide/gongfu-tea-setup/">gongfu setup guide</a> explains the equipment, and the calculator lets you scale its house recipes.
   faqs:
-  - q: What is the best Chinese tea for beginners?
-    a: 'Start with approachable styles: green teas like Longjing (fresh and vegetal), white teas like Bai Mudan (gentle and sweet), or a light oolong like Tie Guan Yin (floral and creamy). Jasmine tea is also an easy first tea.'
-  - q: How do you brew Chinese tea at home?
-    a: Use water just off the boil for black and pu-erh teas, and cooler water around 80C for green and white teas. Start with 2 grams of leaf per 100 ml and steep 2-3 minutes, adjusting to taste.
-  - q: How many types of Chinese tea are there?
-    a: 'Six traditional categories: green, white, yellow, oolong, black, and dark (including pu-erh), plus scented teas like jasmine. Each differs by oxidation and processing rather than by plant.'
+  - q: Which Chinese tea should I try first?
+    a: 'Choose by flavor: Longjing for fresh or nutty notes, Tie Guan Yin or jasmine for floral aromas, or Dianhong for a fuller malty direction. Start with a small sample and follow that product''s brewing instructions.'
+  - q: Do I need a gaiwan to start?
+    a: No. A mug with a roomy infuser or strainer is enough. Separate the leaves from the liquid when the steep is finished so the recipe is repeatable.
+  - q: Why is my tea bitter?
+    a: First try a shorter steep with the same leaf and water amounts. If needed, adjust temperature or leaf amount in a later cup. Change one variable at a time.
+  sources:
+  - title: Mei Leaf, How much tea for gongfu brewing
+    url: https://www.youtube.com/watch?v=ZxjEoRt3zwg
+    scope: A practitioner demonstration of gongfu leaf ratios as starting points; not validation of every recipe or tea in this site.
+  next_steps:
+  - url: /find-your-tea/
+    label: Choose a flavor direction
+  - url: /brewing-calculator/
+    label: Calculate leaf for the water you will use
+  - url: /guide/how-to-taste-tea/
+    label: Describe the cup and compare your next infusion
+  - url: /guide/how-to-store-chinese-tea/
+    label: Store the remaining leaves
 - id: caffeine-in-chinese-tea
   title: Caffeine in Chinese Tea
   title_zh: null
-  description: How much caffeine is in green tea, oolong, black tea, and pu'er? A practical guide for every category.
+  description: Understand why tea type cannot tell you a caffeine dose, what our reference labels mean, and what information to seek when caffeine matters.
   sections:
-  - heading: Caffeine Varies by Leaf, Not Just Category
-    body: Caffeine content depends on the cultivar, harvest time, leaf grade, and brewing method more than the category alone. Buds and young leaves generally contain more caffeine than mature leaves.
-  - heading: Green and White Tea
-    body: These are often lower in caffeine when brewed gently, but high-quality silver-tip whites can be surprisingly high because they are made almost entirely from buds.
-  - heading: Oolong and Black Tea
-    body: Oolong ranges widely depending on oxidation and roasting. Black tea is typically moderate to high in caffeine, especially when brewed strong with boiling water.
-  - heading: Pu'er and Dark Tea
-    body: Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a> can be high in caffeine. Ripe <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> is often lower due to microbial fermentation, making it a popular evening choice.
-  - heading: Controlling Your Brew
-    body: Use less leaf, cooler water, and shorter steep times to reduce caffeine. For more caffeine, use more leaf, hotter water, and longer steeps.
+  - heading: Tea Type Does Not Establish a Dose
+    body: Research measuring commercial white, green, and black teas found overlapping caffeine results rather than a dependable ranking by tea color. Those products were not the teas in our dataset. A category, roast, pale cup, or smooth flavor cannot establish the amount in your particular serving.
+  - heading: What Changes the Cup
+    body: Product and preparation variables both matter. Leaf amount, water amount, infusion time, and the product itself need to be specified when comparing measurements. A published result for one product and recipe should not be presented as a universal value for a tea name.
+  - heading: What Our Labels Mean
+    body: The <a href="/chinese-tea-caffeine-chart/">reference chart</a> displays inherited low, moderate, and high dataset labels. They are unverified descriptors, not milligrams per cup or a tested ordering of tea varieties. We have not measured the 136 tea profiles. Use the labels to understand the dataset, not to select a tea for a medical limit or sleep concern.
+  - heading: Raw and Ripe Pu'er
+    body: We do not have product-specific evidence establishing that the ripe pu'er listed here is consistently lower in caffeine than the raw pu'er. Choose between them by the <a href="/guide/raw-vs-ripe-puerh/">flavor and processing differences</a>, and seek measured information for caffeine. Ripe fermentation does not make a product caffeine-free.
+  - heading: A Brief Rinse Is Not a Decaffeination Method
+    body: This site does not offer a validated rinse procedure for removing caffeine. Discarding a quick infusion or brewing lightly does not establish a safe dose. If you need to avoid caffeine, look for a product explicitly identified for that purpose rather than relying on a home rinse.
+  - heading: When Caffeine Matters to Your Decision
+    body: Check product information and serving size. The FDA notes that sensitivity varies and that decaffeinated tea still contains some caffeine. If caffeine affects your sleep or a health decision, use appropriate product information and professional guidance instead of our reference labels. For taste, the <a href="/find-your-tea/">Tea Finder</a> remains useful without pretending to measure a dose.
   faqs:
-  - q: Which Chinese tea has the most caffeine?
-    a: Caffeine depends more on the leaf than the category. Bud-heavy teas like silver-tip whites and raw sheng pu-erh can be high, and strongly brewed black tea is moderate to high. Mature-leaf teas are generally lower.
-  - q: Does green tea have less caffeine than black tea?
-    a: Usually, when brewed gently with cooler water and shorter steeps, but not always. High-grade bud-only green teas can rival black tea. Brewing method matters as much as the category.
-  - q: How can I reduce the caffeine in my tea?
-    a: Use less leaf, cooler water, and shorter steep times. Choosing ripe shou pu-erh or mature-leaf teas over bud-heavy ones also lowers caffeine.
+  - q: Is white tea always lower in caffeine than black tea?
+    a: No reliable ordering follows from the category alone. Measurements of commercial white, green, and black teas overlap, and the product and recipe matter.
+  - q: Does ripe pu'er have no caffeine?
+    a: No. We do not treat ripe pu'er as caffeine-free or as a reliably low-caffeine bedtime choice.
+  - q: Does this site show measured caffeine in milligrams?
+    a: No. The dataset labels are unverified reference descriptors. We have not measured the caffeine in these tea profiles or in your cup.
+  sources:
+  - title: Chin and colleagues, Caffeine content of brewed teas
+    url: https://pubmed.ncbi.nlm.nih.gov/19007524/
+    scope: Measurements of commercial white, green, and black teas under several brewing conditions; not measurements of the teas in our dataset.
+  - title: Astill and colleagues, Factors affecting tea infusions
+    url: https://pubmed.ncbi.nlm.nih.gov/11714326/
+    scope: Research on product and preparation variables; supports treating a recipe and product as important context.
+  - title: FDA caffeine guidance
+    url: https://www.fda.gov/consumers/consumer-updates/spilling-beans-how-much-caffeine-too-much
+    scope: General caffeine information, individual sensitivity, sleep concerns, and the distinction between decaffeinated and caffeine-free.
+  next_steps:
+  - url: /find-your-tea/
+    label: Explore teas by flavor with the Tea Finder
+  - url: /brewing-calculator/
+    label: Scale a starting recipe to your vessel
 - id: oolong-vs-green-tea
   title: Oolong vs Green Tea
   title_zh: null
@@ -49,37 +89,53 @@
     body: Green tea is unoxidized, giving it a fresh, grassy, and sometimes nutty profile. Oolong is partially oxidized, ranging from light and floral to dark and roasted.
   - heading: Flavor Profiles
     body: Green tea tends to be brisk, vegetal, and clean. Oolong offers more complexity, with notes of orchid, cream, fruit, toast, or minerals depending on the style.
-  - heading: Caffeine and Body
-    body: Oolong generally has a fuller body and can be higher in caffeine than most green teas, especially darker roasts. Green tea is usually lighter and more refreshing.
+  - heading: Body and Caffeine Are Different
+    body: Our flavor descriptions often place oolong in a fuller or more aromatic direction and green tea in a fresher direction. Neither body nor roast establishes a caffeine dose. Read the <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> rather than treating category as a measured ranking.
   - heading: Brewing Approach
     body: Green tea likes cooler water around 75–85°C. Oolong can handle hotter water, often 90–100°C, and rewards gongfu brewing with many short infusions.
   faqs:
   - q: What is the difference between oolong and green tea?
     a: Green tea is unoxidized, giving a fresh, grassy, sometimes nutty profile. Oolong is partially oxidized, ranging from light and floral to dark and roasted, with a fuller body and more complexity.
   - q: Is oolong or green tea higher in caffeine?
-    a: Oolong generally has a fuller body and can be higher in caffeine than most green teas, especially darker roasts. Green tea is usually lighter and more refreshing.
+    a: Category alone does not establish which cup contains more caffeine. The product and preparation matter; this site has not measured the dose in these teas.
   - q: Which is healthier, oolong or green tea?
-    a: Both are healthy, low-calorie drinks. Green tea keeps more catechin antioxidants because it is unoxidized, while oolong offers a broader flavor range. The best choice is the one you will actually drink regularly.
+    a: This guide compares flavor and preparation, not clinical outcomes. It cannot rank the two categories by a health benefit.
 - id: puerh-vs-black-tea
-  title: Pu'er vs Black Tea
+  title: 'Pu''er vs Black Tea: Differences in Taste and Brewing'
   title_zh: null
-  description: Pu'er and Chinese black tea are both dark and warming, but they differ in processing, flavor, aging, and brewing. Here's how to choose.
+  description: Is pu'er the same as black tea? Compare raw and ripe pu'er with Chinese black tea, choose a flavor direction, and start a repeatable brew.
   sections:
-  - heading: Processing Sets Them Apart
-    body: Black tea is fully oxidized and then dried. Pu'er goes through additional microbial fermentation or is pressed and aged as raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a>.
-  - heading: Flavor Differences
-    body: Black tea is typically malty, fruity, and sweet. Ripe <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> is earthy, smooth, and sometimes cocoa-like. Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu\'er</a> is more floral, bitter-sweet, and evolves over time.
-  - heading: Aging Potential
-    body: High-quality pu'er, especially sheng, is prized for aging. Black tea is best enjoyed within one to two years while it is fresh and aromatic.
-  - heading: Brewing Notes
-    body: Both can use boiling water. Ripe pu'er benefits from a quick rinse. Black tea is more forgiving and works well in a teapot or mug.
+  - heading: Is Pu'er a Black Tea?
+    body: 'Pu''er and Chinese black tea are different tea styles. English black tea is usually called <em>hong cha</em>, or red tea, in Chinese. A dark-colored infusion does not make every tea a black tea. First identify the product rather than judging only the color of its cup: a bag marked sheng is raw pu''er, while shou or shu identifies ripe pu''er.'
+  - heading: Separate Raw and Ripe Before Comparing
+    body: The Yuxi market regulator distinguishes raw pu'er made without the wet-piling step from ripe pu'er made with that step. Its consumer notice also cautions against unsupported origin, age, and processing claims. A seller should say which style a product is, how it was stored, and what production information is available. A compressed cake is a format, not proof of age or quality. Read the <a href="/guide/raw-vs-ripe-puerh/">raw versus ripe guide</a> before assuming all pu'er will taste similar.
+  - heading: Choose by the Flavor You Want
+    body: 'Use our reference descriptions as starting directions: <a href="/tea/dianhong-gongfu/">Dianhong black tea</a> offers a malty direction; <a href="/tea/menghai-shou-puerh/">ripe pu''er</a> offers an earthier direction; <a href="/tea/yiwu-sheng-puerh/">raw pu''er</a> explores a different, sometimes brisker profile. These are not results of a side-by-side tasting we conducted. Products, storage, and preparation differ. Buy small samples when possible and compare the actual cups.'
+  - heading: Start with a Repeatable Recipe
+    body: 'Use your seller''s instructions when available. Otherwise, use the <a href="/brewing-calculator/">calculator</a>: select black or pu''er, choose Western or gongfu style, and enter the water you actually pour. The results are house starting recipes, not universal optima. For a fair taste comparison, note the dry-leaf amount, water volume, temperature, and infusion time for each cup rather than making one arbitrarily stronger.'
+  - heading: Adjust and Compare the Next Infusion
+    body: If one cup is too bitter or drying, shorten its next infusion before changing several variables. If it is weak, try a slightly longer steep. Compare aroma, mouthfeel, aftertaste, and whether you enjoy the result. Continue infusions only while they have useful flavor. See the <a href="/brewing/black/">black tea</a> and <a href="/brewing/puerh/">pu'er brewing guides</a> for category starting points.
+  - heading: Keep Caffeine and Health Claims Out of the Taste Ranking
+    body: Neither dark color, fermentation wording, nor a mellow flavor establishes the caffeine dose in your cup. We do not have product-specific measurements supporting a dependable black-versus-pu'er caffeine ranking. Choose by the flavor and preparation you want; consult the <a href="/guide/caffeine-in-chinese-tea/">caffeine evidence guide</a> if dose matters. This comparison does not establish digestive, weight-loss, or other clinical benefits.
   faqs:
-  - q: What is the difference between pu-erh and black tea?
-    a: Black tea is fully oxidized and ready to drink, with malty, honeyed flavors. Pu-erh is post-fermented and aged with microbes, giving earthy, smooth, mellow flavors that develop over years.
-  - q: Is pu-erh stronger than black tea?
-    a: Pu-erh is usually smoother and less astringent than black tea, not necessarily stronger. Ripe pu-erh is gentle and earthy; raw pu-erh is brisker. Black tea tends to be bolder and more straightforwardly brisk.
-  - q: Can you age black tea like pu-erh?
-    a: Not in the same way. Pu-erh is designed to improve for decades through fermentation and storage. Most black tea is best fresh and does not transform beneficially with age.
+  - q: Is pu'er the same as black tea?
+    a: No. Identify the product and distinguish raw (sheng) from ripe (shou or shu) pu'er. Infusion color alone does not identify a tea style.
+  - q: Which should I try first?
+    a: Try a small black-tea sample for a malty direction or ripe pu'er for an earthier direction. Products vary; judge the cup you brew, not the category's reputation.
+  - q: Does pu'er have less caffeine than black tea?
+    a: This site has no product-specific measurements establishing that ranking. Product and preparation matter; a gentle taste is not evidence of a low dose.
+  sources:
+  - &id001
+    title: 'Yuxi market regulator: buying and identifying pu''er (Chinese)'
+    url: https://www.yuxi.gov.cn/yxszfxxgk/spaq/20241126/1569925.html
+    scope: Raw versus ripe processing and checks for misleading origin, age, and product claims. This consumer notice does not validate clinical benefits or the individual teas in our dataset.
+  next_steps:
+  - label: Compare raw and ripe pu'er
+    url: /guide/raw-vs-ripe-puerh/
+  - label: Scale a starting recipe
+    url: /brewing-calculator/
+  - label: Choose a flavor direction
+    url: /find-your-tea/
 - id: how-to-store-chinese-tea
   title: How to Store Chinese Tea
   title_zh: null
@@ -127,7 +183,7 @@
 - id: raw-vs-ripe-puerh
   title: Raw vs Ripe Pu'er
   title_zh: null
-  description: Sheng and <a href="/tea/menghai-shou-puerh/">shou pu\'er</a> look similar but taste very different. Learn the difference between raw and ripe pu'er tea.
+  description: Compare raw sheng and ripe shou pu'er by processing, flavor, and brewing. Learn why style alone cannot establish a caffeine dose.
   sections:
   - heading: Sheng Pu'er Is Raw
     body: Sheng pu'er is made from sun-withered leaves that are steamed and pressed. It is greenish in color, often bitter-sweet, and evolves over decades.
@@ -135,17 +191,19 @@
     body: Shou pu'er undergoes accelerated fermentation to mimic aged sheng. It is dark, earthy, smooth, and ready to drink soon after production.
   - heading: Flavor Differences
     body: Sheng can be floral, fruity, astringent, and complex. Shou is typically earthy, woody, sweet, and mellow with notes of cocoa or wet forest.
-  - heading: Caffeine and Timing
-    body: Young sheng can be high in caffeine and stimulating. Shou is generally gentler on the stomach and lower in caffeine, making it suitable for evening.
+  - heading: Caffeine Is a Separate Question
+    body: We have not measured caffeine in these products and cannot promise that ripe tea is lower in caffeine or suitable before sleep. Compare the styles by taste, and read the <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> for what the labels can support.
   - heading: Aging
     body: High-quality sheng is prized for aging. Shou is designed to be consumed relatively young, though it can smooth out over a few years.
   faqs:
   - q: What is the difference between raw and ripe pu-erh?
     a: Raw (sheng) pu-erh is naturally aged and starts brisk and green, mellowing over years. Ripe (shou) pu-erh is accelerated through wet-piling fermentation, making it dark, earthy, and smooth immediately.
   - q: Is raw or ripe pu-erh better?
-    a: Neither is better; they suit different tastes. Choose ripe for a smooth, gentle, after-meal cup that is easy on the stomach. Choose raw for a brighter, more energizing tea closer to green tea, especially with some age.
+    a: Neither style is universally better. Choose ripe for an earthy flavor direction or raw for a brighter, often brisker direction; individual products and storage matter.
   - q: Which pu-erh has more caffeine?
-    a: Raw (sheng) pu-erh is usually higher in caffeine and a better morning choice. Ripe (shou) pu-erh is often lower because fermentation consumes some caffeine, making it popular in the evening.
+    a: This site does not have product-specific measurements establishing which has more caffeine. Fermentation style alone is not a dose measurement.
+  sources:
+  - *id001
 - id: loose-leaf-vs-tea-bags
   title: Loose Leaf vs Tea Bags
   title_zh: null
@@ -169,43 +227,49 @@
 - id: best-chinese-tea-for-energy
   title: Best Chinese Tea for Energy
   title_zh: null
-  description: Need a natural boost? Discover the Chinese teas with the most caffeine and energizing flavor profiles for mornings and focus.
+  description: Explore bold or aromatic Chinese teas for a morning cup, while keeping flavor preference separate from unmeasured caffeine claims.
   sections:
-  - heading: Black Tea for a Strong Start
-    body: Chinese black teas like <a href="/tea/dianhong-gongfu/">Dianhong</a> and <a href="/tea/qimen-hongcha/">Keemun</a> are fully oxidized and typically higher in caffeine. They deliver a bold, malty cup that wakes you up.
-  - heading: Raw Pu'er for Focus
-    body: Young sheng pu'er can be stimulating and mentally clarifying. Its bitterness and sweetness create an alert, focused state.
-  - heading: High-Mountain Oolong
-    body: Taiwanese-style high-mountain oolongs like Alishan or Da Yu Ling are smooth, aromatic, and moderately caffeinated. They offer energy without jitters.
-  - heading: Brew for More Caffeine
-    body: Use more leaf, hotter water, and longer steep times to extract more caffeine. First flushes and bud-heavy teas also tend to contain more caffeine.
+  - heading: Choose a Morning Flavor
+    body: For a fuller malty direction, explore <a href="/tea/dianhong-gongfu/">Dianhong</a> or <a href="/tea/qimen-hongcha/">Keemun</a>. For floral aromas, try <a href="/tea/alishan-oolong/">Alishan oolong</a>. These suggestions follow our flavor descriptions; they are not a measured caffeine ranking.
+  - heading: Strong Flavor Is Not a Caffeine Measurement
+    body: A dark, bitter, or roasted cup may taste intense without establishing its caffeine dose. We cannot identify the most energizing product from tea names or our inherited labels. Read the <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> if that is your main concern.
+  - heading: Brew for an Enjoyable Cup
+    body: Use the product instructions or our <a href="/brewing-calculator/">house starting recipes</a>. Adjust one variable based on what you taste. Brewing an unpleasantly strong cup is not a useful substitute for product-specific caffeine information.
+  - heading: Tea and Coffee Comparisons
+    body: We do not promise a jitter-free effect, improved concentration, or the absence of a crash. Individual responses and serving sizes differ. Choose tea because you enjoy its flavor and preparation, and assess caffeine separately.
   faqs:
   - q: Which Chinese tea gives the most energy?
-    a: 'Bud-heavy and less-oxidized teas tend to give a strong, clean lift: raw sheng pu-erh, high-quality green teas, and brisk black teas. The caffeine works alongside L-theanine for alert-but-calm focus.'
-  - q: Is Chinese tea better than coffee for energy?
-    a: Tea usually gives a gentler, steadier lift than coffee because L-theanine smooths out the caffeine. Many people find tea provides focus without the jitters or crash.
-  - q: How should I brew tea for maximum energy?
-    a: Use more leaf, hotter water, and a slightly longer steep to extract more caffeine. Brisk black teas and raw pu-erh respond well to this approach.
+    a: This site cannot rank products by an energizing effect. It offers flavor references, not measured caffeine doses or guaranteed responses.
+  - q: Which tea suits a coffee drinker?
+    a: A malty black tea such as Dianhong or a roasted oolong may be an interesting flavor direction. That does not establish an equivalent caffeine dose.
+  next_steps:
+  - url: /find-your-tea/
+    label: Explore teas by flavor with the Tea Finder
+  - url: /brewing-calculator/
+    label: Scale a starting recipe to your vessel
 - id: best-chinese-tea-for-relaxation
   title: Best Chinese Tea for Relaxation
   title_zh: null
-  description: Looking to unwind? These low-caffeine Chinese teas are calming, soothing, and perfect for evening or stress relief.
+  description: Choose a tea ritual by flavor and pace. Understand why mellow tea, white tea, and ripe pu'er are not verified low-caffeine bedtime options.
   sections:
-  - heading: White Tea for Gentle Calm
-    body: White teas like <a href="/tea/bai-mudan/">Bai Mudan</a> and Shou Mei are low in caffeine and naturally sweet. They offer a gentle, calming cup any time of day.
-  - heading: Ripe Pu'er for Evening
-    body: Shou pu'er is fermented, smooth, and low in caffeine. Its earthy warmth is comforting after dinner or before bed.
-  - heading: Chrysanthemum and Scented Teas
-    body: Chrysanthemum pu'er and jasmine teas are traditionally enjoyed for relaxation. The floral aromas are soothing and the caffeine is moderate to low.
-  - heading: Brew Gently for Less Caffeine
-    body: Use fewer leaves, cooler water, and shorter steep times to reduce caffeine. This makes almost any tea more suitable for evening sipping.
+  - heading: Separate the Ritual from the Caffeine
+    body: You might enjoy the quiet routine of preparing tea, but that preference does not make the drink a sleep aid. Our recommendations describe flavor and preparation rather than a treatment for stress or insomnia.
+  - heading: Explore Mellow Flavors
+    body: If you enjoy softer flavor descriptions, explore <a href="/tea/bai-mudan/">Bai Mudan</a> or <a href="/tea/menghai-shou-puerh/">ripe pu'er</a>. We have not established a low caffeine dose for either product. A smooth cup and a low-caffeine cup are different questions.
+  - heading: When You Want to Avoid Caffeine
+    body: Look for a product whose ingredients and labeling support that choice. A jasmine or chrysanthemum blend containing tea leaves still needs a caffeine check. Do not assume a flower name means an herbal-only drink.
+  - heading: Keep the Session Simple
+    body: Use a small serving, comfortable equipment, and a recipe you enjoy. If caffeine affects your sleep, choose based on appropriate product information rather than trying to make an ordinary tea suitable by rinsing it. Our <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> explains the limits of the reference labels.
   faqs:
-  - q: Which Chinese tea is best for relaxation?
-    a: 'Lower-caffeine, mellow teas are ideal: ripe shou pu-erh, aged white teas, and gently brewed light oolongs. Their smooth character and modest caffeine make them good evening choices.'
-  - q: Is there a caffeine-free Chinese tea?
-    a: True teas from Camellia sinensis always contain some caffeine. To minimize it, choose ripe pu-erh or mature-leaf teas, brew cool and short, or discard a quick first steep to wash out some caffeine.
-  - q: Can I drink Chinese tea before bed?
-    a: Choose low-caffeine options like ripe pu-erh or aged white tea, brewed gently, and keep steeps short. Even so, sensitive people may want to stop a few hours before sleep.
+  - q: Is white tea or ripe pu'er a reliable bedtime tea?
+    a: We have not verified that either has a low caffeine dose. A mellow flavor is not evidence that it will be suitable before sleep.
+  - q: Does rinsing tea make it caffeine-free?
+    a: No validated decaffeination procedure is provided here. A brief rinse should not be used to determine a safe caffeine dose.
+  next_steps:
+  - url: /find-your-tea/
+    label: Explore teas by flavor with the Tea Finder
+  - url: /brewing-calculator/
+    label: Scale a starting recipe to your vessel
 - id: chinese-tea-gifts
   title: Chinese Tea Gifts
   title_zh: null
@@ -278,7 +342,7 @@
   description: New to green tea? These approachable Chinese green teas are fresh, forgiving, and perfect for beginners.
   sections:
   - heading: Longjing (Dragon Well)
-    body: <a href="/tea/xi-hu-longjing/">Longjing</a> is China\'s most famous green tea. It is nutty, sweet, and smooth with no bitterness when brewed correctly. Look for Hangzhou or West Lake origin for authenticity.
+    body: <a href="/tea/xi-hu-longjing/">Longjing</a> is China's most famous green tea. It is nutty, sweet, and smooth with no bitterness when brewed correctly. Look for Hangzhou or West Lake origin for authenticity.
   - heading: Biluochun
     body: <a href="/tea/biluochun/">Biluochun</a> is rolled into tight spirals and has a fruity, floral aroma. It is slightly more intense than Longjing but still very approachable for newcomers.
   - heading: Huangshan Maofeng
@@ -293,7 +357,7 @@
   - q: How do you brew Chinese green tea without bitterness?
     a: Use cooler water, around 75-85C, not boiling, and steep just 1-2 minutes. Green tea turns bitter when scorched with boiling water or over-steeped.
   - q: Is Chinese green tea high in caffeine?
-    a: It is typically low to moderate, especially when brewed gently. Bud-heavy grades can be higher. Cooler water and shorter steeps keep caffeine down.
+    a: Green tea contains caffeine, but its category does not establish a dose. See our caffeine guide and seek product-specific information if caffeine matters to your choice.
 - id: best-oolong-tea-for-beginners
   title: Best Oolong Tea for Beginners
   title_zh: null
@@ -397,59 +461,65 @@
   - q: Which type of Chinese tea should a beginner start with?
     a: If you drink coffee, start with black tea or roasted oolong. If you prefer lighter drinks, start with green or white tea. Jasmine (scented) tea is an easy, welcoming introduction for most people.
 - id: chinese-tea-benefits
-  title: 'Chinese Tea Benefits: What Each Type Is Traditionally Used For'
+  title: 'Chinese Tea Benefits: Evidence and Practical Limits'
   title_zh: null
-  description: From green tea's antioxidants to ripe pu'er after heavy meals — what the main types of Chinese tea are traditionally used for, and what to actually expect.
+  description: Separate enjoyment and traditional tea use from health promises. Learn what this site can support and where medical evidence is needed.
   sections:
-  - heading: A Realistic Starting Point
-    body: Tea is not medicine, and no cup will transform your health on its own. What tea reliably offers is a low-calorie, hydrating drink with moderate caffeine, the calming amino acid L-theanine, and polyphenol antioxidants such as catechins in green tea and theaflavins in black tea. The traditions below are centuries old; where modern research exists, it is generally early or mixed, so treat specific claims with healthy skepticism.
-  - heading: Green and White Tea
-    body: <a href="/category/green/">Green tea</a> keeps the most catechins (including EGCG, the most studied tea compound) because it is unoxidized, which is why it anchors most research on tea and general wellness. <a href="/category/white/">White tea</a> is similar in chemistry, gentler in flavor, and often lower in caffeine when brewed cool — see our <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> for the details behind that.
-  - heading: Oolong and Black Tea
-    body: <a href="/category/oolong/">Oolong</a> sits between green and black tea in both oxidation and chemistry, and features in traditional after-meal drinking in Fujian and Guangdong. Fully oxidized <a href="/category/black/">black tea</a> is the gentlest on an empty stomach for most drinkers and carries steady, coffee-lighter caffeine that pairs well with mornings.
-  - heading: Pu'er After Heavy Meals
-    body: Ripe <a href="/tea/menghai-shou-puerh/">shou pu'er</a> is the classic Chinese digestive tea — the default pot at dim sum and after rich, oily meals. Its microbial fermentation produces an earthy, smooth cup that is famously easy on the stomach and usually modest in caffeine, which also makes it a common evening choice. Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu'er</a> is brisker and closer to green tea in effect.
-  - heading: Calm Focus from L-Theanine
-    body: The "alert but calm" feeling tea drinkers describe comes from caffeine working alongside L-theanine, an amino acid abundant in shaded and bud-heavy teas. If that is what you are after, see <a href="/guide/best-chinese-tea-for-energy/">best teas for energy</a> and <a href="/guide/best-chinese-tea-for-relaxation/">best teas for relaxation</a> for picks at each end of the spectrum.
-  - heading: What About Weight Loss and Detox Teas
-    body: Be wary of anything marketed as a slimming or detox tea. Ordinary unsweetened tea can replace caloric drinks, and that substitution is the honest mechanism behind most "tea helped me lose weight" stories. Laxative-laced detox blends are a different product entirely and have nothing to do with traditional Chinese tea.
-  - heading: How to Get the Most from Any Tea
-    body: Brew loose leaf rather than dust-grade bags (<a href="/guide/loose-leaf-vs-tea-bags/">why it matters</a>), drink it plain, and match the tea to the moment — lighter teas earlier, roasted or ripe teas after meals. If a health condition or pregnancy makes caffeine a concern, talk to your doctor rather than relying on category averages.
+  - heading: What This Guide Can Help You Choose
+    body: This site can help you explore flavor, preparation, and tea styles. It does not prescribe tea for a condition or rank teas by a health effect. Enjoyment of a cup, a chemical measurement, and evidence of a clinical benefit are different claims.
+  - heading: What Research Can and Cannot Establish
+    body: The NIH National Center for Complementary and Integrative Health summarizes research on green tea and notes uncertainty for many promoted uses. Its information about green tea or extracts cannot be transferred automatically to every Chinese tea, product, or serving.
+  - heading: After a Meal
+    body: If you enjoy tea after food, compare earthy <a href="/tea/menghai-shou-puerh/">ripe pu'er</a>, roasted oolong, and other styles by taste. This is a serving suggestion, not evidence that they treat digestive symptoms. Individual preferences do not establish a therapeutic effect.
+  - heading: Caffeine and Evening Drinking
+    body: Do not infer a low caffeine dose from a light color, mellow taste, or fermented style. Our <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> distinguishes reference labels from product measurements.
+  - heading: Weight Loss and Detox Claims
+    body: We do not recommend a tea as a weight-loss or detox treatment. Research on extracts, supplements, or particular preparations must be evaluated on its own terms. Do not use a general tea guide as a substitute for care or medication.
+  - heading: Choose for Flavor and Use Clear Product Information
+    body: Start with a tea you want to drink, follow its product instructions, and use the <a href="/brewing-calculator/">calculator</a> only as a recipe starting point. If a health condition, medication, or caffeine limit drives the choice, obtain advice suited to that situation.
   faqs:
-  - q: What are the health benefits of Chinese tea?
-    a: Tea is a low-calorie, hydrating drink with moderate caffeine, the calming amino acid L-theanine, and polyphenol antioxidants like catechins in green tea. Specific traditional uses vary by type, but tea is best seen as a healthy drink, not medicine.
-  - q: Which Chinese tea is best for digestion?
-    a: Ripe shou pu-erh is the classic Chinese digestive tea, traditionally drunk after rich, oily meals and at dim sum. Its microbial fermentation produces an earthy, smooth cup that is famously easy on the stomach.
-  - q: Which Chinese tea has the most antioxidants?
-    a: Green tea keeps the most catechins, including EGCG, because it is unoxidized. White tea is similar in chemistry and gentler in flavor. Both anchor most research on tea and general wellness.
+  - q: Which Chinese tea is healthiest?
+    a: This site does not have the clinical evidence needed to rank teas by health outcome. Choose by flavor and preparation; evaluate health claims separately.
+  - q: Does pu'er treat digestion problems?
+    a: We do not establish that claim. An after-meal serving suggestion is not a treatment recommendation.
+  - q: Are tea extracts the same as a brewed cup?
+    a: No. Findings about an extract or supplement should not be presented as proof of the same effect from an ordinary serving.
+  sources:
+  - title: NCCIH, Green Tea
+    url: https://www.nccih.nih.gov/health/green-tea
+    scope: Evidence and safety information specifically about green tea and its products; not clinical validation of other teas in this site.
+  next_steps:
+  - url: /find-your-tea/
+    label: Explore teas by flavor with the Tea Finder
+  - url: /brewing-calculator/
+    label: Scale a starting recipe to your vessel
 - id: pu-erh-tea-benefits
   title: 'Pu-erh Tea Benefits: What Raw and Ripe Pu''er Are Used For'
   title_zh: null
-  description: 'Pu-erh tea benefits explained honestly: digestion after heavy meals, caffeine and calm, antioxidants, and how raw and ripe pu''er differ in effect.'
+  description: Explore pu'er for its flavor and brewing style, and distinguish after-meal preferences from unverified digestion, caffeine, and weight-loss claims.
   sections:
-  - heading: What Makes Pu-erh Different
-    body: Pu-erh (pu'er) is a post-fermented dark tea from Yunnan, China. Unlike green or black tea, it is aged with the help of microbes, which changes both its flavor and its chemistry over months and years. That fermentation is the reason pu-erh has its own reputation for benefits that fresher tea categories don't share, most famously its role as a digestive after rich food. It comes in two forms with meaningfully different effects, covered in our <a href="/guide/raw-vs-ripe-puerh/">raw vs ripe pu'er guide</a>.
-  - heading: Digestion After Heavy Meals
-    body: The best-known benefit is traditional rather than clinical. Ripe <a href="/tea/menghai-shou-puerh/">shou pu'er</a> is the default pot at dim sum and after oily, heavy meals across southern China. Its smooth, earthy, low-astringency cup is famously easy on the stomach, and drinkers reach for it precisely when a green or black tea would feel harsh. If you find other teas rough after eating, ripe pu-erh is the category to try.
-  - heading: Caffeine and Calm Energy
-    body: Ripe pu-erh is often modest in caffeine because fermentation consumes some of it, which is why many people drink it in the evening. Raw <a href="/tea/yiwu-sheng-puerh/">sheng pu'er</a> is the opposite, brisk and closer to green tea, and often higher in caffeine, making it a better morning choice. As with all tea, the caffeine you actually get depends on leaf amount, water temperature, and steep time more than the label. See our <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> for how to dial it in.
-  - heading: Antioxidants and Cholesterol Claims
-    body: Pu-erh contains polyphenols and, uniquely, compounds formed during fermentation such as statin-like molecules and gallic acid. Small studies have looked at pu-erh and blood lipids or weight, but the evidence is early, the effect sizes modest, and much of it comes from animal or short human trials. Treat "pu-erh lowers cholesterol" as a plausible traditional claim under investigation, not an established fact, and never as a replacement for prescribed medication.
-  - heading: Raw vs Ripe for Benefits
-    body: If your goal is a gentle, after-dinner, easy-on-the-stomach cup, choose ripe (shou) pu-erh. If you want a more energizing, brighter tea closer to green tea in effect, choose raw (sheng) pu-erh, ideally with some age so its youthful bitterness has softened. Both improve with proper storage over years, which is part of pu-erh's appeal as a tea you can lay down like wine.
-  - heading: How to Brew Pu-erh for the Best Result
-    body: Rinse the leaves once with boiling water and discard that first quick infusion, which wakes up compressed pu-erh and rinses away storage dust. Then brew hot (95-100C) with short gongfu infusions, adding a few seconds each round. A good pu-erh gives ten or more steepings, and the flavor and body evolve the whole way through. A <a href="/guide/yixing-teapot-guide/">Yixing teapot</a> dedicated to pu-erh deepens the experience over time.
-  - heading: Who Should Be Cautious
-    body: Pu-erh still contains caffeine, so the usual cautions apply if you are pregnant, sensitive to stimulants, or drinking late at night. Favor ripe over raw and keep steeps short. As with any tea marketed for weight loss or "detox," ignore dramatic slimming claims. The honest benefit of unsweetened pu-erh is that it is a satisfying, calorie-free drink to replace sugary ones.
+  - heading: Start with Flavor and Preparation
+    body: Use our <a href="/guide/raw-vs-ripe-puerh/">raw and ripe pu'er comparison</a> to explore style differences. A description of a smooth or earthy cup tells you about an intended flavor direction, not a health outcome.
+  - heading: After a Meal Is a Serving Choice
+    body: You can choose <a href="/tea/menghai-shou-puerh/">ripe pu'er</a> for an earthy after-meal cup if you enjoy it. This site has not verified that the products described treat digestive symptoms or are gentler on every drinker's stomach.
+  - heading: Ripe Does Not Mean Caffeine-Free
+    body: We do not have product-specific measurements supporting a dependable raw-versus-ripe caffeine ranking. Consult the <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> before treating a fermentation label as a sleep or caffeine recommendation.
+  - heading: Claims About Weight or Cholesterol
+    body: We do not recommend pu'er for weight loss, detoxification, or cholesterol treatment. Claims would need evidence specifying the studied preparation, dose, population, and outcome. We have not completed that clinical evidence review, so this page does not infer a benefit from fermentation chemistry or an animal study.
+  - heading: Brew and Adjust for Taste
+    body: Follow the product instructions, or use our <a href="/brewing/puerh/">pu'er brewing guide</a> and <a href="/brewing-calculator/">calculator</a> as house starting points. Separate the liquor from the leaves, taste it, and change one variable for the next infusion. A rinse may be part of a preparation routine; it is not a validated way to make the drink caffeine-free.
   faqs:
-  - q: What is pu-erh tea good for?
-    a: Pu-erh is best known as an after-meal digestive, especially ripe (shou) pu-erh drunk after rich or oily food. It also offers polyphenol antioxidants and, uniquely, compounds formed during fermentation. Health claims beyond digestion are early and modest in evidence.
-  - q: Is raw or ripe pu-erh better for you?
-    a: They differ in effect. Ripe (shou) pu-erh is gentle, earthy, low in caffeine, and easy on the stomach after meals. Raw (sheng) pu-erh is brisker, closer to green tea, and often higher in caffeine, making it a better morning tea.
-  - q: Does pu-erh tea have caffeine?
-    a: Yes. Ripe pu-erh is often modest in caffeine because fermentation consumes some of it, so many people drink it in the evening. Raw pu-erh is usually higher in caffeine. The amount also depends on leaf quantity, water temperature, and steep time.
-  - q: Does pu-erh tea help you lose weight?
-    a: Unsweetened pu-erh is calorie-free and can replace sugary drinks, which is the honest mechanism behind most weight stories. Some small studies look at pu-erh and blood lipids, but evidence is early. Ignore dramatic slimming or detox marketing.
+  - q: What is pu'er tea good for?
+    a: This guide supports exploring its flavor and brewing style. It does not establish a digestive, weight-loss, or cholesterol benefit.
+  - q: Is ripe pu'er low in caffeine?
+    a: We do not have the product-specific measurements needed to make that promise. Ripe pu'er should not be assumed caffeine-free.
+  - q: Can I use pu'er instead of treatment?
+    a: This site does not recommend tea as a replacement for care or prescribed medication.
+  next_steps:
+  - url: /find-your-tea/
+    label: Explore teas by flavor with the Tea Finder
+  - url: /brewing-calculator/
+    label: Scale a starting recipe to your vessel
 - id: what-is-jasmine-tea
   title: What Is Jasmine Tea? How China's Favorite Scented Tea Is Made
   title_zh: null
@@ -462,7 +532,7 @@
   - heading: What It Tastes Like
     body: Good jasmine tea is fragrant and softly sweet, with the fresh green, slightly grassy or chestnut base of the underlying tea balancing the floral top note. High grades like <a href="/tea/jasmine-dragon-pearl/">Jasmine Dragon Pearl</a>, hand-rolled into little pearls that unfurl as they steep, are delicate and layered, while leafier styles like <a href="/tea/jasmine-yin-hao/">Jasmine Yin Hao</a> are rounder and fuller. It should never taste soapy or artificial. If it does, the scenting was rushed or synthetic.
   - heading: Does Jasmine Tea Have Caffeine
-    body: Yes. Because the base is real tea (Camellia sinensis), jasmine tea contains caffeine, usually in the low-to-moderate range typical of green tea. It is not a caffeine-free herbal tisane. If you are watching caffeine, brew it cooler and shorter, and see our <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a> for how brewing changes the amount in your cup.
+    body: Jasmine scent does not establish a caffeine dose. Check which tea forms the base, and read the <a href="/guide/caffeine-in-chinese-tea/">caffeine guide</a>. We have not measured the products in our dataset.
   - heading: How to Brew Jasmine Tea Without Bitterness
     body: Because most jasmine tea is green-tea based, treat it gently. Use water around 80-85C, not boiling, and a short steep of 2-3 minutes. Boiling water scorches the delicate leaf and turns the floral sweetness bitter. Pearls and high-grade leaf reward multiple short infusions, revealing more jasmine in the first steeps and more of the tea base later. Use a glass or porcelain <a href="/guide/chinese-tea-sets/">gaiwan</a> so you can watch the leaves open.
   - heading: How to Buy Good Jasmine Tea
@@ -473,7 +543,7 @@
   - q: What is jasmine tea made of?
     a: Jasmine tea is a finished tea, almost always green tea, that has been layered with fresh jasmine blossoms so it absorbs their scent. The flowers are usually removed before sale, so the fragrance comes from the leaves, not petals in the water.
   - q: Does jasmine tea have caffeine?
-    a: Yes. Because the base is real tea (Camellia sinensis), jasmine tea contains caffeine, usually in the low-to-moderate range typical of green tea. It is not a caffeine-free herbal tisane.
+    a: A jasmine blend containing tea leaves contains caffeine. The jasmine name does not specify the amount or make it caffeine-free; product and preparation information matter.
   - q: What does jasmine tea taste like?
     a: Good jasmine tea is fragrant and softly sweet, with a fresh green or chestnut tea base balancing the floral note. It should taste of living flowers, never soapy or artificial. If it tastes like perfume, the scenting was rushed or synthetic.
   - q: How do you brew jasmine tea without bitterness?

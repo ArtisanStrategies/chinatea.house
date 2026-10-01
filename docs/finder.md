@@ -1,28 +1,5 @@
----
-layout: default
-title: Chinese Tea Finder
----
-
 # Chinese Tea Finder
 
-Answer a few questions and get a tea recommendation from the China Tea House collection.
+[Open the finder](https://chinatea.house/find-your-tea/). It ranks descriptive flavor and mouthfeel matches, explains each result, and directs readers to Western or gongfu brewing instructions. Preparation preference changes the instructions, not the flavor ranking.
 
-## Try it live
-
-<https://chinatea.house/finder/>
-
-## How it works
-
-The tea finder matches your preferences—caffeine level, flavor profile, mood, and occasion—to teas in the database. It returns a ranked shortlist with links to detailed pages and brewing guides.
-
-## Why use it
-
-- Skip the overwhelming tea aisle
-- Discover teas by caffeine, flavor, or occasion
-- Learn how to brew each recommendation
-
-## Related tools
-
-- [Brewing Guide](./brewing-guide)
-- [Caffeine Chart](./caffeine-chart)
-- [Chinese Tea Dataset](./dataset)
+It does not filter caffeine dose or predict energy, calm, digestion, or sleep effects. Reference tea descriptions vary by product and batch. Without JavaScript, browse the beginner guide and category pages.

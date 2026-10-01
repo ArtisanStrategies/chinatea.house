@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from pydantic import BaseModel, Field, field_validator
+from .periods import search_window
 
 
 GSC_CONFIG_PATHS = [
@@ -292,14 +293,14 @@ class GoogleSearchConsole:
         - date
         """
         if end_date is None:
-            end_date = (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
+            _, end_date = search_window(self.config.default_days)
         if start_date is None:
             start_date = (
                 datetime.strptime(end_date, "%Y-%m-%d")
-                - timedelta(days=self.config.default_days)
+                - timedelta(days=self.config.default_days - 1)
             ).strftime("%Y-%m-%d")
 
-        dimensions = dimensions or ["page"]
+        dimensions = ["date", "page"] if dimensions is None else dimensions
 
         body = {
             "startDate": start_date,

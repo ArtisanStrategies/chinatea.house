@@ -4,8 +4,8 @@ Runs every week to:
 1. Fetch latest GSC search analytics data.
 2. Identify underperforming pages (high impressions, low CTR).
 3. Find top queries and pages gaining traction.
-4. Submit sitemap to Google Search Console.
-5. Ping IndexNow to nudge crawlers.
+4. Optionally submit the sitemap after a relevant publication change.
+5. Optionally notify IndexNow after a relevant publication change.
 6. Output an actionable report.
 
 The loop intentionally does NOT rebuild/deploy the site; that should be
@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import os
 import sys
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -35,40 +35,53 @@ os.environ.setdefault("GSC_CREDENTIAL_TYPE", "oauth")
 from execution.data.db import Database
 from execution.monitor.gsc import GoogleSearchConsole
 from execution.cli import cli
+from execution.monitor.periods import search_window
 
 DB_PATH = Path(os.getenv("TEA_DB_PATH", PROJECT_ROOT / "data/canonical/tea.db"))
 
 
 def fetch_gsc_data(db: Database) -> None:
     """Fetch last 35 days of GSC data and store snapshots."""
-    end = (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
-    start = (datetime.now() - timedelta(days=38)).strftime("%Y-%m-%d")
+    start, end = search_window(35)
 
     client = GoogleSearchConsole()
 
     # Daily totals
     rows = client.fetch_all_search_analytics(start_date=start, end_date=end, dimensions=["date"])
-    db.insert_performance_snapshots([r.to_dict() for r in rows], default_snapshot_date=end)
+    db.replace_daily_performance_window([r.to_dict() for r in rows], start, end, "site")
+
+    # Page/date totals include traffic omitted from the query breakdown.
+    rows = client.fetch_all_search_analytics(start_date=start, end_date=end, dimensions=["date", "page"])
+    db.replace_daily_performance_window([r.to_dict() for r in rows], start, end, "page")
 
     # Page + query detail
     rows = client.fetch_all_search_analytics(
-        start_date=start, end_date=end, dimensions=["page", "query"]
+        start_date=start, end_date=end, dimensions=["date", "page", "query"]
     )
-    db.insert_performance_snapshots([r.to_dict() for r in rows], default_snapshot_date=end)
+    db.replace_daily_performance_window([r.to_dict() for r in rows], start, end, "page_query")
 
     print(f"[SEO LOOP] Fetched GSC data: {start} to {end}")
 
 
 def generate_report(db: Database) -> dict:
     """Analyze GSC data and return actionable report."""
-    end = (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
-    start_30 = (datetime.now() - timedelta(days=33)).strftime("%Y-%m-%d")
+    start_30, end = search_window(30)
+    start_7, end_7 = search_window(7)
+    previous_end = (date.fromisoformat(start_7) - timedelta(days=1)).isoformat()
+    previous_start = (date.fromisoformat(start_7) - timedelta(days=7)).isoformat()
+    weekly = {
+        "target_clicks": 7,
+        "period": {"start": start_7, "end": end_7},
+        "summary": db.get_performance_summary(start_date=start_7, end_date=end_7, url_only=False),
+        "previous_period": {"start": previous_start, "end": previous_end},
+        "previous_summary": db.get_performance_summary(start_date=previous_start, end_date=previous_end, url_only=False),
+    }
 
-    summary = db.get_performance_summary(start_date=start_30, end_date=end)
+    summary = db.get_performance_summary(start_date=start_30, end_date=end, url_only=False)
     underperforming = db.get_underperforming_pages(
         start_date=start_30,
         end_date=end,
-        min_impressions=10,
+        min_impressions=100,
         max_ctr=0.05,
         limit=20,
     )
@@ -79,7 +92,7 @@ def generate_report(db: Database) -> dict:
                    ROUND(CAST(SUM(clicks) AS REAL) / NULLIF(SUM(impressions), 0), 4) AS ctr
             FROM page_performance_snapshots
             WHERE snapshot_date BETWEEN ? AND ?
-              AND query != ''
+              AND query != '' AND url != '' AND device = '' AND country = ''
             GROUP BY query
             ORDER BY impressions DESC
             LIMIT 20
@@ -91,14 +104,17 @@ def generate_report(db: Database) -> dict:
                    ROUND(SUM(avg_position * impressions) / NULLIF(SUM(impressions), 0), 2) AS avg_position
             FROM page_performance_snapshots
             WHERE snapshot_date BETWEEN ? AND ?
-              AND url IS NOT NULL AND url != ''
+              AND url IS NOT NULL AND url != '' AND query = '' AND device = '' AND country = ''
             GROUP BY url
             ORDER BY impressions DESC
             LIMIT 10
         """, (start_30, end)).fetchall()
 
     return {
+        "weekly": weekly,
         "summary": summary,
+        "period": {"start": start_30, "end": end},
+        "detail_limit": "Query rows omit anonymized queries and may be truncated; never sum them into site totals.",
         "underperforming": [dict(r) for r in underperforming],
         "top_queries": [dict(r) for r in top_queries],
         "top_pages": [dict(r) for r in top_pages],
@@ -106,17 +122,39 @@ def generate_report(db: Database) -> dict:
 
 
 def print_report(report: dict) -> None:
+    weekly = report["weekly"]
+    week = weekly["summary"]
+    period = weekly["period"]
+    print(f"\n[SEO LOOP] Weekly minimum: {weekly['target_clicks']} Google Search clicks; "
+          f"{period['start']} to {period['end']} (Pacific dates, three-day reporting lag)")
+    if week["available"]:
+        print(f"  Stored site totals: {week['total_clicks']} clicks; "
+              f"{week['days_with_data']} dates reported, latest {week['latest_date']}.")
+        if week["days_with_data"] == 7:
+            status = "met" if week["total_clicks"] >= weekly["target_clicks"] else "below minimum"
+            print(f"  Weekly target: {status}.")
+        else:
+            print("  Weekly target: provisional; missing dates may be zero-traffic days or incomplete data.")
+        previous = weekly["previous_summary"]
+        if previous["available"]:
+            print(f"  Previous seven days: {previous['total_clicks']} clicks, "
+                  f"{previous['days_with_data']} dates reported.")
+    else:
+        print("  Weekly result unknown: no stored site/date rows. Fetch Search Console before judging the target.")
     summary = report["summary"]
+    if not summary["available"]:
+        print("[SEO LOOP] No site/date data in this window. Traffic is unknown; fetch current data before making decisions.")
+        return
     print(f"\n[SEO LOOP] Last 30 days: {summary['total_clicks']} clicks, "
           f"{summary['total_impressions']} impressions, "
-          f"{summary['avg_ctr']:.2%} CTR across {summary['url_count']} URLs")
+          f"{summary['avg_ctr']:.2%} CTR; latest stored site date {summary['latest_date']}")
 
     print("\n[SEO LOOP] Top pages by impressions:")
     for p in report["top_pages"][:5]:
         print(f"  - {p['url']}: {p['clicks']} clicks, {p['impressions']} impr, "
               f"{p['ctr']:.2%} CTR, pos {p['avg_position']}")
 
-    print("\n[SEO LOOP] CTR rewrite candidates (high impressions, low CTR):")
+    print("\n[SEO LOOP] Diagnostic candidates (at least 100 impressions, low CTR):")
     if report["underperforming"]:
         for p in report["underperforming"][:10]:
             print(f"  - {p['url']}: {p['clicks']} clicks, {p['impressions']} impr, "
@@ -129,12 +167,10 @@ def print_report(report: dict) -> None:
         print(f"  - '{q['query']}': {q['clicks']} clicks, {q['impressions']} impr, "
               f"{q['ctr']:.2%} CTR")
 
-    clicks_needed = max(0, 100 - summary["total_clicks"])
-    print(f"\n[SEO LOOP] Need {clicks_needed} more clicks to reach 100/month.")
     print("\n[SEO LOOP] Suggested actions:")
-    print("  1. Review CTR rewrite candidates and improve their titles/meta descriptions.")
-    print("  2. Add more content targeting top queries with 0 clicks.")
-    print("  3. Improve reviewed pages that already match rising queries.")
+    print("  1. Inspect index status and matched page/query/country/device evidence before editing.")
+    print("  2. For average positions beyond 30, investigate relevance, coverage and credibility first.")
+    print("  3. Consider a snippet test only with adequate visibility and a matched query segment.")
     print("  4. Ensure new pages are linked from the homepage and category pages.")
 
 
@@ -163,21 +199,27 @@ def ping_indexnow() -> None:
 
 
 def main() -> int:
+    import argparse
+    parser = argparse.ArgumentParser(description="Fetch and report SEO evidence. Crawler submissions are opt-in.")
+    parser.add_argument("--offline", action="store_true", help="Read stored evidence without API calls")
+    parser.add_argument("--submit-sitemap", action="store_true")
+    parser.add_argument("--ping-indexnow", action="store_true")
+    args = parser.parse_args()
     db = Database(DB_PATH)
     print(f"[SEO LOOP] Starting weekly SEO loop at {datetime.now().isoformat()}")
 
-    fetch_gsc_data(db)
+    if not args.offline:
+        fetch_gsc_data(db)
     report = generate_report(db)
     print_report(report)
-    submit_sitemap()
-    ping_indexnow()
+    if args.submit_sitemap:
+        submit_sitemap()
+    if args.ping_indexnow:
+        ping_indexnow()
 
     print(f"\n[SEO LOOP] Finished at {datetime.now().isoformat()}")
 
-    if report["summary"]["total_clicks"] >= 100:
-        print("[SEO LOOP] GOAL REACHED: 100+ clicks in the last 30 days!")
-        return 0
-    return 1
+    return 0
 
 
 if __name__ == "__main__":

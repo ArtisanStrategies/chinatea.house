@@ -21,7 +21,7 @@
         <div class="hero-content">
             <h1>Chinese Tea Brewing Calculator</h1>
             <p class="category-intro">
-                Enter your vessel size and tea category, and get a simple leaf-to-water ratio,
+                Enter your actual water volume and tea category, and get a simple leaf-to-water ratio,
                 water temperature, and steeping time for gongfu or Western style brewing.
             </p>
         </div>
@@ -32,10 +32,11 @@
             <p class="section-label">Calculator</p>
             <h2 class="section-title">Enter Your Brew</h2>
         </div>
-        <div style="max-width: 600px; margin: 0 auto;">
+        <form id="brew-form" novalidate style="max-width: 600px; margin: 0 auto;">
+<p id="volume-help">Use the water you actually pour, between 50 and 1,000 ml. Leaf displacement means a vessel’s advertised capacity can be larger.</p>
             <div style="margin-bottom: 1.5rem;">
-                <label for="vessel-size" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Vessel Size (ml)</label>
-                <input type="number" id="vessel-size" value="150" min="50" max="1000" step="10" style="width: 100%; padding: 0.75rem; font-size: 1rem; border: 1px solid var(--silk); border-radius: 4px; background: var(--cream);">
+                <label for="vessel-size" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Water Volume (ml)</label>
+                <input type="number" id="vessel-size" value="150" min="50" max="1000" step="1" required aria-describedby="volume-help" style="width: 100%; padding: 0.75rem; font-size: 1rem; border: 1px solid var(--silk); border-radius: 4px; background: var(--cream);">
             </div>
             <div style="margin-bottom: 1.5rem;">
                 <label for="category-select" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Tea Category</label>
@@ -57,14 +58,15 @@
                     <option value="western">Western</option>
                 </select>
             </div>
-            <button id="calc-button" style="width: 100%; padding: 1rem; background: var(--ink); color: var(--cream); border: none; font-size: 1rem; cursor: pointer; border-radius: 4px;">Calculate</button>
-        </div>
+            <p id="calc-error" class="tool-error" role="alert" hidden></p>
+            <button type="submit" id="calc-button" style="width: 100%; padding: 1rem; background: var(--ink); color: var(--cream); border: none; font-size: 1rem; cursor: pointer; border-radius: 4px;">Calculate</button>
+        </form>
     </section>
 
     <section class="brewing-section" id="results" style="display: none;">
         <div class="section-header">
             <p class="section-label">Result</p>
-            <h2 class="section-title">Your Brewing Parameters</h2>
+            <h2 class="section-title" tabindex="-1" id="result-heading">Your Brewing Starting Point</h2><p id="result-explanation"></p>
         </div>
         <div class="char-grid">
             <div class="char-item">
@@ -80,37 +82,42 @@
                 <p id="result-steep">—</p>
             </div>
             <div class="char-item">
-                <h3>Re-steeps</h3>
+                <h3>Possible Infusions</h3>
                 <p id="result-steeps">—</p>
             </div>
         </div>
     </section>
-</article>
+<section class="brewing-section"><h2>How to Adjust Your Cup</h2><p>These are house starting recipes, not measured optima or caffeine estimates. A seller’s instructions for your exact tea may differ. Adjust one variable at a time: shorten the next infusion if bitter, or use a little more leaf if weak. Count the first infusion in the suggested total, and stop when the flavor fades.</p><p><a href="/guide/how-to-taste-tea/">Troubleshoot taste</a> · <a href="/brewing/">Read category brewing guides</a> · <a href="/guide/caffeine-in-chinese-tea/">Understand caffeine</a></p><noscript><p>Without JavaScript, start a Western brew with 2 g per 100 ml of water (3 g for 150 ml), then use the category brewing guides for temperature and time.</p></noscript></section></article>
 
 <script>
-const params = {
-    green: { gongfu: { leaf: 5, temp: 80, steep: '20-30s', steeps: '4-6' }, western: { leaf: 2, temp: 80, steep: '2 min', steeps: '2-3' } },
-    white: { gongfu: { leaf: 5, temp: 85, steep: '30-45s', steeps: '5-7' }, western: { leaf: 2, temp: 85, steep: '3 min', steeps: '2-3' } },
-    yellow: { gongfu: { leaf: 4, temp: 85, steep: '30s', steeps: '4-6' }, western: { leaf: 2, temp: 85, steep: '2 min', steeps: '2-3' } },
-    oolong: { gongfu: { leaf: 6, temp: 95, steep: '20-40s', steeps: '6-10' }, western: { leaf: 2, temp: 95, steep: '3 min', steeps: '2-3' } },
-    black: { gongfu: { leaf: 4, temp: 100, steep: '30-60s', steeps: '5-7' }, western: { leaf: 2, temp: 100, steep: '3-4 min', steeps: '2-3' } },
-    puerh: { gongfu: { leaf: 7, temp: 100, steep: '10-20s (after rinse)', steeps: '8-12' }, western: { leaf: 2, temp: 100, steep: '3-4 min', steeps: '2-4' } },
-    dark: { gongfu: { leaf: 6, temp: 100, steep: '20-30s (after rinse)', steeps: '6-10' }, western: { leaf: 2, temp: 100, steep: '3-5 min', steeps: '2-4' } },
-    scented: { gongfu: { leaf: 4, temp: 85, steep: '30-45s', steeps: '4-6' }, western: { leaf: 2, temp: 85, steep: '2-3 min', steeps: '2-3' } },
-};
+const params = {{ brewing_starting_points | tojson }};
 
-document.getElementById('calc-button').addEventListener('click', () => {
-    const size = parseInt(document.getElementById('vessel-size').value) || 150;
+document.getElementById('brew-form').addEventListener('submit', event => {
+    event.preventDefault();
+    const input = document.getElementById('vessel-size');
+    const size = Number(input.value);
+    const results = document.getElementById('results');
+    const error = document.getElementById('calc-error');
+    if (!input.checkValidity() || !Number.isFinite(size) || !Number.isInteger(size)) {
+        results.style.display = 'none';
+        error.textContent = 'Enter a whole water volume from 50 to 1,000 ml.';
+        error.hidden = false;
+        input.setAttribute('aria-invalid', 'true');
+        input.focus();
+        return;
+    }
+    error.hidden = true; input.removeAttribute('aria-invalid');
     const cat = document.getElementById('category-select').value;
     const style = document.getElementById('style-select').value;
     const p = params[cat][style];
     const leaf = Math.round((p.leaf / 100) * size * 10) / 10;
-
-    document.getElementById('result-leaf').textContent = `${leaf}g`;
-    document.getElementById('result-temp').textContent = `${p.temp}°C`;
+    document.getElementById('result-leaf').textContent = `${leaf} g`;
+    document.getElementById('result-temp').textContent = `${p.temp}°C / ${Math.round(p.temp * 9 / 5 + 32)}°F`;
     document.getElementById('result-steep').textContent = p.steep;
     document.getElementById('result-steeps').textContent = p.steeps;
-    document.getElementById('results').style.display = 'block';
+    document.getElementById('result-explanation').textContent = `${p.leaf} g per 100 ml × ${size} ml = ${leaf} g of dry leaf. This is a starting point for ${style === 'gongfu' ? 'gongfu' : 'Western'} brewing.`;
+    results.style.display = 'block';
+    document.getElementById('result-heading').focus();
 });
 </script>
 {% endblock %}
